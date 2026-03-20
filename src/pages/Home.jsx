@@ -3,31 +3,34 @@ import { useEffect, useState } from "react";
 const LINK_ANDROID = "lien_vers_votre_apk_ou_play_store_ici";
 const LINK_IOS = "lien_vers_votre_app_store_ici";
 
-export default function Home() {
-  const [osData, setOsData] = useState({
+function getInitialOsData() {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  if (/android/i.test(userAgent)) {
+    return {
+      text: "Télécharger pour Android",
+      link: LINK_ANDROID,
+      isIos: false,
+    };
+  }
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return {
+      text: "Télécharger sur l'App Store",
+      link: LINK_IOS,
+      isIos: true,
+    };
+  }
+  return {
     text: "Obtenir l'App Gratuitement",
     link: "#download",
     isIos: false,
-  });
+  };
+}
+
+export default function Home() {
+  const [osData] = useState(getInitialOsData);
 
   useEffect(() => {
-    // 1. Détection de l'OS
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    if (/android/i.test(userAgent)) {
-      setOsData({
-        text: "Télécharger pour Android",
-        link: LINK_ANDROID,
-        isIos: false,
-      });
-    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      setOsData({
-        text: "Télécharger sur l'App Store",
-        link: LINK_IOS,
-        isIos: true,
-      });
-    }
-
-    // 2. Animations au Scroll
+    // Animations au scroll
     const reveals = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver(
       (entries, obs) => {
