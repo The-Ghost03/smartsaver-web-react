@@ -162,7 +162,7 @@ export default function Home() {
             <motion.div variants={fadeUp}>
               <Badge
                 variant="outline"
-                className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm h-8"
+                className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm"
               >
                 Application mobile
               </Badge>
@@ -275,7 +275,7 @@ export default function Home() {
             viewport={viewportOnce}
           >
             <motion.div variants={fadeUp}>
-              <Badge variant="secondary" className="font-medium h-8">
+              <Badge variant="secondary" className="font-medium">
                 Tontine
               </Badge>
             </motion.div>
@@ -398,7 +398,7 @@ export default function Home() {
             viewport={viewportOnce}
           >
             <motion.div variants={fadeUp}>
-              <Badge variant="outline" className="font-medium h-8">
+              <Badge variant="outline" className="font-medium">
                 Épargne
               </Badge>
             </motion.div>

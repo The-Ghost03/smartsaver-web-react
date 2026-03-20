@@ -1,41 +1,40 @@
 import { motion } from "framer-motion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { PAGE_NARROW } from "@/constants/layout";
+import { Badge } from "@/components/ui/badge";
 import { scaleIn, viewportOnce } from "@/lib/motion-variants";
 
-export function LegalDocumentLayout({ title, description, children }) {
+export function LegalDocumentLayout({ title, description, badge = "Document légal", children }) {
   return (
-    <section className="relative border-b bg-muted/30 pb-16 pt-24 md:pb-20 md:pt-28">
-      <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-40" />
-      <div className={`relative z-10 ${PAGE_NARROW}`}>
-        <motion.div
+    <section className="relative border-b bg-background pb-16 pt-24 md:pb-24 md:pt-28">
+      <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-[0.35]" />
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
+        <motion.article
           variants={scaleIn}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <Card className="border border-border/80 shadow-md backdrop-blur-sm">
-            <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-semibold tracking-tight md:text-3xl">
-                {title}
-              </CardTitle>
-              {description ? (
-                <CardDescription>{description}</CardDescription>
-              ) : null}
-            </CardHeader>
-            <Separator />
-            <CardContent className="pt-6 text-sm leading-relaxed text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:underline-offset-4 hover:[&_a]:underline [&_strong]:font-medium [&_strong]:text-foreground [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-foreground [&_ul]:my-4 [&_ul]:ml-5 [&_ul]:list-disc [&_ul]:space-y-2">
-              {children}
-            </CardContent>
-          </Card>
-        </motion.div>
+          <header className="space-y-4 pb-10">
+            {badge ? (
+              <Badge
+                variant="outline"
+                className="w-fit border-border/60 font-medium text-muted-foreground"
+              >
+                {badge}
+              </Badge>
+            ) : null}
+            <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+              {title}
+            </h1>
+            {description ? (
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                {description}
+              </p>
+            ) : null}
+          </header>
+          <div className="text-sm leading-relaxed text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:underline-offset-4 hover:[&_a]:underline [&_strong]:font-medium [&_strong]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-foreground [&_ul]:my-4 [&_ul]:ml-5 [&_ul]:list-disc [&_ul]:space-y-2">
+            {children}
+          </div>
+        </motion.article>
       </div>
     </section>
   );
