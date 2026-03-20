@@ -2,11 +2,18 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  Banknote,
+  CircleDollarSign,
   Download,
+  Landmark,
+  PiggyBank,
   Quote,
   ShieldCheck,
   Smartphone,
   Star,
+  TrendingUp,
+  Users,
+  Wallet,
 } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
 import {
@@ -31,6 +38,72 @@ import { Progress } from "@/components/ui/progress";
 
 const LINK_ANDROID = "lien_vers_votre_apk_ou_play_store_ici";
 const LINK_IOS = "lien_vers_votre_app_store_ici";
+
+/** Icônes qui dérivent sur tout le hero (pointer-events: none) */
+const HERO_FLOATERS = [
+  {
+    Icon: Wallet,
+    className: "left-[2%] top-[14%] text-primary-foreground/[0.16] max-md:left-[3%]",
+    iconClass: "size-12 max-md:size-8",
+    x: [0, 100, 55, -40, 0],
+    y: [0, -35, 45, 20, 0],
+    duration: 42,
+  },
+  {
+    Icon: PiggyBank,
+    className:
+      "right-[8%] top-[22%] text-primary-foreground/[0.14] max-md:right-[5%]",
+    iconClass: "size-14 max-md:size-9",
+    x: [0, -85, -30, 50, 0],
+    y: [0, 40, -20, 30, 0],
+    duration: 36,
+  },
+  {
+    Icon: Users,
+    className:
+      "left-[38%] top-[8%] text-primary-foreground/[0.12] max-md:left-[45%]",
+    iconClass: "size-10 max-md:size-7",
+    x: [0, -60, 25, 40, 0],
+    y: [0, 50, 25, -35, 0],
+    duration: 48,
+  },
+  {
+    Icon: TrendingUp,
+    className:
+      "right-[28%] bottom-[38%] text-primary-foreground/[0.15] max-md:right-[20%] max-md:bottom-[32%]",
+    iconClass: "size-11 max-md:size-8",
+    x: [0, 70, -45, 20, 0],
+    y: [0, -50, -15, 40, 0],
+    duration: 40,
+  },
+  {
+    Icon: Landmark,
+    className:
+      "left-[12%] bottom-[18%] text-primary-foreground/[0.13] max-md:left-[6%]",
+    iconClass: "size-10 max-md:size-7",
+    x: [0, 65, -55, 30, 0],
+    y: [0, 30, -40, -15, 0],
+    duration: 44,
+  },
+  {
+    Icon: CircleDollarSign,
+    className:
+      "right-[4%] bottom-[12%] text-primary-foreground/[0.14] max-md:right-[2%]",
+    iconClass: "size-12 max-md:size-8",
+    x: [0, -95, -40, 60, 0],
+    y: [0, -25, 35, -20, 0],
+    duration: 50,
+  },
+  {
+    Icon: Banknote,
+    className:
+      "left-[52%] top-[42%] text-primary-foreground/[0.1] max-md:hidden",
+    iconClass: "size-9",
+    x: [0, 45, -70, 15, 0],
+    y: [0, -40, 20, 35, 0],
+    duration: 46,
+  },
+];
 
 function getInitialOsData() {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -154,6 +227,28 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-25%,rgba(247,183,49,0.22),transparent_55%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_60%,rgba(96,165,250,0.12),transparent_45%)]" />
           <div className="fx-grid-dark absolute inset-0 opacity-40" />
+        </div>
+
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
+          aria-hidden
+        >
+          {HERO_FLOATERS.map((f, i) => (
+            <motion.div
+              key={`hero-float-${i}`}
+              className={`absolute ${f.className}`}
+              initial={{ x: 0, y: 0 }}
+              animate={{ x: f.x, y: f.y }}
+              transition={{
+                duration: f.duration,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+              }}
+            >
+              <f.Icon className={f.iconClass} strokeWidth={1.15} />
+            </motion.div>
+          ))}
         </div>
 
         <div
