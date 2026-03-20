@@ -59,7 +59,7 @@ export default function Header() {
             <img
               src="/src/assets/logo.png"
               alt="SmartSaver"
-              className="h-9 w-auto md:h-10"
+              className="h-9 w-auto md:h-12"
             />
           </Link>
         </motion.div>

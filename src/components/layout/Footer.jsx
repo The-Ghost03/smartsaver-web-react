@@ -30,7 +30,7 @@ export default function Footer() {
             <img
               src="/src/assets/logo.png"
               alt="SmartSaver"
-              className="h-10 w-fit"
+              className="h-16 w-fit"
             />
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
               La plateforme pour gérer vos tontines et votre épargne, simplement

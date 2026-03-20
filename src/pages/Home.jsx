@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Download, Star } from "lucide-react";
+import { Download, Quote, Star } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
 import {
   fadeUp,
@@ -65,34 +65,67 @@ function FeatureBullet({ children }) {
 
 function TestimonialCard({ quote, name, role, fallback, fallbackClass }) {
   return (
-    <Card className="group border border-border/60 bg-card/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/15 hover:shadow-[0_0_40px_-12px_rgba(26,42,92,0.15)]">
-      <CardContent className="pt-6">
-        <div className="mb-4 flex gap-0.5 text-[var(--accent)]">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <motion.span
-              key={`star-${name}-${i}`}
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05, type: "spring", stiffness: 400 }}
-            >
-              <Star className="size-4 fill-current" aria-hidden />
-            </motion.span>
-          ))}
+    <Card className="group relative flex h-full min-h-0 w-full flex-col gap-0 overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-card via-card to-muted/30 py-0 shadow-md shadow-primary/[0.04] ring-1 ring-primary/[0.04] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/15 hover:shadow-lg hover:shadow-primary/[0.08]">
+      {/* Guillemet décoratif arrière-plan */}
+      <Quote
+        className="pointer-events-none absolute -right-3 top-4 size-[7.5rem] -rotate-6 text-primary/[0.06] transition-all duration-500 group-hover:scale-105 group-hover:text-primary/[0.09]"
+        strokeWidth={1}
+        aria-hidden
+      />
+      <CardContent className="relative z-10 flex min-h-0 flex-1 flex-col gap-5 p-6 md:gap-6 md:p-8">
+        <div className="flex shrink-0 items-center justify-between gap-4">
+          <div
+            className="flex gap-0.5 text-[var(--accent)]"
+            role="img"
+            aria-label="5 sur 5 étoiles"
+          >
+            {Array.from({ length: 5 }).map((_, i) => (
+              <motion.span
+                key={`star-${name}-${i}`}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  delay: i * 0.05,
+                  type: "spring",
+                  stiffness: 400,
+                }}
+              >
+                <Star
+                  className="size-4 fill-current drop-shadow-[0_0_8px_rgba(247,183,49,0.35)]"
+                  aria-hidden
+                />
+              </motion.span>
+            ))}
+          </div>
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/15 text-[var(--accent)] shadow-inner ring-1 ring-[var(--accent)]/25">
+            <Quote className="size-5" strokeWidth={2.25} aria-hidden />
+          </div>
         </div>
-        <p className="mb-6 text-sm italic leading-relaxed text-muted-foreground">
-          {quote}
-        </p>
-        <div className="flex items-center gap-3">
-          <Avatar size="lg">
+
+        <blockquote className="flex min-h-0 flex-1 gap-3.5">
+          <Quote
+            className="mt-0.5 size-5 shrink-0 text-[var(--accent)]"
+            strokeWidth={2.25}
+            aria-hidden
+          />
+          <p className="min-w-0 flex-1 text-[0.9375rem] leading-relaxed text-foreground/90 md:text-base">
+            {quote}
+          </p>
+        </blockquote>
+
+        <div className="mt-auto flex shrink-0 items-center gap-4 border-t border-border/60 pt-5">
+          <Avatar size="lg" className="ring-2 ring-background ring-offset-2 ring-offset-card">
             <AvatarFallback
-              className={`text-sm font-medium text-white ${fallbackClass}`}
+              className={`text-sm font-semibold text-white ${fallbackClass}`}
             >
               {fallback}
             </AvatarFallback>
           </Avatar>
-          <div>
-            <p className="text-sm font-medium text-foreground">{name}</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-heading text-sm font-semibold tracking-tight text-foreground">
+              {name}
+            </p>
             <p className="text-xs text-muted-foreground">{role}</p>
           </div>
         </div>
@@ -140,7 +173,11 @@ export default function Home() {
                 className="inline-block bg-gradient-to-r from-[var(--accent)] to-amber-300 bg-clip-text text-transparent"
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  delay: 0.35,
+                  duration: 0.5,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
                 simplement.
               </motion.span>
@@ -152,10 +189,7 @@ export default function Home() {
               Tontines sécurisées et épargne flexible. Téléchargez SmartSaver et
               gardez le contrôle de vos finances.
             </motion.p>
-            <motion.div
-              variants={fadeUp}
-              className="flex flex-wrap gap-3"
-            >
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -391,8 +425,8 @@ export default function Home() {
                 avec possibilité de retrait en fin de période.
               </FeatureBullet>
               <FeatureBullet>
-                <strong className="text-foreground">Frais clairs</strong> —
-                Pas de mauvaise surprise au déblocage.
+                <strong className="text-foreground">Frais clairs</strong> — Pas
+                de mauvaise surprise au déblocage.
               </FeatureBullet>
             </motion.ul>
           </motion.div>
@@ -422,33 +456,33 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            className="grid auto-rows-fr gap-6 md:grid-cols-2 lg:grid-cols-3"
             variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <motion.div variants={fadeUp}>
+            <motion.div variants={fadeUp} className="flex h-full min-h-0 w-full">
               <TestimonialCard
-                quote="« Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair. »"
+                quote="Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair."
                 name="Awa D."
                 role="Commerçante"
                 fallback="A"
                 fallbackClass="bg-[#f7b731] text-[var(--primary)]"
               />
             </motion.div>
-            <motion.div variants={fadeUp}>
+            <motion.div variants={fadeUp} className="flex h-full min-h-0 w-full">
               <TestimonialCard
-                quote="« L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint. »"
+                quote="L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint."
                 name="Kouamé Y."
                 role="Étudiant"
                 fallback="K"
                 fallbackClass="bg-[#1a2a5c]"
               />
             </motion.div>
-            <motion.div variants={fadeUp}>
+            <motion.div variants={fadeUp} className="flex h-full min-h-0 w-full">
               <TestimonialCard
-                quote="« La validation des versements par l’admin rassure tout le groupe. »"
+                quote="La validation des versements par l’admin rassure tout le groupe."
                 name="Marc E."
                 role="Entrepreneur"
                 fallback="M"
