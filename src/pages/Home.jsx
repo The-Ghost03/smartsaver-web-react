@@ -115,7 +115,10 @@ function TestimonialCard({ quote, name, role, fallback, fallbackClass }) {
         </blockquote>
 
         <div className="mt-auto flex shrink-0 items-center gap-4 border-t border-border/60 pt-5">
-          <Avatar size="lg" className="ring-2 ring-background ring-offset-2 ring-offset-card">
+          <Avatar
+            size="lg"
+            className="ring-2 ring-background ring-offset-2 ring-offset-card"
+          >
             <AvatarFallback
               className={`text-sm font-semibold text-white ${fallbackClass}`}
             >
@@ -159,7 +162,7 @@ export default function Home() {
             <motion.div variants={fadeUp}>
               <Badge
                 variant="outline"
-                className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm"
+                className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm h-8"
               >
                 Application mobile
               </Badge>
@@ -272,7 +275,7 @@ export default function Home() {
             viewport={viewportOnce}
           >
             <motion.div variants={fadeUp}>
-              <Badge variant="secondary" className="font-medium">
+              <Badge variant="secondary" className="font-medium h-8">
                 Tontine
               </Badge>
             </motion.div>
@@ -395,7 +398,7 @@ export default function Home() {
             viewport={viewportOnce}
           >
             <motion.div variants={fadeUp}>
-              <Badge variant="outline" className="font-medium">
+              <Badge variant="outline" className="font-medium h-8">
                 Épargne
               </Badge>
             </motion.div>
@@ -462,7 +465,10 @@ export default function Home() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <motion.div variants={fadeUp} className="flex h-full min-h-0 w-full">
+            <motion.div
+              variants={fadeUp}
+              className="flex h-full min-h-0 w-full"
+            >
               <TestimonialCard
                 quote="Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair."
                 name="Awa D."
@@ -471,7 +477,10 @@ export default function Home() {
                 fallbackClass="bg-[#f7b731] text-[var(--primary)]"
               />
             </motion.div>
-            <motion.div variants={fadeUp} className="flex h-full min-h-0 w-full">
+            <motion.div
+              variants={fadeUp}
+              className="flex h-full min-h-0 w-full"
+            >
               <TestimonialCard
                 quote="L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint."
                 name="Kouamé Y."
@@ -480,7 +489,10 @@ export default function Home() {
                 fallbackClass="bg-[#1a2a5c]"
               />
             </motion.div>
-            <motion.div variants={fadeUp} className="flex h-full min-h-0 w-full">
+            <motion.div
+              variants={fadeUp}
+              className="flex h-full min-h-0 w-full"
+            >
               <TestimonialCard
                 quote="La validation des versements par l’admin rassure tout le groupe."
                 name="Marc E."
