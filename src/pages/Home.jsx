@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Download, Quote, Star } from "lucide-react";
+import {
+  ArrowRight,
+  Download,
+  Quote,
+  ShieldCheck,
+  Smartphone,
+  Star,
+} from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
 import {
   fadeUp,
@@ -21,7 +28,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 
 const LINK_ANDROID = "lien_vers_votre_apk_ou_play_store_ici";
 const LINK_IOS = "lien_vers_votre_app_store_ici";
@@ -514,55 +520,123 @@ export default function Home() {
       {/* Download */}
       <section
         id="download"
-        className="relative bg-gradient-to-b from-muted/30 to-background px-4 py-16 md:py-24"
+        className="relative overflow-hidden border-t border-border/50 bg-linear-to-b from-background via-muted/25 to-muted/40 py-20 md:py-28"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_100%,rgba(247,183,49,0.08),transparent)]" />
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_45%_at_50%_-10%,rgba(26,42,92,0.07),transparent)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_90%_100%,rgba(247,183,49,0.11),transparent)]" />
+          <div className="fx-grid-light absolute inset-0 opacity-[0.4]" />
+        </div>
         <motion.div
-          className={`relative z-10 ${PAGE_WIDE}`}
+          className={`relative z-10 w-full ${PAGE_WIDE}`}
           variants={scaleIn}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <Card className="mx-auto max-w-2xl overflow-hidden border-0 bg-gradient-to-br from-primary via-primary to-[#0f1838] text-primary-foreground shadow-[0_32px_64px_-20px_rgba(26,42,92,0.45)] ring-1 ring-white/10">
-            <CardContent className="space-y-6 p-8 text-center md:p-10">
-              <motion.h2
-                className="text-2xl font-semibold tracking-tight md:text-3xl"
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45 }}
-              >
-                Prêt à commencer ?
-              </motion.h2>
-              <p className="text-sm text-primary-foreground/80 md:text-base">
-                Rejoignez la communauté SmartSaver sur mobile.
-              </p>
+          <Card className="relative w-full min-w-0 overflow-hidden rounded-[2rem] border border-primary/20 bg-linear-to-br from-primary via-[#1e3270] to-[#0a1028] text-primary-foreground shadow-[0_32px_80px_-28px_rgba(26,42,92,0.55)] ring-1 ring-white/10">
+            <CardContent className="relative z-10 grid gap-10 p-8 md:grid-cols-[1fr_minmax(0,11rem)] md:items-center md:gap-12 lg:grid-cols-[1fr_minmax(0,13rem)]">
               <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex"
+                className="space-y-6 text-center md:text-left"
+                variants={listContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
               >
-                <Button
-                  asChild
-                  size="lg"
-                  className="rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_28px_-6px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_44px_-8px_rgba(247,183,49,0.5)] hover:text-[var(--accent)] hover:brightness-[1.04]"
+                <motion.h2
+                  variants={fadeUp}
+                  className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight md:text-4xl"
                 >
-                  <a href={osData.link} className="gap-2">
-                    <Download className="size-4" />
-                    Télécharger SmartSaver
-                  </a>
-                </Button>
+                  Prêt à{" "}
+                  <span className="bg-linear-to-r from-(--accent) to-amber-200 bg-clip-text text-transparent">
+                    commencer ?
+                  </span>
+                </motion.h2>
+                <motion.p
+                  variants={fadeUp}
+                  className="mx-auto max-w-lg text-base leading-relaxed text-primary-foreground/78 md:mx-0 md:text-lg"
+                >
+                  Installez SmartSaver, créez votre espace et pilotez tontines &
+                  épargne depuis votre téléphone — simple, clair, sécurisé.
+                </motion.p>
+                <motion.ul
+                  variants={fadeUp}
+                  className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-primary-foreground/60 md:justify-start md:text-sm"
+                >
+                  <li className="flex items-center gap-2">
+                    <ShieldCheck
+                      className="size-4 shrink-0 text-(--accent)"
+                      strokeWidth={2}
+                      aria-hidden
+                    />
+                    Données protégées
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Smartphone
+                      className="size-4 shrink-0 text-(--accent)"
+                      strokeWidth={2}
+                      aria-hidden
+                    />
+                    iOS & Android
+                  </li>
+                </motion.ul>
+                <motion.div
+                  variants={fadeUp}
+                  className="flex justify-center md:justify-start"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex"
+                  >
+                    <Button
+                      asChild
+                      size="lg"
+                      className="rounded-full bg-[var(--accent)] px-7 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_48px_-8px_rgba(247,183,49,0.5)] hover:brightness-[1.04]"
+                    >
+                      <a href={osData.link} className="gap-2">
+                        <Download className="size-4" />
+                        Télécharger SmartSaver
+                      </a>
+                    </Button>
+                  </motion.div>
+                </motion.div>
+                {!osData.isIos ? (
+                  <motion.div variants={fadeUp} className="pt-1">
+                    <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-left text-xs leading-relaxed text-primary-foreground/70 backdrop-blur-sm md:text-[0.8125rem]">
+                      <span className="font-medium text-primary-foreground/85">
+                        Installation APK
+                      </span>
+                      <span className="mt-1 block text-primary-foreground/65">
+                        Autorisez l’installation depuis des sources inconnues si
+                        votre appareil vous le demande.
+                      </span>
+                    </div>
+                  </motion.div>
+                ) : null}
               </motion.div>
-              {!osData.isIos && (
-                <>
-                  <Separator className="bg-primary-foreground/15" />
-                  <p className="text-xs text-primary-foreground/65">
-                    Fichier APK : autorisez l’installation depuis des sources
-                    inconnues si votre appareil le demande.
-                  </p>
-                </>
-              )}
+
+              <motion.div
+                variants={slideRight}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+                className="hidden justify-center md:flex"
+              >
+                <div className="relative">
+                  <div
+                    className="absolute inset-0 rounded-[1.75rem] bg-(--accent)/20 blur-2xl"
+                    aria-hidden
+                  />
+                  <div className="relative flex aspect-square w-full max-w-[11rem] items-center justify-center rounded-[1.75rem] border border-white/15 bg-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)] backdrop-blur-md lg:max-w-[13rem]">
+                    <Smartphone
+                      className="size-[42%] max-w-[5rem] text-(--accent)"
+                      strokeWidth={1.15}
+                      aria-hidden
+                    />
+                  </div>
+                </div>
+              </motion.div>
             </CardContent>
           </Card>
         </motion.div>
