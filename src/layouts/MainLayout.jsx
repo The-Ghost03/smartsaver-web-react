@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Footer, Header } from "@/components/layout";
+import { BackToTop, Footer, Header } from "@/components/layout";
 
 export default function MainLayout() {
   return (
@@ -9,6 +9,7 @@ export default function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 }
