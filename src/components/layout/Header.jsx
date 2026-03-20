@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Download, Menu } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
-import { PAGE_WIDE } from "@/constants/layout";
 import { fadeUp } from "@/lib/motion-variants";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -47,24 +46,26 @@ export default function Header() {
       initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 z-50 w-full border-b bg-background/75 backdrop-blur-xl transition-shadow duration-300 ${
-        scrolled ? "shadow-sm shadow-primary/5" : "border-transparent"
-      }`}
+      className="pointer-events-none fixed top-0 z-50 w-full pt-3 px-3 sm:pt-4 sm:px-4 lg:px-6"
     >
       <div
-        className={`${PAGE_WIDE} flex h-16 items-center justify-between gap-4`}
+        className={`pointer-events-auto mx-auto flex h-12 w-full max-w-3xl items-center justify-between gap-2 rounded-full border px-3 backdrop-blur-xl transition-[box-shadow,border-color] duration-300 sm:gap-3 sm:px-4 md:h-14 md:px-5 ${
+          scrolled
+            ? "border-border/70 bg-background/85 shadow-md shadow-primary/6"
+            : "border-border/40 bg-background/70 shadow-sm shadow-black/3"
+        }`}
       >
         <motion.div variants={fadeUp} initial="hidden" animate="visible">
           <Link to={ROUTES.HOME} className="block">
             <img
               src="/src/assets/logo.png"
               alt="SmartSaver"
-              className="h-9 w-auto md:h-12"
+              className="h-8 w-auto md:h-11"
             />
           </Link>
         </motion.div>
 
-        <nav className="hidden items-center gap-8 lg:flex">{links}</nav>
+        <nav className="hidden items-center gap-5 lg:flex">{links}</nav>
 
         <motion.div
           className="flex items-center gap-2"
@@ -115,7 +116,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)] sm:inline-flex"
+              className="hidden rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)] sm:inline-flex h-8"
             >
               <a href="/#download" className="gap-2">
                 <Download className="size-4" />
