@@ -1,6 +1,8 @@
+import { legalSectionClass } from "@/constants/legalPageClasses";
+
 export default function CGU() {
   return (
-    <section class="legal-section active reveal">
+    <section className={legalSectionClass}>
       <h1>Conditions générales d'Utilisation</h1>
 
       <h2>1. Acceptation des conditions</h2>

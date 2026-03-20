@@ -1,0 +1,3 @@
+/** Classes Tailwind partagées pour CGU, politique, mentions légales */
+export const legalSectionClass =
+  "mx-auto min-h-[80vh] max-w-[900px] bg-[var(--bg-white)] px-[5%] pb-16 pt-28 text-[color:var(--text-muted)] sm:pb-24 sm:pt-40 [&_h1]:mb-8 [&_h1]:border-b-2 [&_h1]:border-[var(--accent)] [&_h1]:pb-4 [&_h1]:text-4xl [&_h1]:font-bold [&_h1]:text-[var(--primary)] sm:[&_h1]:text-[2.5rem] [&_h2]:mb-4 [&_h2]:mt-10 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-[var(--primary-light)] sm:[&_h2]:text-2xl [&_li]:mb-2 [&_li]:text-[1.05rem] [&_li]:leading-[1.8] [&_p]:mb-4 [&_p]:text-[1.05rem] [&_p]:leading-[1.8] [&_ul]:mb-6 [&_ul]:ml-6";

@@ -1,6 +1,8 @@
+import { legalSectionClass } from "@/constants/legalPageClasses";
+
 export default function MentionsLegales() {
   return (
-    <section className="legal-section active reveal">
+    <section className={legalSectionClass}>
       <h1>Mentions légales</h1>
 
       <h2>Éditeur du site</h2>

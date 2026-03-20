@@ -1,6 +1,8 @@
+import { legalSectionClass } from "@/constants/legalPageClasses";
+
 export default function Policy() {
   return (
-    <section class="legal-section active reveal">
+    <section className={legalSectionClass}>
       <h1>Politique de Confidentialité</h1>
 
       <h2>1. Introduction</h2>

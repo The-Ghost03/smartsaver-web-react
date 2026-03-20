@@ -117,14 +117,72 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* SmartSaver — variables marketing (ex style.css) */
+:root {
+    --primary: #1a2a5c;
+    --primary-light: #2a407c;
+    --accent: #f7b731;
+    --accent-hover: #e5a620;
+    --text-main: #1a1a1a;
+    --text-muted: #666;
+    --bg-light: #f8fafc;
+    --bg-white: #ffffff;
+}
+
+@keyframes ss-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@layer components {
+    .reveal {
+        @apply opacity-0 transition-all duration-[800ms] ease-[cubic-bezier(0.5,0,0,1)];
+    }
+    .reveal.active {
+        @apply opacity-100;
+        transform: translate(0, 0) !important;
+    }
+    .fade-bottom {
+        transform: translateY(50px);
+    }
+    .fade-left {
+        transform: translateX(50px);
+    }
+    .fade-right {
+        transform: translateX(-50px);
+    }
+    .animate-ss-float {
+        animation: ss-float 6s ease-in-out infinite;
+    }
+}
+
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
     }
-  body {
-    @apply bg-background text-foreground;
+    * {
+        @apply border-border outline-ring/50;
     }
-  html {
-    @apply font-sans;
+    html {
+        @apply scroll-smooth font-sans antialiased;
+    }
+    body {
+        @apply m-0 min-h-screen overflow-x-hidden bg-[var(--bg-white)] text-[color:var(--text-main)] leading-relaxed;
+    }
+    a {
+        @apply no-underline;
+    }
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-bold leading-tight;
     }
 }
