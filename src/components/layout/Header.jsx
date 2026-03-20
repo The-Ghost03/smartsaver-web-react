@@ -155,7 +155,7 @@ export default function Header() {
           </Link>
         </motion.div>
 
-        <nav className="hidden items-center gap-5 lg:flex">{links}</nav>
+        <nav className="hidden items-center gap-2 lg:flex">{links}</nav>
 
         <motion.div
           className="flex items-center gap-2"

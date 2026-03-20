@@ -1,10 +1,39 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { PAGE_WIDE } from "@/constants/layout";
+import { cn } from "@/lib/utils";
 import { fadeUp, stagger, viewportOnce } from "@/lib/motion-variants";
 import { Separator } from "@/components/ui/separator";
+
+function legalNavClassName({ isActive }) {
+  return cn(
+    "inline-flex items-center gap-1.5 text-sm transition-colors",
+    isActive
+      ? "font-medium text-primary"
+      : "text-muted-foreground hover:text-foreground"
+  );
+}
+
+function LegalNavLink({ to, onClick, children }) {
+  return (
+    <NavLink to={to} onClick={onClick} className={legalNavClassName}>
+      {({ isActive }) => (
+        <>
+          {isActive ? (
+            <ChevronRight
+              className="size-3.5 shrink-0 text-(--accent)"
+              strokeWidth={2.25}
+              aria-hidden
+            />
+          ) : null}
+          {children}
+        </>
+      )}
+    </NavLink>
+  );
+}
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo(0, 0);
@@ -70,31 +99,19 @@ export default function Footer() {
             <h4 className="text-sm font-semibold text-foreground">Légal</h4>
             <ul className="flex flex-col gap-2 text-sm md:items-end">
               <li>
-                <Link
-                  to={ROUTES.CGU}
-                  onClick={scrollToTop}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <LegalNavLink to={ROUTES.CGU} onClick={scrollToTop}>
                   Conditions d&apos;utilisation
-                </Link>
+                </LegalNavLink>
               </li>
               <li>
-                <Link
-                  to={ROUTES.PRIVACY}
-                  onClick={scrollToTop}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <LegalNavLink to={ROUTES.PRIVACY} onClick={scrollToTop}>
                   Confidentialité
-                </Link>
+                </LegalNavLink>
               </li>
               <li>
-                <Link
-                  to={ROUTES.LEGAL}
-                  onClick={scrollToTop}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <LegalNavLink to={ROUTES.LEGAL} onClick={scrollToTop}>
                   Mentions légales
-                </Link>
+                </LegalNavLink>
               </li>
             </ul>
           </motion.div>
