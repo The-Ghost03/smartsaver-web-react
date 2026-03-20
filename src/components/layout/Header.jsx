@@ -116,7 +116,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)] sm:inline-flex h-8"
+              className="hidden rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)] sm:inline-flex h-8 hover:text-[var(--accent)]"
             >
               <a href="/#download" className="gap-2">
                 <Download className="size-4" />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Download, Quote, Star } from "lucide-react";
+import { ArrowRight, Download, Quote, Star } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
 import {
   fadeUp,
@@ -201,7 +201,7 @@ export default function Home() {
                 <Button
                   asChild
                   size="lg"
-                  className="rounded-full bg-[var(--accent)] px-6 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-shadow hover:bg-[var(--accent-hover)] hover:shadow-[0_0_40px_-6px_var(--accent)]"
+                  className="rounded-full bg-[var(--accent)] px-6 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_48px_-8px_rgba(247,183,49,0.55)] hover:text-[var(--accent)] hover:brightness-[1.04]"
                 >
                   <a href={osData.link} className="gap-2">
                     <Download className="size-4" />
@@ -220,7 +220,13 @@ export default function Home() {
                   size="lg"
                   className="rounded-full border-primary-foreground/35 bg-primary-foreground/5 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/15"
                 >
-                  <a href="#tontine">Découvrir</a>
+                  <a href="#tontine" className="gap-2">
+                    Découvrir
+                    <ArrowRight
+                      className="size-4 shrink-0"
+                      strokeWidth={2.25}
+                    />
+                  </a>
                 </Button>
               </motion.div>
             </motion.div>
@@ -540,7 +546,7 @@ export default function Home() {
                 <Button
                   asChild
                   size="lg"
-                  className="rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_28px_-6px_var(--accent)] hover:bg-[var(--accent-hover)]"
+                  className="rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_28px_-6px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_44px_-8px_rgba(247,183,49,0.5)] hover:text-[var(--accent)] hover:brightness-[1.04]"
                 >
                   <a href={osData.link} className="gap-2">
                     <Download className="size-4" />
