@@ -1,7 +1,13 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  createElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Download, Menu } from "lucide-react";
+import { Download, Menu, PiggyBank, Quote, Users } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { fadeUp } from "@/lib/motion-variants";
 import { Button } from "@/components/ui/button";
@@ -14,11 +20,67 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const navLinkClass =
-  "text-sm font-medium text-foreground/80 transition-colors hover:text-foreground";
+const NAV_ITEMS = [
+  { sectionId: "tontine", href: "/#tontine", label: "Tontine", icon: Users },
+  {
+    sectionId: "epargne",
+    href: "/#epargne",
+    label: "Épargne",
+    icon: PiggyBank,
+  },
+  {
+    sectionId: "temoignages",
+    href: "/#temoignages",
+    label: "Témoignages",
+    icon: Quote,
+  },
+];
+
+/** Ligne de référence sous le header flottant (px depuis le haut du viewport) */
+const SECTION_SPY_OFFSET_PX = 96;
+
+const navLinkBaseClass =
+  "group relative inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium outline-none transition-[color,background-color] duration-200 focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
+const navLinkInactiveClass =
+  "text-foreground/70 hover:bg-primary/[0.07] hover:text-primary";
+
+const navLinkActiveClass = "bg-primary/[0.1] text-primary";
+
+const navLinkUnderline =
+  "after:pointer-events-none after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-(--accent) after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100";
+
+const iconInactiveClass =
+  "size-3.5 shrink-0 text-foreground/45 transition-colors duration-200 group-hover:text-(--accent)";
+
+const iconActiveClass = "size-3.5 shrink-0 text-(--accent)";
 
 export default function Header() {
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  /** Incrémenté au scroll / resize / navigation pour recalculer la section active (DOM) */
+  const [layoutTick, setLayoutTick] = useState(0);
+
+  const isHome = location.pathname === ROUTES.HOME || location.pathname === "";
+
+  const bumpLayout = useCallback(() => {
+    setLayoutTick((n) => n + 1);
+  }, []);
+
+  const activeSectionId = useMemo(() => {
+    void layoutTick;
+    void location.pathname;
+    void location.hash;
+    if (!isHome || typeof document === "undefined") return null;
+    let current = null;
+    for (const item of NAV_ITEMS) {
+      const el = document.getElementById(item.sectionId);
+      if (!el) continue;
+      const { top } = el.getBoundingClientRect();
+      if (top <= SECTION_SPY_OFFSET_PX) current = item.sectionId;
+    }
+    return current;
+  }, [isHome, layoutTick, location.pathname, location.hash]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -26,17 +88,45 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isHome) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) bumpLayout();
+    });
+    const retryId = window.setTimeout(() => {
+      if (!cancelled) bumpLayout();
+    }, 150);
+    window.addEventListener("scroll", bumpLayout, { passive: true });
+    window.addEventListener("resize", bumpLayout);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(retryId);
+      window.removeEventListener("scroll", bumpLayout);
+      window.removeEventListener("resize", bumpLayout);
+    };
+  }, [isHome, bumpLayout, location.pathname, location.hash]);
+
   const links = (
     <>
-      <a href="/#tontine" className={navLinkClass}>
-        Tontine
-      </a>
-      <a href="/#epargne" className={navLinkClass}>
-        Épargne
-      </a>
-      <a href="/#temoignages" className={navLinkClass}>
-        Témoignages
-      </a>
+      {NAV_ITEMS.map((item) => {
+        const isActive = activeSectionId === item.sectionId;
+        return (
+          <a
+            key={item.href}
+            href={item.href}
+            className={`${navLinkBaseClass} ${isActive ? navLinkActiveClass : navLinkInactiveClass} ${navLinkUnderline}`}
+            aria-current={isActive ? "location" : undefined}
+          >
+            {createElement(item.icon, {
+              className: isActive ? iconActiveClass : iconInactiveClass,
+              strokeWidth: 2,
+              "aria-hidden": true,
+            })}
+            {item.label}
+          </a>
+        );
+      })}
     </>
   );
 
@@ -89,15 +179,36 @@ export default function Header() {
                 <SheetTitle>Navigation</SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
-                <Button variant="ghost" asChild className="justify-start">
-                  <a href="/#tontine">Tontine</a>
-                </Button>
-                <Button variant="ghost" asChild className="justify-start">
-                  <a href="/#epargne">Épargne</a>
-                </Button>
-                <Button variant="ghost" asChild className="justify-start">
-                  <a href="/#temoignages">Témoignages</a>
-                </Button>
+                {NAV_ITEMS.map((item) => {
+                  const isActive = activeSectionId === item.sectionId;
+                  return (
+                    <Button
+                      key={item.href}
+                      variant="ghost"
+                      asChild
+                      className={`h-11 justify-start gap-2 rounded-xl px-3 transition-colors ${
+                        isActive
+                          ? "bg-primary/[0.1] text-primary hover:bg-primary/[0.12] hover:text-primary"
+                          : "text-foreground/80 hover:bg-primary/[0.08] hover:text-primary"
+                      }`}
+                    >
+                      <a
+                        href={item.href}
+                        className="gap-2"
+                        aria-current={isActive ? "location" : undefined}
+                      >
+                        {createElement(item.icon, {
+                          className: isActive
+                            ? "size-4 shrink-0 text-(--accent)"
+                            : "size-4 shrink-0 text-muted-foreground",
+                          strokeWidth: 2,
+                          "aria-hidden": true,
+                        })}
+                        {item.label}
+                      </a>
+                    </Button>
+                  );
+                })}
                 <Separator className="my-4" />
                 <Button
                   asChild
@@ -116,7 +227,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)] sm:inline-flex h-8 hover:text-[var(--accent)]"
+              className="hidden h-8 rounded-full bg-[var(--accent)] text-[var(--primary)] transition-[background-color,box-shadow] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_20px_-6px_rgba(247,183,49,0.45)] sm:inline-flex"
             >
               <a href="/#download" className="gap-2">
                 <Download className="size-4" />
