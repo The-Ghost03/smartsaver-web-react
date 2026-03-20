@@ -1,15 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Download, Star } from "lucide-react";
+import { PAGE_WIDE } from "@/constants/layout";
+import {
+  fadeUp,
+  listContainer,
+  scaleIn,
+  slideRight,
+  stagger,
+  viewportOnce,
+} from "@/lib/motion-variants";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 
 const LINK_ANDROID = "lien_vers_votre_apk_ou_play_store_ici";
 const LINK_IOS = "lien_vers_votre_app_store_ici";
-
-const btnPrimary =
-  "inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--accent)] px-7 py-3.5 text-base font-semibold text-[var(--primary)] transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--accent-hover)] hover:shadow-[0_10px_20px_rgba(247,183,49,0.3)]";
-
-const btnSecondaryHero =
-  "inline-flex items-center justify-center gap-2.5 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/20";
-
-const btnLarge = "text-xl px-9 py-[18px]";
 
 function getInitialOsData() {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -22,323 +37,483 @@ function getInitialOsData() {
   }
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     return {
-      text: "Télécharger sur l'App Store",
+      text: "Télécharger sur l’App Store",
       link: LINK_IOS,
       isIos: true,
     };
   }
   return {
-    text: "Obtenir l'App Gratuitement",
+    text: "Obtenir l’app",
     link: "#download",
     isIos: false,
   };
 }
 
+function FeatureBullet({ children }) {
+  return (
+    <motion.li
+      variants={fadeUp}
+      className="flex gap-3 text-sm leading-relaxed text-muted-foreground md:text-base"
+    >
+      <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-[var(--primary)] shadow-[0_0_20px_-4px_var(--accent)]">
+        ✓
+      </span>
+      <span>{children}</span>
+    </motion.li>
+  );
+}
+
+function TestimonialCard({ quote, name, role, fallback, fallbackClass }) {
+  return (
+    <Card className="group border border-border/60 bg-card/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/15 hover:shadow-[0_0_40px_-12px_rgba(26,42,92,0.15)]">
+      <CardContent className="pt-6">
+        <div className="mb-4 flex gap-0.5 text-[var(--accent)]">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <motion.span
+              key={`star-${name}-${i}`}
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05, type: "spring", stiffness: 400 }}
+            >
+              <Star className="size-4 fill-current" aria-hidden />
+            </motion.span>
+          ))}
+        </div>
+        <p className="mb-6 text-sm italic leading-relaxed text-muted-foreground">
+          {quote}
+        </p>
+        <div className="flex items-center gap-3">
+          <Avatar size="lg">
+            <AvatarFallback
+              className={`text-sm font-medium text-white ${fallbackClass}`}
+            >
+              {fallback}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="text-sm font-medium text-foreground">{name}</p>
+            <p className="text-xs text-muted-foreground">{role}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function Home() {
   const [osData] = useState(getInitialOsData);
 
-  useEffect(() => {
-    const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
-    );
-
-    reveals.forEach((reveal) => observer.observe(reveal));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
-      <section className="flex min-h-screen flex-col items-center justify-between gap-12 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-light)] px-[5%] pb-24 pt-40 text-white lg:flex-row lg:items-center">
-        <div className="reveal fade-bottom max-w-[650px] flex-1">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-[3.5rem] lg:leading-none">
-            Gérez votre argent, <span className="text-[var(--accent)]">simplement.</span>
-          </h1>
-          <p className="my-6 text-xl font-normal opacity-90 lg:text-[1.25rem]">
-            Rejoignez des tontines sécurisées ou lancez votre plan d'épargne.
-            Téléchargez l'application SmartSaver et prenez le contrôle.
-          </p>
-          <div className="flex flex-wrap gap-4 max-lg:justify-center">
-            <a href={osData.link} className={btnPrimary}>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              <span>{osData.text}</span>
-            </a>
-            <a href="#tontine" className={btnSecondaryHero}>
-              Découvrir comment ça marche
-            </a>
-          </div>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-primary via-[#15224d] to-[#0f1838] text-primary-foreground">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-25%,rgba(247,183,49,0.22),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_60%,rgba(96,165,250,0.12),transparent_45%)]" />
+          <div className="fx-grid-dark absolute inset-0 opacity-40" />
         </div>
-        <div className="reveal fade-left flex flex-1 justify-center lg:justify-end">
-          <div className="animate-ss-float h-[650px] w-80 overflow-hidden rounded-[45px] border-[12px] border-[#111] bg-[var(--bg-light)] shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
-            <img
-              src="/src/assets/image_411d1e.jpg"
-              alt="Aperçu de l'application"
-              className="h-full w-full object-cover"
-            />
-          </div>
+
+        <div
+          className={`relative z-10 ${PAGE_WIDE} flex flex-col gap-12 pb-20 pt-28 md:flex-row md:items-center md:gap-16 md:pb-28 md:pt-32`}
+        >
+          <motion.div
+            className="max-w-xl flex-1 space-y-6"
+            variants={stagger}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={fadeUp}>
+              <Badge
+                variant="outline"
+                className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm"
+              >
+                Application mobile
+              </Badge>
+            </motion.div>
+            <motion.h1
+              variants={fadeUp}
+              className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl md:leading-[1.08]"
+            >
+              Gérez votre argent,{" "}
+              <motion.span
+                className="inline-block bg-gradient-to-r from-[var(--accent)] to-amber-300 bg-clip-text text-transparent"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                simplement.
+              </motion.span>
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              className="max-w-lg text-base leading-relaxed text-primary-foreground/80 md:text-lg"
+            >
+              Tontines sécurisées et épargne flexible. Téléchargez SmartSaver et
+              gardez le contrôle de vos finances.
+            </motion.p>
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-wrap gap-3"
+            >
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex"
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-full bg-[var(--accent)] px-6 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-shadow hover:bg-[var(--accent-hover)] hover:shadow-[0_0_40px_-6px_var(--accent)]"
+                >
+                  <a href={osData.link} className="gap-2">
+                    <Download className="size-4" />
+                    {osData.text}
+                  </a>
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex"
+              >
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full border-primary-foreground/35 bg-primary-foreground/5 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/15"
+                >
+                  <a href="#tontine">Découvrir</a>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-1 justify-center md:justify-end"
+            initial={{ opacity: 0, x: 48 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 0.65,
+              delay: 0.18,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <motion.div
+              animate={{ y: [0, -14, 0] }}
+              transition={{
+                duration: 5.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <Card className="gap-0 overflow-hidden rounded-[2.5rem] border-[10px] border-white/10 bg-muted/90 p-0 py-0 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] ring-1 ring-white/20 backdrop-blur-sm">
+                <div className="aspect-[9/19] w-[min(100%,280px)] overflow-hidden md:w-[300px]">
+                  <img
+                    src="/src/assets/image_411d1e.jpg"
+                    alt="Aperçu de l’application SmartSaver"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
+      {/* Tontine */}
       <section
         id="tontine"
-        className="flex flex-col items-center gap-12 bg-[var(--bg-white)] px-[5%] py-32 text-center lg:flex-row lg:justify-between lg:gap-16 lg:text-left"
+        className="relative scroll-mt-20 border-b bg-background py-20 md:py-28"
       >
-        <div className="reveal fade-right max-w-[550px] flex-1">
-          <div className="mb-6 inline-block rounded-full bg-[rgba(26,42,92,0.1)] px-4 py-1.5 text-sm font-bold uppercase text-[var(--primary)]">
-            Tontine
-          </div>
-          <h2 className="mb-6 text-3xl font-bold sm:text-4xl lg:text-[2.5rem]">
-            La force du collectif pour vos projets.
-          </h2>
-          <p className="text-lg text-[color:var(--text-muted)]">
-            La tontine réinventée et sécurisée. Le principe est simple : par
-            exemple, dans un groupe de 10 personnes sur 50 jours, cotisez 1000
-            FCFA par jour.
-          </p>
-          <ul className="mt-8 space-y-6 text-left text-[1.1rem] text-[color:var(--text-muted)]">
-            <li className="relative pl-9">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--primary)]">
-                ✓
-              </span>
-              <strong>Gains réguliers :</strong> Chaque 5 jours, un participant
-              prend la tontine de 50 000 FCFA.
-            </li>
-            <li className="relative pl-9">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--primary)]">
-                ✓
-              </span>
-              <strong>Équité totale :</strong> Les 10 participants prennent 50
-              000 FCFA à tour de rôle.
-            </li>
-            <li className="relative pl-9">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--primary)]">
-                ✓
-              </span>
-              <strong>Transparence :</strong> Vous êtes notifié à chaque
-              ramassage.
-            </li>
-          </ul>
-        </div>
-        <div className="reveal fade-left flex flex-1 justify-center">
-          <div className="w-full max-w-[450px] rounded-3xl bg-white p-12 shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
-            <h3 className="mb-6 text-2xl text-[var(--primary)]">
-              Exemple Tontine 1000F
-            </h3>
-            <div className="mb-4 h-3 overflow-hidden rounded-full bg-[#eee]">
-              <div
-                className="h-full rounded-full bg-[var(--accent)]"
-                style={{ width: "100%" }}
-              />
-            </div>
-            <div className="flex justify-between text-sm font-semibold text-[color:var(--text-muted)]">
-              <span>10 Participants</span>
-              <span>50 000 FCFA / Ramassage</span>
-            </div>
-          </div>
+        <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-60" />
+        <div
+          className={`relative z-10 ${PAGE_WIDE} flex flex-col items-center gap-14 lg:flex-row lg:items-start lg:justify-between`}
+        >
+          <motion.div
+            className="max-w-lg flex-1 space-y-5 text-center lg:text-left"
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <motion.div variants={fadeUp}>
+              <Badge variant="secondary" className="font-medium">
+                Tontine
+              </Badge>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+            >
+              La force du collectif pour vos projets.
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="text-muted-foreground md:text-lg"
+            >
+              Cotisations régulières, ramassages transparents et notifications à
+              chaque étape — le principe de la tontine, version numérique.
+            </motion.p>
+            <motion.ul
+              className="space-y-4 pt-2 text-left"
+              variants={listContainer}
+            >
+              <FeatureBullet>
+                <strong className="text-foreground">Gains réguliers</strong> —
+                Chaque cycle, un participant reçoit la cagnotte selon les règles
+                du groupe.
+              </FeatureBullet>
+              <FeatureBullet>
+                <strong className="text-foreground">Équité</strong> — Tours de
+                ramassage clairs pour tous les membres.
+              </FeatureBullet>
+              <FeatureBullet>
+                <strong className="text-foreground">Transparence</strong> —
+                Suivi et alertes sur chaque versement.
+              </FeatureBullet>
+            </motion.ul>
+          </motion.div>
+
+          <motion.div
+            className="w-full max-w-md flex-1"
+            variants={scaleIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <Card className="border-border/80 shadow-lg backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle>Exemple — Tontine 1&nbsp;000&nbsp;F</CardTitle>
+                <CardDescription>
+                  10 participants · ramassage groupé
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, scaleX: 0.3 }}
+                  whileInView={{ opacity: 1, scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ originX: 0 }}
+                >
+                  <Progress
+                    value={100}
+                    className="h-2 bg-muted [&_[data-slot=progress-indicator]]:bg-[var(--accent)] [&_[data-slot=progress-indicator]]:shadow-[0_0_12px_var(--accent)]"
+                  />
+                </motion.div>
+                <div className="flex justify-between text-xs font-medium text-muted-foreground">
+                  <span>10 participants</span>
+                  <span>50&nbsp;000 FCFA / ramassage</span>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
+      {/* Épargne */}
       <section
         id="epargne"
-        className="flex flex-col-reverse items-center gap-12 bg-[var(--bg-light)] px-[5%] py-32 text-center lg:flex-row lg:justify-between lg:gap-16 lg:text-left"
+        className="relative scroll-mt-20 border-b bg-muted/25 py-20 md:py-28"
       >
-        <div className="reveal fade-right flex flex-1 justify-center">
-          <div className="w-full max-w-[450px] rounded-3xl bg-[var(--primary)] p-12 text-center text-white shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
-            <h3 className="mb-4 text-2xl text-[var(--accent)]">Mon Épargne</h3>
-            <h2 className="my-4 text-5xl font-bold lg:text-[3.5rem]">
-              30 000 FCFA
-            </h2>
-            <p className="text-lg opacity-80">Objectif atteint à 100%</p>
-          </div>
-        </div>
-        <div className="reveal fade-left max-w-[550px] flex-1">
-          <div className="mb-6 inline-block rounded-full bg-[rgba(247,183,49,0.2)] px-4 py-1.5 text-sm font-bold uppercase text-[#d49513]">
-            Épargne
-          </div>
-          <h2 className="mb-6 text-3xl font-bold sm:text-4xl lg:text-[2.5rem]">
-            Épargnez à votre rythme, sans pression.
-          </h2>
-          <p className="text-lg text-[color:var(--text-muted)]">
-            Planifiez votre avenir financier avec notre portefeuille d'épargne.
-            Optez pour un modèle fixe prédéfini ou choisissez la flexibilité
-            totale avec notre mode d'épargne libre.
-          </p>
-          <ul className="mt-8 space-y-6 text-left text-[1.1rem] text-[color:var(--text-muted)]">
-            <li className="relative pl-9">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--primary)]">
-                ✓
-              </span>
-              <strong>Épargne Fixe ou Libre :</strong> Épargnez un montant fixe
-              (ex: 1000F/jour) ou déposez le montant de votre choix, quand vous
-              le souhaitez.
-            </li>
-            <li className="relative pl-9">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--primary)]">
-                ✓
-              </span>
-              <strong>Gestion par Sprints :</strong> Votre épargne est organisée
-              par cycles (sprints). À la fin de chaque sprint, vous pouvez
-              retirer vos fonds.
-            </li>
-            <li className="relative pl-9">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--primary)]">
-                ✓
-              </span>
-              <strong>Frais de retrait transparents :</strong> Des frais de
-              déblocage clairs s'appliquent lors de vos retraits à la fin de
-              chaque période d'épargne.
-            </li>
-          </ul>
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_100%_50%,rgba(26,42,92,0.06),transparent)]" />
+        <div
+          className={`relative z-10 ${PAGE_WIDE} flex flex-col-reverse items-center gap-14 lg:flex-row lg:justify-between`}
+        >
+          <motion.div
+            className="w-full max-w-md flex-1"
+            variants={slideRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <motion.div
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <Card className="border-0 bg-gradient-to-br from-primary to-[#111b3d] text-primary-foreground shadow-[0_24px_48px_-12px_rgba(26,42,92,0.35)] ring-1 ring-white/10">
+                <CardHeader>
+                  <CardTitle className="text-[var(--accent)]">
+                    Mon épargne
+                  </CardTitle>
+                  <CardDescription className="text-primary-foreground/70">
+                    Objectif atteint
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2 pb-8 text-center">
+                  <p className="text-4xl font-semibold tracking-tight md:text-5xl">
+                    30&nbsp;000 FCFA
+                  </p>
+                  <p className="text-sm text-primary-foreground/75">
+                    100&nbsp;%
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="max-w-lg flex-1 space-y-5 text-center lg:text-left"
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <motion.div variants={fadeUp}>
+              <Badge variant="outline" className="font-medium">
+                Épargne
+              </Badge>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+            >
+              À votre rythme, sans pression.
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="text-muted-foreground md:text-lg"
+            >
+              Montant fixe ou libre, organisation par sprints et frais de
+              retrait affichés clairement.
+            </motion.p>
+            <motion.ul
+              className="space-y-4 pt-2 text-left"
+              variants={listContainer}
+            >
+              <FeatureBullet>
+                <strong className="text-foreground">Fixe ou libre</strong> —
+                Vous choisissez comment épargner.
+              </FeatureBullet>
+              <FeatureBullet>
+                <strong className="text-foreground">Sprints</strong> — Cycles
+                avec possibilité de retrait en fin de période.
+              </FeatureBullet>
+              <FeatureBullet>
+                <strong className="text-foreground">Frais clairs</strong> —
+                Pas de mauvaise surprise au déblocage.
+              </FeatureBullet>
+            </motion.ul>
+          </motion.div>
         </div>
       </section>
 
+      {/* Témoignages */}
       <section
         id="temoignages"
-        className="bg-[var(--bg-white)] px-[5%] pb-32 pt-24"
+        className="relative scroll-mt-20 bg-background py-20 md:py-28"
       >
-        <div className="reveal fade-bottom mx-auto w-full max-w-6xl">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl lg:text-[2.5rem]">
-            Ils nous font confiance
-          </h2>
-          <p className="mx-auto mb-16 mt-4 max-w-[600px] text-center text-lg text-[color:var(--text-muted)]">
-            Découvrez l'expérience de nos premiers utilisateurs avec SmartSaver.
-          </p>
+        <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-50" />
+        <div className={`relative z-10 ${PAGE_WIDE} space-y-12`}>
+          <motion.div
+            className="mx-auto max-w-2xl text-center"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+              Ils nous font confiance
+            </h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">
+              Retours d’utilisateurs SmartSaver.
+            </p>
+          </motion.div>
 
-          <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-[20px] bg-[var(--bg-light)] p-10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] transition-transform duration-300 hover:-translate-y-2.5">
-              <div className="mb-4 text-[1.3rem] tracking-widest text-[var(--accent)]">
-                ★★★★★
-              </div>
-              <p className="mb-8 text-base italic leading-relaxed text-[color:var(--text-muted)]">
-                "Fini les disputes pour savoir qui a payé la tontine !
-                L'application m'envoie une notification à chaque ramassage, tout
-                est transparent et sécurisé."
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#f7b731] text-xl font-bold text-white">
-                  A
-                </div>
-                <div>
-                  <h4 className="mb-0.5 text-lg text-[color:var(--text-main)]">
-                    Awa D.
-                  </h4>
-                  <span className="text-sm font-semibold text-[color:var(--text-muted)]">
-                    Commerçante
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-[20px] bg-[var(--bg-light)] p-10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] transition-transform duration-300 hover:-translate-y-2.5">
-              <div className="mb-4 text-[1.3rem] tracking-widest text-[var(--accent)]">
-                ★★★★★
-              </div>
-              <p className="mb-8 text-base italic leading-relaxed text-[color:var(--text-muted)]">
-                "L'épargne libre est géniale ! Je dépose ce que je peux quand je
-                veux, et je récupère mon argent à la fin de mon sprint pour mes
-                projets."
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#1a2a5c] text-xl font-bold text-white">
-                  K
-                </div>
-                <div>
-                  <h4 className="mb-0.5 text-lg text-[color:var(--text-main)]">
-                    Kouamé Y.
-                  </h4>
-                  <span className="text-sm font-semibold text-[color:var(--text-muted)]">
-                    Étudiant
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-[20px] bg-[var(--bg-light)] p-10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] transition-transform duration-300 hover:-translate-y-2.5">
-              <div className="mb-4 text-[1.3rem] tracking-widest text-[var(--accent)]">
-                ★★★★★
-              </div>
-              <p className="mb-8 text-base italic leading-relaxed text-[color:var(--text-muted)]">
-                "Le système d'admin pour valider les versements est très
-                rassurant. On a l'impression d'avoir une vraie micro-finance
-                dans son téléphone."
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#20bf6b] text-xl font-bold text-white">
-                  M
-                </div>
-                <div>
-                  <h4 className="mb-0.5 text-lg text-[color:var(--text-main)]">
-                    Marc E.
-                  </h4>
-                  <span className="text-sm font-semibold text-[color:var(--text-muted)]">
-                    Entrepreneur
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <motion.div
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <motion.div variants={fadeUp}>
+              <TestimonialCard
+                quote="« Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair. »"
+                name="Awa D."
+                role="Commerçante"
+                fallback="A"
+                fallbackClass="bg-[#f7b731] text-[var(--primary)]"
+              />
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <TestimonialCard
+                quote="« L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint. »"
+                name="Kouamé Y."
+                role="Étudiant"
+                fallback="K"
+                fallbackClass="bg-[#1a2a5c]"
+              />
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <TestimonialCard
+                quote="« La validation des versements par l’admin rassure tout le groupe. »"
+                name="Marc E."
+                role="Entrepreneur"
+                fallback="M"
+                fallbackClass="bg-emerald-600"
+              />
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
+      {/* Download */}
       <section
         id="download"
-        className="reveal fade-bottom bg-white px-[5%] pb-32 pt-16 text-center"
+        className="relative bg-gradient-to-b from-muted/30 to-background px-4 py-16 md:py-24"
       >
-        <div className="mx-auto max-w-[900px] rounded-[30px] bg-gradient-to-br from-[var(--primary)] to-[#111b3d] px-8 py-20 text-white shadow-[0_30px_60px_rgba(26,42,92,0.2)] sm:px-12">
-          <h2 className="mb-6 text-3xl font-bold sm:text-4xl lg:text-[2.8rem]">
-            Prêt à changer vos habitudes financières ?
-          </h2>
-          <p className="mb-12 text-lg opacity-90 sm:text-xl">
-            Rejoignez la communauté SmartSaver. L'application est disponible
-            pour votre smartphone.
-          </p>
-          <a
-            href={osData.link}
-            className={`${btnPrimary} ${btnLarge} mx-auto`}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            <span>Télécharger l'App SmartSaver</span>
-          </a>
-          {!osData.isIos && (
-            <p className="mb-0 mt-6 text-[0.95rem] opacity-60">
-              Si vous téléchargez un fichier APK, autorisez l'installation
-              depuis des sources inconnues dans les paramètres de votre
-              téléphone.
-            </p>
-          )}
-        </div>
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_100%,rgba(247,183,49,0.08),transparent)]" />
+        <motion.div
+          className={`relative z-10 ${PAGE_WIDE}`}
+          variants={scaleIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          <Card className="mx-auto max-w-2xl overflow-hidden border-0 bg-gradient-to-br from-primary via-primary to-[#0f1838] text-primary-foreground shadow-[0_32px_64px_-20px_rgba(26,42,92,0.45)] ring-1 ring-white/10">
+            <CardContent className="space-y-6 p-8 text-center md:p-10">
+              <motion.h2
+                className="text-2xl font-semibold tracking-tight md:text-3xl"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45 }}
+              >
+                Prêt à commencer ?
+              </motion.h2>
+              <p className="text-sm text-primary-foreground/80 md:text-base">
+                Rejoignez la communauté SmartSaver sur mobile.
+              </p>
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex"
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_28px_-6px_var(--accent)] hover:bg-[var(--accent-hover)]"
+                >
+                  <a href={osData.link} className="gap-2">
+                    <Download className="size-4" />
+                    Télécharger SmartSaver
+                  </a>
+                </Button>
+              </motion.div>
+              {!osData.isIos && (
+                <>
+                  <Separator className="bg-primary-foreground/15" />
+                  <p className="text-xs text-primary-foreground/65">
+                    Fichier APK : autorisez l’installation depuis des sources
+                    inconnues si votre appareil le demande.
+                  </p>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
       </section>
     </>
   );

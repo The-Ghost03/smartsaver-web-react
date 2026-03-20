@@ -1,72 +1,131 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Download, Menu } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
+import { PAGE_WIDE } from "@/constants/layout";
+import { fadeUp } from "@/lib/motion-variants";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+const navLinkClass =
+  "text-sm font-medium text-foreground/80 transition-colors hover:text-foreground";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const links = (
+    <>
+      <a href="/#tontine" className={navLinkClass}>
+        Tontine
+      </a>
+      <a href="/#epargne" className={navLinkClass}>
+        Épargne
+      </a>
+      <a href="/#temoignages" className={navLinkClass}>
+        Témoignages
+      </a>
+    </>
+  );
+
   return (
-    <header
+    <motion.header
       id="header"
-      className={`fixed top-0 z-[1000] flex w-full items-center justify-between bg-[var(--bg-white)] px-[5%] py-4 transition-shadow duration-300 ${
-        scrolled ? "shadow-[0_4px_20px_rgba(0,0,0,0.05)]" : ""
+      initial={{ y: -16, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className={`fixed top-0 z-50 w-full border-b bg-background/75 backdrop-blur-xl transition-shadow duration-300 ${
+        scrolled ? "shadow-sm shadow-primary/5" : "border-transparent"
       }`}
     >
-      <Link to={ROUTES.HOME} className="block">
-        <img
-          src="/src/assets/logo.png"
-          alt="SmartSaver Logo"
-          className="block h-[45px] w-auto"
-        />
-      </Link>
-      <nav className="hidden gap-10 lg:flex">
-        <a
-          href="/#tontine"
-          className="relative font-semibold text-[color:var(--text-main)] after:absolute after:bottom-[-5px] after:left-0 after:h-0.5 after:w-0 after:bg-[var(--accent)] after:transition-all after:duration-300 hover:after:w-full"
-        >
-          Tontine
-        </a>
-        <a
-          href="/#epargne"
-          className="relative font-semibold text-[color:var(--text-main)] after:absolute after:bottom-[-5px] after:left-0 after:h-0.5 after:w-0 after:bg-[var(--accent)] after:transition-all after:duration-300 hover:after:w-full"
-        >
-          Épargne
-        </a>
-        <a
-          href="/#temoignages"
-          className="relative font-semibold text-[color:var(--text-main)] after:absolute after:bottom-[-5px] after:left-0 after:h-0.5 after:w-0 after:bg-[var(--accent)] after:transition-all after:duration-300 hover:after:w-full"
-        >
-          Témoignages
-        </a>
-      </nav>
-      <a
-        href="/#download"
-        className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--accent)] px-7 py-3.5 text-base font-semibold text-[var(--primary)] shadow-none transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--accent-hover)] hover:shadow-[0_10px_20px_rgba(247,183,49,0.3)]"
+      <div
+        className={`${PAGE_WIDE} flex h-16 items-center justify-between gap-4`}
       >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+        <motion.div variants={fadeUp} initial="hidden" animate="visible">
+          <Link to={ROUTES.HOME} className="block">
+            <img
+              src="/src/assets/logo.png"
+              alt="SmartSaver"
+              className="h-9 w-auto md:h-10"
+            />
+          </Link>
+        </motion.div>
+
+        <nav className="hidden items-center gap-8 lg:flex">{links}</nav>
+
+        <motion.div
+          className="flex items-center gap-2"
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.12, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-        <span>Télécharger l&apos;App</span>
-      </a>
-    </header>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="lg:hidden"
+                aria-label="Ouvrir le menu"
+              >
+                <Menu className="size-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[min(100%,20rem)]">
+              <SheetHeader>
+                <SheetTitle>Navigation</SheetTitle>
+              </SheetHeader>
+              <nav className="mt-8 flex flex-col gap-1">
+                <Button variant="ghost" asChild className="justify-start">
+                  <a href="/#tontine">Tontine</a>
+                </Button>
+                <Button variant="ghost" asChild className="justify-start">
+                  <a href="/#epargne">Épargne</a>
+                </Button>
+                <Button variant="ghost" asChild className="justify-start">
+                  <a href="/#temoignages">Témoignages</a>
+                </Button>
+                <Separator className="my-4" />
+                <Button
+                  asChild
+                  className="rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)]"
+                >
+                  <a href="/#download">
+                    <Download className="size-4" />
+                    Télécharger
+                  </a>
+                </Button>
+              </nav>
+            </SheetContent>
+          </Sheet>
+
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Button
+              asChild
+              size="sm"
+              className="hidden rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)] sm:inline-flex"
+            >
+              <a href="/#download" className="gap-2">
+                <Download className="size-4" />
+                <span className="hidden md:inline">Télécharger l&apos;app</span>
+                <span className="md:hidden">App</span>
+              </a>
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
+    </motion.header>
   );
 }

@@ -1,14 +1,15 @@
-import { legalSectionClass } from "@/constants/legalPageClasses";
+import { LegalDocumentLayout } from "@/components/legal/LegalDocumentLayout";
 
 export default function CGU() {
   return (
-    <section className={legalSectionClass}>
-      <h1>Conditions générales d'Utilisation</h1>
-
+    <LegalDocumentLayout
+      title="Conditions générales d’utilisation"
+      description="Règles d’usage du site et de l’application SmartSaver."
+    >
       <h2>1. Acceptation des conditions</h2>
       <p>
         En créant un compte ou en utilisant le site web ou l’application
-        Smartsaver, vous acceptez ces Conditions d’Utilisation.
+        Smartsaver, vous acceptez ces conditions d’utilisation.
       </p>
 
       <h2>2. Âge minimum</h2>
@@ -92,6 +93,6 @@ export default function CGU() {
         Ces conditions sont régies par les lois en vigueur dans le pays où
         Smartsaver opère.
       </p>
-    </section>
+    </LegalDocumentLayout>
   );
 }

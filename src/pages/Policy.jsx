@@ -1,10 +1,11 @@
-import { legalSectionClass } from "@/constants/legalPageClasses";
+import { LegalDocumentLayout } from "@/components/legal/LegalDocumentLayout";
 
 export default function Policy() {
   return (
-    <section className={legalSectionClass}>
-      <h1>Politique de Confidentialité</h1>
-
+    <LegalDocumentLayout
+      title="Politique de confidentialité"
+      description="Comment nous collectons, utilisons et protégeons vos données."
+    >
       <h2>1. Introduction</h2>
       <p>
         Chez Smartsaver, la protection de vos informations personnelles est
@@ -16,14 +17,18 @@ export default function Policy() {
       </p>
 
       <h2>2. Informations que nous collectons</h2>
-      <p><strong>a) Informations personnelles</strong></p>
+      <p>
+        <strong>a) Informations personnelles</strong>
+      </p>
       <ul>
         <li>Nom et prénom</li>
         <li>Adresse email</li>
         <li>Numéro de téléphone</li>
         <li>Photo de profil</li>
       </ul>
-      <p><strong>b) Vérification d’identité (KYC)</strong></p>
+      <p>
+        <strong>b) Vérification d’identité (KYC)</strong>
+      </p>
       <p>
         Pour sécuriser la plateforme et prévenir la fraude, nous pouvons
         demander :
@@ -89,6 +94,6 @@ export default function Policy() {
         Smartsaver peut modifier cette politique à tout moment. Les utilisateurs
         seront informés de toute modification importante.
       </p>
-    </section>
+    </LegalDocumentLayout>
   );
 }
