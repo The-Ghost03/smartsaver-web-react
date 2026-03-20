@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -73,7 +74,7 @@ export default function Footer() {
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
               </span>
-              <span>Abidjan, Côte d'Ivoire</span>
+              <span>Abidjan, Côte d&apos;Ivoire</span>
             </li>
           </ul>
         </div>
@@ -82,17 +83,17 @@ export default function Footer() {
           <h4>Informations Légales</h4>
           <ul>
             <li>
-              <Link to="/cgu" onClick={scrollToTop}>
-                Conditions Générales d'Utilisation
+              <Link to={ROUTES.CGU} onClick={scrollToTop}>
+                Conditions Générales d&apos;Utilisation
               </Link>
             </li>
             <li>
-              <Link to="/politique-de-confidentialite" onClick={scrollToTop}>
+              <Link to={ROUTES.PRIVACY} onClick={scrollToTop}>
                 Politique de Confidentialité
               </Link>
             </li>
             <li>
-              <Link to="/mentions-legales" onClick={scrollToTop}>
+              <Link to={ROUTES.LEGAL} onClick={scrollToTop}>
                 Mentions Légales
               </Link>
             </li>
