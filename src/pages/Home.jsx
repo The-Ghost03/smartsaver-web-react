@@ -43,7 +43,8 @@ const LINK_IOS = "lien_vers_votre_app_store_ici";
 const HERO_FLOATERS = [
   {
     Icon: Wallet,
-    className: "left-[2%] top-[14%] text-primary-foreground/[0.16] max-md:left-[3%]",
+    className:
+      "left-[2%] top-[14%] text-primary-foreground/[0.16] max-md:left-[3%]",
     iconClass: "size-12 max-md:size-8",
     x: [0, 100, 55, -40, 0],
     y: [0, -35, 45, 20, 0],
@@ -426,14 +427,24 @@ export default function Home() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <Card className="border-border/80 shadow-lg backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle>Exemple — Tontine 1&nbsp;000&nbsp;F</CardTitle>
-                <CardDescription>
-                  10 participants · ramassage groupé
+            <Card className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-xl shadow-primary/[0.04] ring-1 ring-primary/5 backdrop-blur-sm transition-shadow duration-300 hover:shadow-2xl hover:shadow-primary/[0.06] hover:ring-primary/10">
+              <CardHeader className="space-y-2 pb-2">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-(--accent)/35 bg-(--accent)/10 text-[0.65rem] font-semibold uppercase tracking-wider text-(--accent)"
+                  >
+                    Exemple
+                  </Badge>
+                  <CardTitle className="font-heading text-lg tracking-tight">
+                    Tontine 1&nbsp;000&nbsp;F
+                  </CardTitle>
+                </div>
+                <CardDescription className="text-muted-foreground">
+                  10 participants · 50&nbsp;000 FCFA par ramassage
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 pt-0">
                 <motion.div
                   initial={{ opacity: 0, scaleX: 0.3 }}
                   whileInView={{ opacity: 1, scaleX: 1 }}
@@ -443,12 +454,12 @@ export default function Home() {
                 >
                   <Progress
                     value={100}
-                    className="h-2 bg-muted [&_[data-slot=progress-indicator]]:bg-[var(--accent)] [&_[data-slot=progress-indicator]]:shadow-[0_0_12px_var(--accent)]"
+                    className="h-2.5 rounded-full bg-muted [&_[data-slot=progress-indicator]]:rounded-full [&_[data-slot=progress-indicator]]:bg-(--accent) [&_[data-slot=progress-indicator]]:shadow-[0_0_14px_var(--accent)]"
                   />
                 </motion.div>
-                <div className="flex justify-between text-xs font-medium text-muted-foreground">
+                <div className="flex items-center justify-between gap-4 rounded-lg bg-muted/50 px-3 py-2 text-xs font-medium text-muted-foreground">
                   <span>10 participants</span>
-                  <span>50&nbsp;000 FCFA / ramassage</span>
+                  <span className="tabular-nums">50&nbsp;000 FCFA</span>
                 </div>
               </CardContent>
             </Card>
@@ -476,22 +487,33 @@ export default function Home() {
               whileHover={{ y: -4 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <Card className="border-0 bg-gradient-to-br from-primary to-[#111b3d] text-primary-foreground shadow-[0_24px_48px_-12px_rgba(26,42,92,0.35)] ring-1 ring-white/10">
-                <CardHeader>
-                  <CardTitle className="text-[var(--accent)]">
-                    Mon épargne
-                  </CardTitle>
-                  <CardDescription className="text-primary-foreground/70">
-                    Objectif atteint
+              <Card className="relative overflow-hidden rounded-2xl border-0 bg-linear-to-br from-primary via-[#15224d] to-[#0c1430] text-primary-foreground shadow-[0_28px_56px_-16px_rgba(26,42,92,0.45)] ring-1 ring-white/10">
+                <div className="h-1 w-full" aria-hidden />
+                <div className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-(--accent)/15 blur-2xl" />
+                <CardHeader className="relative z-10 space-y-2 pb-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <CardTitle className="font-heading text-lg tracking-tight text-(--accent)">
+                      Mon épargne
+                    </CardTitle>
+                    <Badge
+                      variant="outline"
+                      className="border-(--accent)/50 bg-(--accent)/20 px-2 py-0.5 text-[0.65rem] font-semibold text-(--accent)"
+                    >
+                      ✓ Objectif atteint
+                    </Badge>
+                  </div>
+                  <CardDescription className="text-primary-foreground/65">
+                    Sprint terminé
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-2 pb-8 text-center">
-                  <p className="text-4xl font-semibold tracking-tight md:text-5xl">
+                <CardContent className="relative z-10 space-y-3 pb-8 pt-4 text-center">
+                  <p className="font-heading text-4xl font-bold tabular-nums tracking-tight text-primary-foreground md:text-5xl md:tracking-tighter">
                     30&nbsp;000 FCFA
                   </p>
-                  <p className="text-sm text-primary-foreground/75">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm font-semibold text-primary-foreground/90">
+                    <span className="size-2 rounded-full bg-(--accent)" />
                     100&nbsp;%
-                  </p>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
