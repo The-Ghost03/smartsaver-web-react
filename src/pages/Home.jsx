@@ -235,7 +235,7 @@ export default function Home() {
             </motion.div>
             <motion.h1
               variants={fadeUp}
-              className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl md:leading-[1.08]"
+              className="text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl md:leading-[1.08]"
             >
               Gérez votre argent,{" "}
               <motion.span
@@ -253,7 +253,7 @@ export default function Home() {
             </motion.h1>
             <motion.p
               variants={fadeUp}
-              className="max-w-lg text-base leading-relaxed text-primary-foreground/80 md:text-lg"
+              className="max-w-lg text-base leading-relaxed text-primary-foreground/80 md:text-xl"
             >
               Tontines sécurisées et épargne flexible. Téléchargez SmartSaver et
               gardez le contrôle de vos finances.

@@ -57,7 +57,9 @@ export default function Footer() {
           viewport={viewportOnce}
         >
           <motion.div className="space-y-4" variants={fadeUp}>
-            <img src={images.logo} alt="SmartSaver" className="h-16 w-fit" />
+            <a href="/">
+              <img src={images.logo} alt="SmartSaver" className="h-16 w-fit" />
+            </a>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
               La plateforme pour gérer vos tontines et votre épargne, simplement
               et en toute sécurité.
