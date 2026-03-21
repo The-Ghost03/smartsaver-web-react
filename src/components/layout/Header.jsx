@@ -21,6 +21,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { AlignLeftIcon } from "../ui/align-left";
+import { images } from "@/lib/images";
 
 const NAV_ITEMS = [
   { sectionId: "tontine", href: "/#tontine", label: "Tontine", icon: Users },
@@ -150,7 +151,7 @@ export default function Header() {
         <motion.div variants={fadeUp} initial="hidden" animate="visible">
           <Link to={ROUTES.HOME} className="block">
             <img
-              src="/src/assets/logo.png"
+              src={images.logo}
               alt="SmartSaver"
               className="h-8 w-auto md:h-11"
             />

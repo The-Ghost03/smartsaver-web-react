@@ -6,6 +6,7 @@ import { PAGE_WIDE } from "@/constants/layout";
 import { cn } from "@/lib/utils";
 import { fadeUp, stagger, viewportOnce } from "@/lib/motion-variants";
 import { Separator } from "@/components/ui/separator";
+import { images } from "@/lib/images";
 
 function legalNavClassName({ isActive }) {
   return cn(
@@ -40,7 +41,7 @@ export default function Footer() {
 
   return (
     <motion.footer
-      className="relative border-t bg-muted/20"
+      className="relative z-10 border-t bg-muted/20"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.15 }}
@@ -56,11 +57,7 @@ export default function Footer() {
           viewport={viewportOnce}
         >
           <motion.div className="space-y-4" variants={fadeUp}>
-            <img
-              src="/src/assets/logo.png"
-              alt="SmartSaver"
-              className="h-16 w-fit"
-            />
+            <img src={images.logo} alt="SmartSaver" className="h-16 w-fit" />
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
               La plateforme pour gérer vos tontines et votre épargne, simplement
               et en toute sécurité.

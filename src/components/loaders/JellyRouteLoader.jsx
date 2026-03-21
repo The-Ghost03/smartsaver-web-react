@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { motion } from "framer-motion";
 import { jellyRouteFloaters } from "@/constants/marketing-floaters";
-import logoImg from "@/assets/logo.png";
+import { images } from "@/lib/images";
 
 /**
  * Loader « jelly ooze » pour Suspense (lazy routes).
@@ -15,10 +15,7 @@ export function JellyRouteLoader() {
       aria-live="polite"
       aria-label="Chargement de la page"
     >
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        aria-hidden
-      >
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_20%,rgba(26,42,92,0.06),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_90%_90%,rgba(247,183,49,0.07),transparent)]" />
         {jellyRouteFloaters.map((f, i) => (
@@ -45,7 +42,7 @@ export function JellyRouteLoader() {
 
       <div className="relative z-10 flex flex-col items-center justify-center gap-8">
         <img
-          src={logoImg}
+          src={images.logo}
           alt=""
           className="h-10 w-auto md:h-12"
           width={160}
@@ -55,7 +52,11 @@ export function JellyRouteLoader() {
         <svg width="0" height="0" className="absolute" aria-hidden>
           <defs>
             <filter id="ss-jelly-ooze-filter">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="3"
+                result="blur"
+              />
               <feColorMatrix
                 in="blur"
                 mode="matrix"
