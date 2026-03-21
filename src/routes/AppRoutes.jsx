@@ -8,6 +8,7 @@ const Home = lazy(() => import("@/pages/Home"));
 const CGU = lazy(() => import("@/pages/CGU"));
 const Policy = lazy(() => import("@/pages/Policy"));
 const MentionsLegales = lazy(() => import("@/pages/MentionsLegales"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export function AppRoutes() {
           <Route path={ROUTES.CGU} element={<CGU />} />
           <Route path={ROUTES.PRIVACY} element={<Policy />} />
           <Route path={ROUTES.LEGAL} element={<MentionsLegales />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Suspense>
