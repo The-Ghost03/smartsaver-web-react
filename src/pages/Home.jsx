@@ -2,6 +2,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  Calendar,
+  Check,
+  Clock,
   Download,
   Quote,
   ShieldCheck,
@@ -29,6 +32,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 import {
   Carousel,
   CarouselContent,
@@ -381,7 +385,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="w-full max-w-md flex-1"
+            className="flex w-full max-w-md flex-1 flex-col gap-4"
             variants={scaleIn}
             initial="hidden"
             whileInView="visible"
@@ -422,7 +426,120 @@ export default function Home() {
                   <span className="tabular-nums">50&nbsp;000 FCFA</span>
                 </div>
               </CardContent>
+
+              <Separator className="bg-border/60" />
+
+              <CardHeader className="space-y-1 pb-2 pt-5">
+                <CardTitle className="font-heading text-sm font-semibold tracking-tight">
+                  Ordre du ramassage
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Exemple de tour — chacun reçoit la cagnotte à son rang.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2 pt-0 pb-4">
+                <ul className="space-y-2" aria-label="Ordre fictif du tour">
+                  <li className="flex items-center justify-between gap-3 rounded-lg border border-border/50 bg-muted/25 px-3 py-2 text-sm">
+                    <span className="flex items-center gap-2.5 min-w-0">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                        1
+                      </span>
+                      <span className="truncate font-medium text-foreground">
+                        Awa D.
+                      </span>
+                    </span>
+                    <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                      <Check className="size-3.5" aria-hidden />
+                      Reçu
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between gap-3 rounded-lg border border-(--accent)/30 bg-(--accent)/8 px-3 py-2 text-sm ring-1 ring-(--accent)/15">
+                    <span className="flex items-center gap-2.5 min-w-0">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-(--accent)/20 text-xs font-semibold text-(--accent)">
+                        2
+                      </span>
+                      <span className="truncate font-medium text-foreground">
+                        Kouamé Y.
+                      </span>
+                    </span>
+                    <Badge
+                      variant="secondary"
+                      className="shrink-0 border-(--accent)/25 bg-(--accent)/15 text-[0.65rem] text-(--accent)"
+                    >
+                      En cours
+                    </Badge>
+                  </li>
+                  <li className="flex items-center justify-between gap-3 rounded-lg border border-border/50 bg-muted/25 px-3 py-2 text-sm">
+                    <span className="flex items-center gap-2.5 min-w-0">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                        3
+                      </span>
+                      <span className="truncate font-medium text-foreground">
+                        Marc E.
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-xs text-muted-foreground">
+                      À venir
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-border/60 bg-muted/15 px-3 py-2 text-xs text-muted-foreground">
+                    + 7 autres membres dans la file
+                  </li>
+                </ul>
+              </CardContent>
+
+              <div className="grid grid-cols-3 divide-x divide-border/60 border-t border-border/60 bg-muted/20">
+                <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
+                  <Calendar
+                    className="size-4 text-primary/70"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                  <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+                    Prochain
+                  </span>
+                  <span className="text-xs font-semibold tabular-nums text-foreground">
+                    15 févr.
+                  </span>
+                </div>
+                <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
+                  <Clock
+                    className="size-4 text-primary/70"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                  <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+                    Cycle
+                  </span>
+                  <span className="text-xs font-semibold tabular-nums text-foreground">
+                    3&nbsp;/&nbsp;10
+                  </span>
+                </div>
+                <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
+                  <ShieldCheck
+                    className="size-4 text-primary/70"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                  <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+                    Cotisation
+                  </span>
+                  <span className="text-xs font-semibold tabular-nums text-foreground">
+                    5&nbsp;000&nbsp;F
+                  </span>
+                </div>
+              </div>
             </Card>
+
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+              className="text-center text-xs text-muted-foreground lg:text-left"
+            >
+              Interface illustrative — les montants et dates sont fictifs.
+            </motion.p>
           </motion.div>
         </div>
       </section>
