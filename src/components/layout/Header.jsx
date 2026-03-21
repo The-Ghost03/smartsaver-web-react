@@ -11,14 +11,16 @@ import { Download, Menu, PiggyBank, Quote, Users } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { fadeUp } from "@/lib/motion-variants";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { AlignLeftIcon } from "../ui/align-left";
 
 const NAV_ITEMS = [
   { sectionId: "tontine", href: "/#tontine", label: "Tontine", icon: Users },
@@ -166,19 +168,30 @@ export default function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon-sm"
-                className="lg:hidden"
+                className="border-border/60 bg-background/80 lg:hidden"
                 aria-label="Ouvrir le menu"
               >
-                <Menu className="size-5" />
+                <AlignLeftIcon />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[min(100%,20rem)]">
-              <SheetHeader>
-                <SheetTitle>Navigation</SheetTitle>
+            <SheetContent
+              side="right"
+              showCloseButton
+              className="gap-0 border-l border-border/50 bg-linear-to-b from-background via-background to-muted/35 p-0 shadow-2xl shadow-primary/10 sm:max-w-[22rem] rounded-l-3xl"
+            >
+              <div className="h-1 w-full shrink-0" aria-hidden />
+              <SheetHeader className="space-y-1.5 border-b border-border/50 px-5 pb-4 pt-5 pr-14">
+                <SheetTitle className="font-heading text-xl font-semibold tracking-tight">
+                  Menu
+                </SheetTitle>
+                <SheetDescription className="text-[0.8125rem] leading-relaxed">
+                  Accédez aux sections et téléchargez l’application.
+                </SheetDescription>
               </SheetHeader>
-              <nav className="mt-8 flex flex-col gap-1">
+
+              <nav className="flex flex-1 flex-col gap-2 px-4 py-5">
                 {NAV_ITEMS.map((item) => {
                   const isActive = activeSectionId === item.sectionId;
                   return (
@@ -186,40 +199,54 @@ export default function Header() {
                       key={item.href}
                       variant="ghost"
                       asChild
-                      className={`h-11 justify-start gap-2 rounded-xl px-3 transition-colors ${
+                      className={`h-auto min-h-12 justify-start gap-3 rounded-xl border px-4 py-3 text-left transition-[background-color,border-color,box-shadow] ${
                         isActive
-                          ? "bg-primary/[0.1] text-primary hover:bg-primary/[0.12] hover:text-primary"
-                          : "text-foreground/80 hover:bg-primary/[0.08] hover:text-primary"
+                          ? "border-(--accent)/30 bg-primary/[0.08] text-primary shadow-sm shadow-primary/5 hover:bg-primary/[0.1] hover:text-primary"
+                          : "border-border/40 bg-card/40 text-foreground/85 hover:border-border hover:bg-muted/60 hover:text-foreground"
                       }`}
                     >
                       <a
                         href={item.href}
-                        className="gap-2"
+                        className="flex w-full items-center gap-3"
                         aria-current={isActive ? "location" : undefined}
                       >
-                        {createElement(item.icon, {
-                          className: isActive
-                            ? "size-4 shrink-0 text-(--accent)"
-                            : "size-4 shrink-0 text-muted-foreground",
-                          strokeWidth: 2,
-                          "aria-hidden": true,
-                        })}
-                        {item.label}
+                        <span
+                          className={`flex size-9 shrink-0 items-center justify-center rounded-lg ${
+                            isActive
+                              ? "bg-(--accent)/20 text-(--accent)"
+                              : "bg-muted/80 text-muted-foreground"
+                          }`}
+                        >
+                          {createElement(item.icon, {
+                            className: "size-[1.125rem]",
+                            strokeWidth: 2,
+                            "aria-hidden": true,
+                          })}
+                        </span>
+                        <span className="font-heading text-[0.9375rem] font-semibold tracking-tight">
+                          {item.label}
+                        </span>
                       </a>
                     </Button>
                   );
                 })}
-                <Separator className="my-4" />
+              </nav>
+
+              <SheetFooter className="mt-auto gap-3 border-t border-border/50 bg-muted/25 px-4 py-5">
+                <p className="text-center text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground">
+                  Application mobile
+                </p>
                 <Button
                   asChild
-                  className="rounded-full bg-[var(--accent)] text-[var(--primary)] hover:bg-[var(--accent-hover)]"
+                  size="lg"
+                  className="h-11 w-full rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_24px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_32px_-6px_rgba(247,183,49,0.45)] hover:brightness-[1.03] hover:text-[var(--accent)]"
                 >
-                  <a href="/#download">
-                    <Download className="size-4" />
-                    Télécharger
+                  <a href="/#download" className="gap-2">
+                    <Download className="size-4 shrink-0" />
+                    Télécharger l&apos;app
                   </a>
                 </Button>
-              </nav>
+              </SheetFooter>
             </SheetContent>
           </Sheet>
 
@@ -227,7 +254,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden h-8 rounded-full bg-[var(--accent)] text-[var(--primary)] transition-[background-color,box-shadow] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_20px_-6px_rgba(247,183,49,0.45)] sm:inline-flex"
+              className="hidden h-8 rounded-full bg-[var(--accent)] text-[var(--primary)] transition-[background-color,box-shadow,filter] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_20px_-6px_rgba(247,183,49,0.45)] hover:brightness-[1.03] sm:inline-flex"
             >
               <a href="/#download" className="gap-2">
                 <Download className="size-4" />
