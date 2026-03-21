@@ -254,7 +254,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden h-8 rounded-full bg-[var(--accent)] text-[var(--primary)] transition-[background-color,box-shadow,filter] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_20px_-6px_rgba(247,183,49,0.45)] hover:brightness-[1.03] sm:inline-flex"
+              className="hidden h-8 rounded-full bg-[var(--accent)] text-[var(--primary)] transition-[background-color,box-shadow,filter] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_20px_-6px_rgba(247,183,49,0.45)] hover:brightness-[1.03] sm:inline-flex hover:text-[var(--accent)]"
             >
               <a href="/#download" className="gap-2">
                 <Download className="size-4" />

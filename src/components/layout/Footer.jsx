@@ -12,7 +12,7 @@ function legalNavClassName({ isActive }) {
     "inline-flex items-center gap-1.5 text-sm transition-colors",
     isActive
       ? "font-medium text-primary"
-      : "text-muted-foreground hover:text-foreground"
+      : "text-muted-foreground hover:text-foreground",
   );
 }
 
@@ -126,10 +126,13 @@ export default function Footer() {
           transition={{ delay: 0.1, duration: 0.4 }}
           className="flex flex-col items-center justify-between gap-4 text-center text-xs text-muted-foreground sm:flex-row sm:text-left"
         >
-          <p>© {new Date().getFullYear()} SmartSaver. Tous droits réservés.</p>
+          <p>© 2026 SmartSaver. Tous droits réservés.</p>
           <p>
             Design{" "}
-            <a href="#" className="underline-offset-4 hover:underline">
+            <a
+              href="https://softskills.ci/"
+              className="underline-offset-4 hover:underline"
+            >
               Softskills
             </a>
           </p>

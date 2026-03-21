@@ -35,6 +35,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const LINK_ANDROID = "lien_vers_votre_apk_ou_play_store_ici";
 const LINK_IOS = "lien_vers_votre_app_store_ici";
@@ -103,6 +110,32 @@ const HERO_FLOATERS = [
     x: [0, 45, -70, 15, 0],
     y: [0, -40, 20, 35, 0],
     duration: 46,
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair.",
+    name: "Awa D.",
+    role: "Commerçante",
+    fallback: "A",
+    fallbackClass: "bg-[#f7b731] text-[var(--primary)]",
+  },
+  {
+    quote:
+      "L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint.",
+    name: "Kouamé Y.",
+    role: "Étudiant",
+    fallback: "K",
+    fallbackClass: "bg-[#1a2a5c]",
+  },
+  {
+    quote: "La validation des versements par l’admin rassure tout le groupe.",
+    name: "Marc E.",
+    role: "Entrepreneur",
+    fallback: "M",
+    fallbackClass: "bg-emerald-600",
   },
 ];
 
@@ -588,48 +621,48 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="grid auto-rows-fr gap-6 md:grid-cols-2 lg:grid-cols-3"
-            variants={stagger}
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
+            className="relative mx-auto w-full max-w-6xl px-12 md:px-14"
           >
-            <motion.div
-              variants={fadeUp}
-              className="flex h-full min-h-0 w-full"
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
             >
-              <TestimonialCard
-                quote="Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair."
-                name="Awa D."
-                role="Commerçante"
-                fallback="A"
-                fallbackClass="bg-[#f7b731] text-[var(--primary)]"
+              <CarouselContent className="-ml-3 md:-ml-4">
+                {TESTIMONIALS.map((t) => (
+                  <CarouselItem
+                    key={t.name}
+                    className="basis-full pl-3 sm:basis-1/2 md:pl-4 lg:basis-1/3"
+                  >
+                    <div className="flex h-full min-h-0 min-w-0 max-w-md mx-auto py-1">
+                      <TestimonialCard
+                        quote={t.quote}
+                        name={t.name}
+                        role={t.role}
+                        fallback={t.fallback}
+                        fallbackClass={t.fallbackClass}
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious
+                variant="outline"
+                size="icon"
+                className="left-0 rounded-full border-border/80 shadow-sm md:-left-2"
               />
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              className="flex h-full min-h-0 w-full"
-            >
-              <TestimonialCard
-                quote="L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint."
-                name="Kouamé Y."
-                role="Étudiant"
-                fallback="K"
-                fallbackClass="bg-[#1a2a5c]"
+              <CarouselNext
+                variant="outline"
+                size="icon"
+                className="right-0 rounded-full border-border/80 shadow-sm md:-right-2"
               />
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              className="flex h-full min-h-0 w-full"
-            >
-              <TestimonialCard
-                quote="La validation des versements par l’admin rassure tout le groupe."
-                name="Marc E."
-                role="Entrepreneur"
-                fallback="M"
-                fallbackClass="bg-emerald-600"
-              />
-            </motion.div>
+            </Carousel>
           </motion.div>
         </div>
       </section>
