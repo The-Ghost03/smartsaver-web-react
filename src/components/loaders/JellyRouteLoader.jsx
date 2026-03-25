@@ -74,6 +74,9 @@ export function JellyRouteLoader() {
           <div className="ss-jelly-loader__dot" />
           <div className="ss-jelly-loader__dot" />
         </div>
+        <p className="text-sm text-center text-gray-500 animate-pulse">
+          CHARGEMENT...
+        </p>
       </div>
     </div>
   );
