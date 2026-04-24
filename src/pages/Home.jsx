@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -12,6 +13,7 @@ import {
   Star,
 } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
+import { ROUTES } from "@/constants/routes";
 import { heroMarketingFloaters } from "@/constants/marketing-floaters";
 import {
   fadeUp,
@@ -40,9 +42,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-const LINK_ANDROID = "lien_vers_votre_apk_ou_play_store_ici";
-const LINK_IOS = "lien_vers_votre_app_store_ici";
 
 const TESTIMONIALS = [
   {
@@ -75,20 +74,17 @@ function getInitialOsData() {
   if (/android/i.test(userAgent)) {
     return {
       text: "Télécharger pour Android",
-      link: LINK_ANDROID,
       isIos: false,
     };
   }
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     return {
       text: "Télécharger sur l’App Store",
-      link: LINK_IOS,
       isIos: true,
     };
   }
   return {
     text: "Obtenir l’app",
-    link: "#download",
     isIos: false,
   };
 }
@@ -269,10 +265,13 @@ export default function Home() {
                   size="lg"
                   className="rounded-full bg-[var(--accent)] px-6 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_48px_-8px_rgba(247,183,49,0.55)] hover:text-[var(--accent)] hover:brightness-[1.04]"
                 >
-                  <a href={osData.link} className="gap-2">
+                  <Link
+                    to={ROUTES.AVANT_PREMIERE}
+                    className="gap-2"
+                  >
                     <Download className="size-4" />
                     {osData.text}
-                  </a>
+                  </Link>
                 </Button>
               </motion.div>
               <motion.div
@@ -788,10 +787,13 @@ export default function Home() {
                       size="lg"
                       className="rounded-full bg-[var(--accent)] px-7 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_48px_-8px_rgba(247,183,49,0.5)] hover:brightness-[1.04] hover:text-[var(--accent)]"
                     >
-                      <a href={osData.link} className="gap-2">
+                      <Link
+                        to={ROUTES.AVANT_PREMIERE}
+                        className="gap-2"
+                      >
                         <Download className="size-4" />
                         Télécharger SmartSaver
-                      </a>
+                      </Link>
                     </Button>
                   </motion.div>
                 </motion.div>

@@ -242,10 +242,10 @@ export default function Header() {
                   size="lg"
                   className="h-11 w-full rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_24px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_32px_-6px_rgba(247,183,49,0.45)] hover:brightness-[1.03] hover:text-[var(--accent)]"
                 >
-                  <a href="/#download" className="gap-2">
+                  <Link to={ROUTES.AVANT_PREMIERE} className="gap-2">
                     <Download className="size-4 shrink-0" />
                     Télécharger l&apos;app
-                  </a>
+                  </Link>
                 </Button>
               </SheetFooter>
             </SheetContent>
@@ -257,11 +257,11 @@ export default function Header() {
               size="sm"
               className="hidden h-8 rounded-full bg-[var(--accent)] text-[var(--primary)] transition-[background-color,box-shadow,filter] duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_20px_-6px_rgba(247,183,49,0.45)] hover:brightness-[1.03] sm:inline-flex hover:text-[var(--accent)]"
             >
-              <a href="/#download" className="gap-2">
+              <Link to={ROUTES.AVANT_PREMIERE} className="gap-2">
                 <Download className="size-4" />
                 <span className="hidden md:inline">Télécharger l&apos;app</span>
                 <span className="md:hidden">App</span>
-              </a>
+              </Link>
             </Button>
           </motion.div>
         </motion.div>
