@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Bell, CheckCircle2, Clock, Smartphone } from "lucide-react";
@@ -61,6 +62,7 @@ function CountdownBlock({ value, label }) {
 }
 
 export default function AvantPremiere() {
+  const { t } = useTranslation();
   const endDate = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + 14);
@@ -82,20 +84,19 @@ export default function AvantPremiere() {
     const ph = phone.replace(/\s/g, "").trim();
 
     if (!em && !ph) {
-      setError("Renseignez une adresse e-mail ou un numéro de téléphone.");
+      setError(t("avantPremiere.errBoth"));
       return;
     }
     if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-      setError("Adresse e-mail invalide.");
+      setError(t("avantPremiere.errEmail"));
       return;
     }
     if (ph && ph.length < 8) {
-      setError("Numéro de téléphone trop court.");
+      setError(t("avantPremiere.errPhone"));
       return;
     }
 
     setSubmitting(true);
-    // Branche ici un appel API (newsletter / SMS) quand le backend existera.
     window.setTimeout(() => {
       setSubmitting(false);
       setSent(true);
@@ -127,25 +128,31 @@ export default function AvantPremiere() {
               className="mb-4 border-primary/25 bg-primary/5 text-primary"
             >
               <Smartphone className="size-3.5" aria-hidden />
-              Application mobile
+              {t("avantPremiere.badge")}
             </Badge>
           </motion.div>
           <motion.h1
             variants={fadeUp}
             className="font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            Avant-
+            {t("avantPremiere.pre")}
             <span className="bg-linear-to-r from-[var(--accent)] to-amber-200 bg-clip-text text-transparent">
-              première
+              {t("avantPremiere.post")}
             </span>
           </motion.h1>
           <motion.p
             variants={fadeUp}
             className="mt-4 text-base text-muted-foreground md:text-lg"
           >
-            L’application SmartSaver sera disponible dans{" "}
-            <strong className="font-medium text-foreground">14 jours</strong>.{" "}
-            Soyez averti dès qu’elle est en ligne.
+            <Trans
+              i18nKey="avantPremiere.sub"
+              components={[
+                <strong
+                  className="font-medium text-foreground"
+                  key="s0"
+                />,
+              ]}
+            />
           </motion.p>
         </motion.div>
 
@@ -161,29 +168,38 @@ export default function AvantPremiere() {
                 <Clock className="size-5" aria-hidden />
               </div>
               <CardTitle className="text-lg md:text-xl">
-                Compte à rebours
+                {t("avantPremiere.countdown")}
               </CardTitle>
               <CardDescription>
                 {ended
-                  ? "C’est l’heure de télécharger SmartSaver."
-                  : "Temps restant avant la sortie estimée."}
+                  ? t("avantPremiere.countdownEnd")
+                  : t("avantPremiere.countdownOn")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               {ended ? (
                 <p className="text-center text-sm text-muted-foreground">
-                  Ouvrez la page d’accueil pour le lien de téléchargement.
+                  {t("avantPremiere.countdownDone")}
                 </p>
               ) : (
                 <div
                   className="flex flex-wrap justify-center gap-2 sm:gap-3"
                   role="timer"
-                  aria-label="Temps restant avant le lancement"
+                  aria-label={t("avantPremiere.timerLabel")}
                 >
-                  <CountdownBlock value={days} label="Jours" />
-                  <CountdownBlock value={hours} label="Heures" />
-                  <CountdownBlock value={minutes} label="Minutes" />
-                  <CountdownBlock value={seconds} label="Secondes" />
+                  <CountdownBlock value={days} label={t("avantPremiere.days")} />
+                  <CountdownBlock
+                    value={hours}
+                    label={t("avantPremiere.hours")}
+                  />
+                  <CountdownBlock
+                    value={minutes}
+                    label={t("avantPremiere.minutes")}
+                  />
+                  <CountdownBlock
+                    value={seconds}
+                    label={t("avantPremiere.seconds")}
+                  />
                 </div>
               )}
             </CardContent>
@@ -201,9 +217,9 @@ export default function AvantPremiere() {
               <div className="mb-0.5 flex size-9 items-center justify-center rounded-xl bg-(--accent)/15 text-(--accent)">
                 <Bell className="size-4" aria-hidden />
               </div>
-              <CardTitle className="text-lg">Être prévenu</CardTitle>
+              <CardTitle className="text-lg">{t("avantPremiere.notify")}</CardTitle>
               <CardDescription>
-                E-mail et/ou téléphone — au moins un des deux. Pas de spam.
+                {t("avantPremiere.notifyDescription")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -218,38 +234,44 @@ export default function AvantPremiere() {
                     aria-hidden
                   />
                   <p className="text-sm font-medium text-foreground">
-                    Merci ! On vous tient informé dès l’ouverture.
+                    {t("avantPremiere.success")}
                   </p>
                 </div>
               ) : (
                 <form onSubmit={onSubmit} className="space-y-4" noValidate>
                   <div className="space-y-2">
-                    <Label htmlFor="notify-email">E-mail</Label>
+                    <Label htmlFor="notify-email">
+                      {t("avantPremiere.labelEmail")}
+                    </Label>
                     <Input
                       id="notify-email"
                       type="email"
                       name="email"
                       autoComplete="email"
                       inputMode="email"
-                      placeholder="vous@exemple.com"
+                      placeholder={t("avantPremiere.placeholderEmail")}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground">
                     <Separator className="shrink" />
-                    <span className="shrink-0 font-medium">et/ou</span>
+                    <span className="shrink-0 font-medium">
+                      {t("avantPremiere.or")}
+                    </span>
                     <Separator className="shrink" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="notify-phone">Téléphone</Label>
+                    <Label htmlFor="notify-phone">
+                      {t("avantPremiere.labelPhone")}
+                    </Label>
                     <Input
                       id="notify-phone"
                       type="tel"
                       name="phone"
                       autoComplete="tel"
                       inputMode="tel"
-                      placeholder="+225 …"
+                      placeholder={t("avantPremiere.placeholderPhone")}
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
@@ -262,10 +284,12 @@ export default function AvantPremiere() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_24px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] hover:bg-[var(--accent-hover)] hover:brightness-[1.03] disabled:opacity-60 cursor-pointer"
+                    className="w-full cursor-pointer rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_24px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] hover:bg-[var(--accent-hover)] hover:brightness-[1.03] disabled:opacity-60"
                     disabled={submitting}
                   >
-                    {submitting ? "Envoi…" : "M’avertir au lancement"}
+                    {submitting
+                      ? t("avantPremiere.submitLoading")
+                      : t("avantPremiere.submit")}
                   </Button>
                 </form>
               )}
@@ -280,7 +304,7 @@ export default function AvantPremiere() {
               "font-medium text-primary underline-offset-4 hover:underline",
             )}
           >
-            Retour à l’accueil
+            {t("avantPremiere.backHome")}
           </Link>
         </p>
       </div>

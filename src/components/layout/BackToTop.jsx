@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ function scrollToTop() {
 }
 
 export function BackToTop() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export function BackToTop() {
             size="icon"
             onClick={handleClick}
             className="pointer-events-auto relative h-12 w-12 rounded-full border border-(--accent)/40 bg-primary p-0 text-accent shadow-[0_10px_36px_-12px_rgba(26,42,92,0.55),0_0_0_1px_rgba(247,183,49,0.12),0_0_28px_-12px_rgba(247,183,49,0.2)] transition-[transform,box-shadow,background-color,border-color,color] duration-300 hover:border-(--accent)/70 hover:bg-(--primary-light) hover:text-accent hover:shadow-[0_16px_44px_-14px_rgba(26,42,92,0.5),0_0_40px_-10px_rgba(247,183,49,0.35)] focus-visible:ring-2 focus-visible:ring-(--accent)/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
-            aria-label="Retour en haut de la page"
+            aria-label={t("backToTop.aria")}
           >
             <span
               className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-b from-white/12 to-transparent opacity-80"

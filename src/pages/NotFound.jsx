@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Home } from "lucide-react";
@@ -8,6 +9,7 @@ import { fadeUp } from "@/lib/motion-variants";
 import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -45,11 +47,10 @@ export default function NotFound() {
             404
           </p>
           <h1 className="font-heading text-2xl font-semibold text-foreground sm:text-3xl">
-            Page introuvable
+            {t("notFound.title")}
           </h1>
           <p className="max-w-md text-muted-foreground">
-            Cette adresse ne correspond à aucune page du site. Vérifiez l’URL ou
-            revenez à l’accueil.
+            {t("notFound.description")}
           </p>
         </motion.div>
         <motion.div
@@ -62,7 +63,7 @@ export default function NotFound() {
           <Button asChild variant="default" size="lg" className="gap-2">
             <Link to={ROUTES.HOME}>
               <Home className="size-4" aria-hidden />
-              Accueil
+              {t("notFound.home")}
             </Link>
           </Button>
           <Button
@@ -73,7 +74,7 @@ export default function NotFound() {
             onClick={() => navigate(-1)}
           >
             <ArrowLeft className="size-4" aria-hidden />
-            Page précédente
+            {t("notFound.back")}
           </Button>
         </motion.div>
       </div>

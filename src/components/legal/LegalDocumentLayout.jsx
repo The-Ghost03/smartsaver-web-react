@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { scaleIn, viewportOnce } from "@/lib/motion-variants";
 
-export function LegalDocumentLayout({ title, description, badge = "Document légal", children }) {
+export function LegalDocumentLayout({ title, description, badge, children }) {
+  const { t } = useTranslation();
+  const resolvedBadge = badge === undefined ? t("documentBadge") : badge;
   return (
     <section className="relative border-b bg-background pb-16 pt-24 md:pb-24 md:pt-28">
       <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-[0.35]" />
@@ -14,12 +17,12 @@ export function LegalDocumentLayout({ title, description, badge = "Document lég
           viewport={viewportOnce}
         >
           <header className="space-y-4 pb-10">
-            {badge ? (
+            {resolvedBadge ? (
               <Badge
                 variant="outline"
                 className="w-fit border-border/60 font-medium text-muted-foreground"
               >
-                {badge}
+                {resolvedBadge}
               </Badge>
             ) : null}
             <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-4xl">

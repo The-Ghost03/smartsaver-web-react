@@ -5,9 +5,10 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Download, Menu, PiggyBank, Quote, Users } from "lucide-react";
+import { Download, PiggyBank, Quote, Users } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { fadeUp } from "@/lib/motion-variants";
 import { Button } from "@/components/ui/button";
@@ -22,22 +23,6 @@ import {
 } from "@/components/ui/sheet";
 import { AlignLeftIcon } from "../ui/align-left";
 import { images } from "@/lib/images";
-
-const NAV_ITEMS = [
-  { sectionId: "tontine", href: "/#tontine", label: "Tontine", icon: Users },
-  {
-    sectionId: "epargne",
-    href: "/#epargne",
-    label: "Épargne",
-    icon: PiggyBank,
-  },
-  {
-    sectionId: "temoignages",
-    href: "/#temoignages",
-    label: "Témoignages",
-    icon: Quote,
-  },
-];
 
 /** Ligne de référence sous le header flottant (px depuis le haut du viewport) */
 const SECTION_SPY_OFFSET_PX = 96;
@@ -59,8 +44,32 @@ const iconInactiveClass =
 const iconActiveClass = "size-3.5 shrink-0 text-(--accent)";
 
 export default function Header() {
+  const { t } = useTranslation();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const navItems = useMemo(
+    () => [
+      {
+        sectionId: "tontine",
+        href: "/#tontine",
+        label: t("header.nav.tontine"),
+        icon: Users,
+      },
+      {
+        sectionId: "epargne",
+        href: "/#epargne",
+        label: t("header.nav.epargne"),
+        icon: PiggyBank,
+      },
+      {
+        sectionId: "temoignages",
+        href: "/#temoignages",
+        label: t("header.nav.temoignages"),
+        icon: Quote,
+      },
+    ],
+    [t]
+  );
   /** Incrémenté au scroll / resize / navigation pour recalculer la section active (DOM) */
   const [layoutTick, setLayoutTick] = useState(0);
 
@@ -76,14 +85,14 @@ export default function Header() {
     void location.hash;
     if (!isHome || typeof document === "undefined") return null;
     let current = null;
-    for (const item of NAV_ITEMS) {
+    for (const item of navItems) {
       const el = document.getElementById(item.sectionId);
       if (!el) continue;
       const { top } = el.getBoundingClientRect();
       if (top <= SECTION_SPY_OFFSET_PX) current = item.sectionId;
     }
     return current;
-  }, [isHome, layoutTick, location.pathname, location.hash]);
+  }, [isHome, layoutTick, location.pathname, location.hash, navItems]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -112,7 +121,7 @@ export default function Header() {
 
   const links = (
     <>
-      {NAV_ITEMS.map((item) => {
+      {navItems.map((item) => {
         const isActive = activeSectionId === item.sectionId;
         return (
           <a
@@ -172,7 +181,7 @@ export default function Header() {
                 variant="outline"
                 size="icon-sm"
                 className="border-border/60 bg-background/80 lg:hidden"
-                aria-label="Ouvrir le menu"
+                aria-label={t("header.openMenu")}
               >
                 <AlignLeftIcon />
               </Button>
@@ -185,15 +194,15 @@ export default function Header() {
               <div className="h-1 w-full shrink-0" aria-hidden />
               <SheetHeader className="space-y-1.5 border-b border-border/50 px-5 pb-4 pt-5 pr-14">
                 <SheetTitle className="font-heading text-xl font-semibold tracking-tight">
-                  Menu
+                  {t("header.menuTitle")}
                 </SheetTitle>
                 <SheetDescription className="text-[0.8125rem] leading-relaxed">
-                  Accédez aux sections et téléchargez l’application.
+                  {t("header.menuDescription")}
                 </SheetDescription>
               </SheetHeader>
 
               <nav className="flex flex-1 flex-col gap-2 px-4 py-5">
-                {NAV_ITEMS.map((item) => {
+                {navItems.map((item) => {
                   const isActive = activeSectionId === item.sectionId;
                   return (
                     <Button
@@ -235,7 +244,7 @@ export default function Header() {
 
               <SheetFooter className="mt-auto gap-3 border-t border-border/50 bg-muted/25 px-4 py-5">
                 <p className="text-center text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground">
-                  Application mobile
+                  {t("header.mobileApp")}
                 </p>
                 <Button
                   asChild
@@ -244,7 +253,7 @@ export default function Header() {
                 >
                   <Link to={ROUTES.AVANT_PREMIERE} className="gap-2">
                     <Download className="size-4 shrink-0" />
-                    Télécharger l&apos;app
+                    {t("header.downloadApp")}
                   </Link>
                 </Button>
               </SheetFooter>
@@ -259,8 +268,8 @@ export default function Header() {
             >
               <Link to={ROUTES.AVANT_PREMIERE} className="gap-2">
                 <Download className="size-4" />
-                <span className="hidden md:inline">Télécharger l&apos;app</span>
-                <span className="md:hidden">App</span>
+                <span className="hidden md:inline">{t("header.downloadApp")}</span>
+                <span className="md:hidden">{t("header.downloadShort")}</span>
               </Link>
             </Button>
           </motion.div>

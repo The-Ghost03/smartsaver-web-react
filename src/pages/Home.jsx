@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -43,50 +44,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "Fini les disputes sur la tontine : notifications à chaque ramassage, tout est clair.",
-    name: "Awa D.",
-    role: "Commerçante",
-    fallback: "A",
-    fallbackClass: "bg-[#f7b731] text-[var(--primary)]",
-  },
-  {
-    quote:
-      "L’épargne libre me convient : je dépose quand je peux et je récupère à la fin du sprint.",
-    name: "Kouamé Y.",
-    role: "Étudiant",
-    fallback: "K",
-    fallbackClass: "bg-[#1a2a5c]",
-  },
-  {
-    quote: "La validation des versements par l’admin rassure tout le groupe.",
-    name: "Marc E.",
-    role: "Entrepreneur",
-    fallback: "M",
-    fallbackClass: "bg-emerald-600",
-  },
-];
-
-function getInitialOsData() {
+function getOsCta(t) {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   if (/android/i.test(userAgent)) {
-    return {
-      text: "Télécharger pour Android",
-      isIos: false,
-    };
+    return { text: t("home.download.android"), isIos: false };
   }
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    return {
-      text: "Télécharger sur l’App Store",
-      isIos: true,
-    };
+    return { text: t("home.download.ios"), isIos: true };
   }
-  return {
-    text: "Obtenir l’app",
-    isIos: false,
-  };
+  return { text: t("home.download.default"), isIos: false };
 }
 
 function FeatureBullet({ children }) {
@@ -103,7 +69,14 @@ function FeatureBullet({ children }) {
   );
 }
 
-function TestimonialCard({ quote, name, role, fallback, fallbackClass }) {
+function TestimonialCard({
+  quote,
+  name,
+  role,
+  fallback,
+  fallbackClass,
+  starsLabel,
+}) {
   return (
     <Card className="group relative flex h-full min-h-0 w-full flex-col gap-0 overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-card via-card to-muted/30 py-0 shadow-md shadow-primary/[0.04] ring-1 ring-primary/[0.04] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/15 hover:shadow-lg hover:shadow-primary/[0.08]">
       {/* Guillemet décoratif arrière-plan */}
@@ -117,7 +90,7 @@ function TestimonialCard({ quote, name, role, fallback, fallbackClass }) {
           <div
             className="flex gap-0.5 text-[var(--accent)]"
             role="img"
-            aria-label="5 sur 5 étoiles"
+            aria-label={starsLabel}
           >
             {Array.from({ length: 5 }).map((_, i) => (
               <motion.span
@@ -178,7 +151,34 @@ function TestimonialCard({ quote, name, role, fallback, fallbackClass }) {
 }
 
 export default function Home() {
-  const [osData] = useState(getInitialOsData);
+  const { t } = useTranslation();
+  const osData = useMemo(() => getOsCta(t), [t]);
+  const testimonials = useMemo(
+    () => [
+      {
+        quote: t("home.testimonial1.quote"),
+        name: t("home.testimonial1.name"),
+        role: t("home.testimonial1.role"),
+        fallback: "A",
+        fallbackClass: "bg-[#f7b731] text-[var(--primary)]",
+      },
+      {
+        quote: t("home.testimonial2.quote"),
+        name: t("home.testimonial2.name"),
+        role: t("home.testimonial2.role"),
+        fallback: "K",
+        fallbackClass: "bg-[#1a2a5c]",
+      },
+      {
+        quote: t("home.testimonial3.quote"),
+        name: t("home.testimonial3.name"),
+        role: t("home.testimonial3.role"),
+        fallback: "M",
+        fallbackClass: "bg-emerald-600",
+      },
+    ],
+    [t]
+  );
 
   return (
     <>
@@ -226,14 +226,14 @@ export default function Home() {
                 variant="outline"
                 className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm"
               >
-                Application mobile
+                {t("home.hero.badge")}
               </Badge>
             </motion.div>
             <motion.h1
               variants={fadeUp}
               className="text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl md:leading-[1.08]"
             >
-              Gérez votre argent,{" "}
+              {t("home.hero.line1")}{" "}
               <motion.span
                 className="inline-block bg-gradient-to-r from-[var(--accent)] to-amber-300 bg-clip-text text-transparent"
                 initial={{ opacity: 0, x: -8 }}
@@ -244,15 +244,14 @@ export default function Home() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                simplement.
+                {t("home.titleHighlight")}
               </motion.span>
             </motion.h1>
             <motion.p
               variants={fadeUp}
               className="max-w-lg text-base leading-relaxed text-primary-foreground/80 md:text-xl"
             >
-              Tontines sécurisées et épargne flexible. Téléchargez SmartSaver et
-              gardez le contrôle de vos finances.
+              {t("home.hero.subtitle")}
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
               <motion.div
@@ -285,8 +284,8 @@ export default function Home() {
                   size="lg"
                   className="rounded-full border-primary-foreground/35 bg-primary-foreground/5 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/15"
                 >
-                  <a href="#tontine" className="gap-2">
-                    Découvrir
+                    <a href="#tontine" className="gap-2">
+                    {t("home.hero.discover")}
                     <ArrowRight
                       className="size-4 shrink-0"
                       strokeWidth={2.25}
@@ -319,7 +318,7 @@ export default function Home() {
                 <div className="aspect-[9/19] w-[min(100%,280px)] overflow-hidden md:w-[300px]">
                   <img
                     src="/src/assets/image_411d1e.jpg"
-                    alt="Aperçu de l’application SmartSaver"
+                    alt={t("home.hero.imgAlt")}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -347,38 +346,42 @@ export default function Home() {
           >
             <motion.div variants={fadeUp}>
               <Badge variant="secondary" className="font-medium">
-                Tontine
+                {t("home.tontine.badge")}
               </Badge>
             </motion.div>
             <motion.h2
               variants={fadeUp}
               className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
             >
-              La force du collectif pour vos projets.
+              {t("home.tontine.heading")}
             </motion.h2>
             <motion.p
               variants={fadeUp}
               className="text-muted-foreground md:text-lg"
             >
-              Cotisations régulières, ramassages transparents et notifications à
-              chaque étape — le principe de la tontine, version numérique.
+              {t("home.tontine.description")}
             </motion.p>
             <motion.ul
               className="space-y-4 pt-2 text-left"
               variants={listContainer}
             >
               <FeatureBullet>
-                <strong className="text-foreground">Gains réguliers</strong> —
-                Chaque cycle, un participant reçoit la cagnotte selon les règles
-                du groupe.
+                <strong className="text-foreground">
+                  {t("home.tontine.f1")}
+                </strong>{" "}
+                {t("home.tontine.f1Text")}
               </FeatureBullet>
               <FeatureBullet>
-                <strong className="text-foreground">Équité</strong> — Tours de
-                ramassage clairs pour tous les membres.
+                <strong className="text-foreground">
+                  {t("home.tontine.f2")}
+                </strong>{" "}
+                {t("home.tontine.f2Text")}
               </FeatureBullet>
               <FeatureBullet>
-                <strong className="text-foreground">Transparence</strong> —
-                Suivi et alertes sur chaque versement.
+                <strong className="text-foreground">
+                  {t("home.tontine.f3")}
+                </strong>{" "}
+                {t("home.tontine.f3Text")}
               </FeatureBullet>
             </motion.ul>
           </motion.div>
@@ -397,14 +400,14 @@ export default function Home() {
                     variant="outline"
                     className="border-(--accent)/35 bg-(--accent)/10 text-[0.65rem] font-semibold uppercase tracking-wider text-(--accent)"
                   >
-                    Exemple
+                    {t("home.tontine.exampleBadge")}
                   </Badge>
                   <CardTitle className="font-heading text-lg tracking-tight">
-                    Tontine 1&nbsp;000&nbsp;F
+                    {t("home.tontine.cardTitle")}
                   </CardTitle>
                 </div>
                 <CardDescription className="text-muted-foreground">
-                  10 participants · 50&nbsp;000 FCFA par ramassage
+                  {t("home.tontine.cardDesc")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pt-0">
@@ -421,7 +424,7 @@ export default function Home() {
                   />
                 </motion.div>
                 <div className="flex items-center justify-between gap-4 rounded-lg bg-muted/50 px-3 py-2 text-xs font-medium text-muted-foreground">
-                  <span>10 participants</span>
+                  <span>{t("home.tontine.row10")}</span>
                   <span className="tabular-nums">50&nbsp;000 FCFA</span>
                 </div>
               </CardContent>
@@ -430,14 +433,14 @@ export default function Home() {
 
               <CardHeader className="space-y-1 pb-2 pt-5">
                 <CardTitle className="font-heading text-sm font-semibold tracking-tight">
-                  Ordre du ramassage
+                  {t("home.tontine.orderTitle")}
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Exemple de tour — chacun reçoit la cagnotte à son rang.
+                  {t("home.tontine.orderDesc")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2 pt-0 pb-4">
-                <ul className="space-y-2" aria-label="Ordre fictif du tour">
+                <ul className="space-y-2" aria-label={t("home.tontine.orderDesc")}>
                   <li className="flex items-center justify-between gap-3 rounded-lg border border-border/50 bg-muted/25 px-3 py-2 text-sm">
                     <span className="flex items-center gap-2.5 min-w-0">
                       <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
@@ -449,7 +452,7 @@ export default function Home() {
                     </span>
                     <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                       <Check className="size-3.5" aria-hidden />
-                      Reçu
+                      {t("home.tontine.received")}
                     </span>
                   </li>
                   <li className="flex items-center justify-between gap-3 rounded-lg border border-(--accent)/30 bg-(--accent)/8 px-3 py-2 text-sm ring-1 ring-(--accent)/15">
@@ -465,7 +468,7 @@ export default function Home() {
                       variant="secondary"
                       className="shrink-0 border-(--accent)/25 bg-(--accent)/15 text-[0.65rem] text-(--accent)"
                     >
-                      En cours
+                      {t("home.tontine.inProgress")}
                     </Badge>
                   </li>
                   <li className="flex items-center justify-between gap-3 rounded-lg border border-border/50 bg-muted/25 px-3 py-2 text-sm">
@@ -478,11 +481,11 @@ export default function Home() {
                       </span>
                     </span>
                     <span className="shrink-0 text-xs text-muted-foreground">
-                      À venir
+                      {t("home.tontine.upcoming")}
                     </span>
                   </li>
                   <li className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-border/60 bg-muted/15 px-3 py-2 text-xs text-muted-foreground">
-                    + 7 autres membres dans la file
+                    {t("home.tontine.moreMembers")}
                   </li>
                 </ul>
               </CardContent>
@@ -495,10 +498,10 @@ export default function Home() {
                     aria-hidden
                   />
                   <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
-                    Prochain
+                    {t("home.tontine.next")}
                   </span>
                   <span className="text-xs font-semibold tabular-nums text-foreground">
-                    15 févr.
+                    {t("home.tontine.nextDate")}
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
@@ -508,10 +511,10 @@ export default function Home() {
                     aria-hidden
                   />
                   <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
-                    Cycle
+                    {t("home.tontine.cycle")}
                   </span>
                   <span className="text-xs font-semibold tabular-nums text-foreground">
-                    3&nbsp;/&nbsp;10
+                    {t("home.tontine.cycleVal")}
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
@@ -521,10 +524,10 @@ export default function Home() {
                     aria-hidden
                   />
                   <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
-                    Cotisation
+                    {t("home.tontine.contribution")}
                   </span>
                   <span className="text-xs font-semibold tabular-nums text-foreground">
-                    5&nbsp;000&nbsp;F
+                    {t("home.tontine.contribVal")}
                   </span>
                 </div>
               </div>
@@ -537,7 +540,7 @@ export default function Home() {
               viewport={viewportOnce}
               className="text-center text-xs text-muted-foreground lg:text-left"
             >
-              Interface illustrative — les montants et dates sont fictifs.
+              {t("home.tontine.note")}
             </motion.p>
           </motion.div>
         </div>
@@ -569,26 +572,26 @@ export default function Home() {
                 <CardHeader className="relative z-10 space-y-2 pb-2">
                   <div className="flex items-center justify-between gap-2">
                     <CardTitle className="font-heading text-lg tracking-tight text-(--accent)">
-                      Mon épargne
+                      {t("home.epargne.cardTitle")}
                     </CardTitle>
                     <Badge
                       variant="outline"
                       className="border-(--accent)/50 bg-(--accent)/20 px-2 py-0.5 text-[0.65rem] font-semibold text-(--accent)"
                     >
-                      ✓ Objectif atteint
+                      {t("home.epargne.cardBadge")}
                     </Badge>
                   </div>
                   <CardDescription className="text-primary-foreground/65">
-                    Sprint terminé
+                    {t("home.epargne.cardSprint")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10 space-y-3 pb-8 pt-4 text-center">
                   <p className="font-heading text-4xl font-bold tabular-nums tracking-tight text-primary-foreground md:text-5xl md:tracking-tighter">
-                    30&nbsp;000 FCFA
+                    {t("home.epargne.amount")}
                   </p>
                   <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm font-semibold text-primary-foreground/90">
                     <span className="size-2 rounded-full bg-(--accent)" />
-                    100&nbsp;%
+                    {t("home.epargne.cardFooter")}
                   </div>
                 </CardContent>
               </Card>
@@ -604,37 +607,42 @@ export default function Home() {
           >
             <motion.div variants={fadeUp}>
               <Badge variant="outline" className="font-medium">
-                Épargne
+                {t("home.epargne.badge")}
               </Badge>
             </motion.div>
             <motion.h2
               variants={fadeUp}
               className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
             >
-              À votre rythme, sans pression.
+              {t("home.epargne.heading")}
             </motion.h2>
             <motion.p
               variants={fadeUp}
               className="text-muted-foreground md:text-lg"
             >
-              Montant fixe ou libre, organisation par sprints et frais de
-              retrait affichés clairement.
+              {t("home.epargne.description")}
             </motion.p>
             <motion.ul
               className="space-y-4 pt-2 text-left"
               variants={listContainer}
             >
               <FeatureBullet>
-                <strong className="text-foreground">Fixe ou libre</strong> —
-                Vous choisissez comment épargner.
+                <strong className="text-foreground">
+                  {t("home.epargne.f1")}
+                </strong>{" "}
+                {t("home.epargne.f1Text")}
               </FeatureBullet>
               <FeatureBullet>
-                <strong className="text-foreground">Sprints</strong> — Cycles
-                avec possibilité de retrait en fin de période.
+                <strong className="text-foreground">
+                  {t("home.epargne.f2")}
+                </strong>{" "}
+                {t("home.epargne.f2Text")}
               </FeatureBullet>
               <FeatureBullet>
-                <strong className="text-foreground">Frais clairs</strong> — Pas
-                de mauvaise surprise au déblocage.
+                <strong className="text-foreground">
+                  {t("home.epargne.f3")}
+                </strong>{" "}
+                {t("home.epargne.f3Text")}
               </FeatureBullet>
             </motion.ul>
           </motion.div>
@@ -656,10 +664,10 @@ export default function Home() {
             viewport={viewportOnce}
           >
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              Ils nous font confiance
+              {t("home.testimonials.heading")}
             </h2>
             <p className="mt-3 text-muted-foreground md:text-lg">
-              Retours d’utilisateurs SmartSaver.
+              {t("home.testimonials.sub")}
             </p>
           </motion.div>
 
@@ -678,18 +686,19 @@ export default function Home() {
               className="w-full"
             >
               <CarouselContent className="-ml-3 md:-ml-4">
-                {TESTIMONIALS.map((t) => (
+                {testimonials.map((x) => (
                   <CarouselItem
-                    key={t.name}
+                    key={x.name}
                     className="basis-full pl-3 sm:basis-1/2 md:pl-4 lg:basis-1/3"
                   >
                     <div className="flex h-full min-h-0 min-w-0 max-w-md mx-auto py-1">
                       <TestimonialCard
-                        quote={t.quote}
-                        name={t.name}
-                        role={t.role}
-                        fallback={t.fallback}
-                        fallbackClass={t.fallbackClass}
+                        quote={x.quote}
+                        name={x.name}
+                        role={x.role}
+                        fallback={x.fallback}
+                        fallbackClass={x.fallbackClass}
+                        starsLabel={t("common.stars5")}
                       />
                     </div>
                   </CarouselItem>
@@ -740,17 +749,16 @@ export default function Home() {
                   variants={fadeUp}
                   className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight md:text-4xl"
                 >
-                  Prêt à{" "}
+                  {t("home.downloadSection.cta1")}{" "}
                   <span className="bg-linear-to-r from-(--accent) to-amber-200 bg-clip-text text-transparent">
-                    commencer ?
+                    {t("home.downloadSection.cta2")}
                   </span>
                 </motion.h2>
                 <motion.p
                   variants={fadeUp}
                   className="mx-auto max-w-lg text-base leading-relaxed text-primary-foreground/78 md:mx-0 md:text-lg"
                 >
-                  Installez SmartSaver, créez votre espace et pilotez tontines &
-                  épargne depuis votre téléphone — simple, clair, sécurisé.
+                  {t("home.downloadSection.sub")}
                 </motion.p>
                 <motion.ul
                   variants={fadeUp}
@@ -762,7 +770,7 @@ export default function Home() {
                       strokeWidth={2}
                       aria-hidden
                     />
-                    Données protégées
+                    {t("home.downloadSection.li1")}
                   </li>
                   <li className="flex items-center gap-2">
                     <Smartphone
@@ -770,7 +778,7 @@ export default function Home() {
                       strokeWidth={2}
                       aria-hidden
                     />
-                    iOS & Android
+                    {t("home.downloadSection.li2")}
                   </li>
                 </motion.ul>
                 <motion.div
@@ -792,7 +800,7 @@ export default function Home() {
                         className="gap-2"
                       >
                         <Download className="size-4" />
-                        Télécharger SmartSaver
+                        {t("home.downloadSection.btn")}
                       </Link>
                     </Button>
                   </motion.div>
@@ -801,11 +809,10 @@ export default function Home() {
                   <motion.div variants={fadeUp} className="pt-1">
                     <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-left text-xs leading-relaxed text-primary-foreground/70 backdrop-blur-sm md:text-[0.8125rem]">
                       <span className="font-medium text-primary-foreground/85">
-                        Installation APK
+                        {t("home.downloadSection.apkTitle")}
                       </span>
                       <span className="mt-1 block text-primary-foreground/65">
-                        Autorisez l’installation depuis des sources inconnues si
-                        votre appareil vous le demande.
+                        {t("home.downloadSection.apkText")}
                       </span>
                     </div>
                   </motion.div>

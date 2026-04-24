@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
@@ -37,6 +38,7 @@ function LegalNavLink({ to, onClick, children }) {
 }
 
 export default function Footer() {
+  const { t } = useTranslation();
   const scrollToTop = () => window.scrollTo(0, 0);
 
   return (
@@ -61,13 +63,14 @@ export default function Footer() {
               <img src={images.logo} alt="SmartSaver" className="h-16 w-fit" />
             </a>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-              La plateforme pour gérer vos tontines et votre épargne, simplement
-              et en toute sécurité.
+              {t("footer.blurb")}
             </p>
           </motion.div>
 
           <motion.div className="space-y-4" variants={fadeUp}>
-            <h4 className="text-sm font-semibold text-foreground">Contact</h4>
+            <h4 className="text-sm font-semibold text-foreground">
+              {t("footer.contact")}
+            </h4>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-center gap-3">
                 <Mail className="size-4 shrink-0 text-[var(--accent)]" />
@@ -89,27 +92,29 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="size-4 shrink-0 text-[var(--accent)]" />
-                <span>Abidjan, Côte d&apos;Ivoire</span>
+                <span>{t("footer.location")}</span>
               </li>
             </ul>
           </motion.div>
 
           <motion.div className="space-y-4 md:text-right" variants={fadeUp}>
-            <h4 className="text-sm font-semibold text-foreground">Légal</h4>
+            <h4 className="text-sm font-semibold text-foreground">
+              {t("footer.legal")}
+            </h4>
             <ul className="flex flex-col gap-2 text-sm md:items-end">
               <li>
                 <LegalNavLink to={ROUTES.CGU} onClick={scrollToTop}>
-                  Conditions d&apos;utilisation
+                  {t("footer.cgu")}
                 </LegalNavLink>
               </li>
               <li>
                 <LegalNavLink to={ROUTES.PRIVACY} onClick={scrollToTop}>
-                  Confidentialité
+                  {t("footer.privacy")}
                 </LegalNavLink>
               </li>
               <li>
                 <LegalNavLink to={ROUTES.LEGAL} onClick={scrollToTop}>
-                  Mentions légales
+                  {t("footer.mentions")}
                 </LegalNavLink>
               </li>
             </ul>
@@ -125,9 +130,9 @@ export default function Footer() {
           transition={{ delay: 0.1, duration: 0.4 }}
           className="flex flex-col items-center justify-between gap-4 text-center text-xs text-muted-foreground sm:flex-row sm:text-left"
         >
-          <p>© 2026 SmartSaver. Tous droits réservés.</p>
+          <p>{t("footer.copyright")}</p>
           <p>
-            Design{" "}
+            {t("footer.designBy")}{" "}
             <a
               href="https://softskills.ci/"
               className="underline-offset-4 hover:underline"
