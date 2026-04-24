@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -19,6 +19,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+
+/** Local midnight — launch / availability date for the avant-première countdown. */
+const AVANT_PREMIERE_END = new Date(2026, 4, 8, 0, 0, 0, 0);
 
 function useCountdown(target) {
   const [parts, setParts] = useState(() => getParts(target));
@@ -63,14 +66,7 @@ function CountdownBlock({ value, label }) {
 
 export default function AvantPremiere() {
   const { t } = useTranslation();
-  const endDate = useMemo(() => {
-    const d = new Date();
-    d.setDate(d.getDate() + 14);
-    d.setHours(0, 0, 0, 0);
-    return d;
-  }, []);
-
-  const { days, hours, minutes, seconds, ended } = useCountdown(endDate);
+  const { days, hours, minutes, seconds, ended } = useCountdown(AVANT_PREMIERE_END);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
