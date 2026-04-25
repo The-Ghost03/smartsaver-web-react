@@ -1,45 +1,13 @@
 /**
- * Petit serveur d’enregistrement (emails + téléphones) pour l’avant-première.
- * Fichiers : data/emails.json, data/phones.json (lignes d’objets, dédup par valeur).
- *
+ * API HTTP d’enregistrement (prod / dev:all en parallèle de Vite).
  * Démarrage : pnpm run api
- * En dev : pnpm run dev:all (API + Vite) ou 2 terminaux.
- * En production : reverse-proxy /api → ce service (même hôte) ou le port indiqué.
+ * En local simple : pnpm dev (API intégrée au serveur Vite) suffit.
  */
 import http from "node:http";
-import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, "..");
-const DATA_DIR = path.join(ROOT, "data");
-const EMAILS_FILE = path.join(DATA_DIR, "emails.json");
-const PHONES_FILE = path.join(DATA_DIR, "phones.json");
+import { ensureDataFiles, processNotifyPayload } from "./notify-api.mjs";
 
 const PORT = Number(process.env.NOTIFY_PORT || 3001);
 const MAX_BODY = 8 * 1024;
-
-async function ensureDataFiles() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  for (const f of [EMAILS_FILE, PHONES_FILE]) {
-    try {
-      await fs.access(f);
-    } catch {
-      await fs.writeFile(f, "[]\n", "utf8");
-    }
-  }
-}
-
-async function readJsonList(file) {
-  const raw = await fs.readFile(file, "utf8");
-  const p = JSON.parse(raw);
-  return Array.isArray(p) ? p : [];
-}
-
-async function writeJsonList(file, list) {
-  await fs.writeFile(file, `${JSON.stringify(list, null, 2)}\n`, "utf8");
-}
 
 function sendJson(res, status, body, cors) {
   const h = { "Content-Type": "application/json; charset=utf-8" };
@@ -90,37 +58,10 @@ const server = http.createServer((req, res) => {
       return sendJson(res, 400, { error: "invalid_json" }, true);
     }
 
-    const email = typeof data.email === "string" ? data.email.trim() : "";
-    const phone = typeof data.phone === "string" ? data.phone.replace(/\s/g, "").trim() : "";
-
-    if (!email && !phone) {
-      return sendJson(res, 400, { error: "empty" }, true);
+    const out = await processNotifyPayload(data);
+    if (!out.ok) {
+      return sendJson(res, out.status, { error: out.error }, true);
     }
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return sendJson(res, 400, { error: "invalid_email" }, true);
-    }
-    if (phone && phone.length < 8) {
-      return sendJson(res, 400, { error: "invalid_phone" }, true);
-    }
-
-    await ensureDataFiles();
-    const at = new Date().toISOString();
-
-    if (email) {
-      const list = await readJsonList(EMAILS_FILE);
-      if (!list.some((e) => e.email && e.email.toLowerCase() === email.toLowerCase())) {
-        list.push({ email, at });
-        await writeJsonList(EMAILS_FILE, list);
-      }
-    }
-    if (phone) {
-      const list = await readJsonList(PHONES_FILE);
-      if (!list.some((e) => e.phone === phone)) {
-        list.push({ phone, at });
-        await writeJsonList(PHONES_FILE, list);
-      }
-    }
-
     return sendJson(res, 200, { ok: true }, true);
   })().catch((err) => {
     console.error(err);

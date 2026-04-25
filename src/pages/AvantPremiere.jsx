@@ -108,10 +108,26 @@ export default function AvantPremiere() {
         }),
       });
       if (!res.ok) {
-        toast.error(t("avantPremiere.toastErrorTitle"), {
-          id: toastId,
-          description: t("avantPremiere.toastErrorDesc"),
-        });
+        const body = await res.json().catch(() => ({}));
+        const err = body?.error;
+        const isDup = err === "duplicate_email" || err === "duplicate_phone";
+        toast.error(
+          t(
+            isDup
+              ? "avantPremiere.toastErrDuplicateTitle"
+              : "avantPremiere.toastErrorTitle",
+          ),
+          {
+            id: toastId,
+            description: isDup
+              ? t(
+                  err === "duplicate_email"
+                    ? "avantPremiere.toastErrDuplicateDescEmail"
+                    : "avantPremiere.toastErrDuplicateDescPhone",
+                )
+              : t("avantPremiere.toastErrorDesc"),
+          },
+        );
         return;
       }
       toast.success(t("avantPremiere.toastSuccessTitle"), {

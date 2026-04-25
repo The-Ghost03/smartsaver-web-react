@@ -1,6 +1,9 @@
 /**
- * Base URL de l’API (optionnel). Ex. en prod : VITE_API_BASE_URL=https://ton-domaine.com
- * Si absent, requêtes same-origin : /api/avant-premiere (proxy Nginx → notify-server).
+ * Base URL de l’API (optionnel). Ex. prod : VITE_API_BASE_URL=https://ton-domaine.com
+ * Si absent : `fetch("/api/avant-premiere")` — en local, le plugin Vite écrit dans `data/`;
+ * en production, Nginx (ou autre) doit rediriger /api vers `node server/notify-server.mjs`.
+ * Si tu définis VITE_API_BASE_URL, les fichiers JSON ne sont plus créés sur ta machine
+ * (la requête part vers ce domaine).
  */
 export function getAvantPremiereNotifyUrl() {
   const base = import.meta.env.VITE_API_BASE_URL;
