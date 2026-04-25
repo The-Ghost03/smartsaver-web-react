@@ -2,9 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Bell, CheckCircle2, Clock, Smartphone } from "lucide-react";
+import { Bell, CheckCircle2, Clock, Loader2, Smartphone } from "lucide-react";
+import { toast } from "sonner";
 import { ROUTES } from "@/constants/routes";
 import { PAGE_WIDE } from "@/constants/layout";
+import { getAvantPremiereNotifyUrl } from "@/lib/notify";
 import { fadeUp, listContainer } from "@/lib/motion-variants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -73,7 +75,7 @@ export default function AvantPremiere() {
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     const em = email.trim();
@@ -93,12 +95,40 @@ export default function AvantPremiere() {
     }
 
     setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
+    const toastId = toast.loading(t("avantPremiere.toastLoadingTitle"), {
+      description: t("avantPremiere.toastLoadingDesc"),
+    });
+    try {
+      const res = await fetch(getAvantPremiereNotifyUrl(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...(em ? { email: em } : {}),
+          ...(ph ? { phone: ph } : {}),
+        }),
+      });
+      if (!res.ok) {
+        toast.error(t("avantPremiere.toastErrorTitle"), {
+          id: toastId,
+          description: t("avantPremiere.toastErrorDesc"),
+        });
+        return;
+      }
+      toast.success(t("avantPremiere.toastSuccessTitle"), {
+        id: toastId,
+        description: t("avantPremiere.toastSuccessDesc"),
+      });
       setSent(true);
       setEmail("");
       setPhone("");
-    }, 500);
+    } catch {
+      toast.error(t("avantPremiere.toastErrorTitle"), {
+        id: toastId,
+        description: t("avantPremiere.toastErrorDesc"),
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -234,7 +264,12 @@ export default function AvantPremiere() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} className="space-y-4" noValidate>
+                <form
+                  onSubmit={onSubmit}
+                  className="space-y-4"
+                  noValidate
+                  aria-busy={submitting}
+                >
                   <div className="space-y-2">
                     <Label htmlFor="notify-email">
                       {t("avantPremiere.labelEmail")}
@@ -270,7 +305,14 @@ export default function AvantPremiere() {
                       placeholder={t("avantPremiere.placeholderPhone")}
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
+                      aria-describedby="notify-phone-hint"
                     />
+                    <p
+                      id="notify-phone-hint"
+                      className="text-xs text-muted-foreground"
+                    >
+                      {t("avantPremiere.whatsappHint")}
+                    </p>
                   </div>
                   {error ? (
                     <p className="text-sm text-destructive" role="alert">
@@ -280,12 +322,20 @@ export default function AvantPremiere() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full cursor-pointer rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_24px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] hover:bg-[var(--accent-hover)] hover:brightness-[1.03] disabled:opacity-60"
+                    className="w-full cursor-pointer gap-2 rounded-full bg-[var(--accent)] text-[var(--primary)] shadow-[0_0_24px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] hover:bg-[var(--accent-hover)] hover:brightness-[1.03] disabled:opacity-60"
                     disabled={submitting}
                   >
-                    {submitting
-                      ? t("avantPremiere.submitLoading")
-                      : t("avantPremiere.submit")}
+                    {submitting ? (
+                      <>
+                        <Loader2
+                          className="size-4 shrink-0 animate-spin"
+                          aria-hidden
+                        />
+                        {t("avantPremiere.submitLoading")}
+                      </>
+                    ) : (
+                      t("avantPremiere.submit")
+                    )}
                   </Button>
                 </form>
               )}

@@ -9,6 +9,10 @@ lerna-debug.log*
 
 node_modules
 dist
+
+# Données collectées côté serveur (e-mails / téléphones — PII)
+data/emails.json
+data/phones.json
 dist-ssr
 *.local
 
