@@ -16,6 +16,7 @@ import {
 import { PAGE_WIDE } from "@/constants/layout";
 import { ROUTES } from "@/constants/routes";
 import { heroMarketingFloaters } from "@/constants/marketing-floaters";
+import heroConnexionImg from "@/assets/connextion.webp";
 import {
   fadeUp,
   listContainer,
@@ -317,9 +318,10 @@ export default function Home() {
               <Card className="gap-0 overflow-hidden rounded-[2.5rem] border-[10px] border-white/10 bg-muted/90 p-0 py-0 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] ring-1 ring-white/20 backdrop-blur-sm">
                 <div className="aspect-[9/19] w-[min(100%,280px)] overflow-hidden md:w-[300px]">
                   <img
-                    src="/src/assets/image_411d1e.jpg"
+                    src={heroConnexionImg}
                     alt={t("home.hero.imgAlt")}
                     className="h-full w-full object-cover"
+                    decoding="async"
                   />
                 </div>
               </Card>
