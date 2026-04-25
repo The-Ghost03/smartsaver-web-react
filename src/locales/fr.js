@@ -99,6 +99,10 @@ export default {
     fr: "Français",
     en: "English",
     languageSwitch: "Choisir la langue de l’interface : français ou anglais",
+    frShort: "FR",
+    enShort: "EN",
+    pageLoading: "Chargement…",
+    pageLoadingAria: "La page est en cours de chargement",
     stars5: "5 sur 5 étoiles",
   },
   header: {
@@ -137,8 +141,7 @@ export default {
     badge: "Application mobile",
     pre: "Avant-",
     post: "première",
-    sub:
-      "L’application SmartSaver sera disponible le <0>01 mai 2026</0>. Soyez averti dès qu’elle est en ligne.",
+    sub: "L’application SmartSaver sera disponible le <0>01 mai 2026</0>. Soyez averti dès qu’elle est en ligne.",
     countdown: "Compte à rebours",
     countdownEnd: "C’est l’heure de télécharger SmartSaver.",
     countdownOn: "Temps restant avant le 01 mai 2026.",
@@ -181,18 +184,21 @@ export default {
     siteName: "SmartSaver",
     orgDescription:
       "Application mobile de tontines numériques et d’épargne en Côte d’Ivoire. Cotisations, ramassages, objectifs d’épargne.",
-    defaultTitle: "SmartSaver | Gérez votre argent, simplement et en toute sécurité",
+    defaultTitle:
+      "SmartSaver | Gérez votre argent, simplement et en toute sécurité",
     defaultDescription:
       "Tontines sécurisées, épargne à votre rythme, notifications à chaque étape. Téléchargez l’app SmartSaver — Abidjan, Côte d’Ivoire.",
     themeColor: "#0f1f3d",
     pages: {
       home: {
-        title: "SmartSaver | Tontine & épargne — l’appli simple pour gérer votre argent",
+        title:
+          "SmartSaver | Tontine & épargne — l’appli simple pour gérer votre argent",
         description:
           "Cotisez serein, suivez les ramassages et atteignez vos objectifs d’épargne. SmartSaver : tontine numérique, sécurisée, pensée pour la Côte d’Ivoire.",
       },
       avantPremiere: {
-        title: "Avant-première SmartSaver | Inscrivez-vous pour le lancement (01 mai 2026)",
+        title:
+          "Avant-première SmartSaver | Inscrivez-vous pour le lancement (01 mai 2026)",
         description:
           "L’application sort le 01 mai 2026. Inscrivez votre e-mail ou votre WhatsApp pour être prévenu du lien de téléchargement (iOS & Android).",
       },
