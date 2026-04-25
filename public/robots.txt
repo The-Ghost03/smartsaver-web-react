@@ -2,7 +2,4 @@
 User-agent: *
 Allow: /
 
-# Ne pas indexer les réponses d’API
-Disallow: /api/
-
 Sitemap: https://smartsaver.ci/sitemap.xml
