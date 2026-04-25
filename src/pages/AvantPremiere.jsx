@@ -6,7 +6,7 @@ import { Bell, CheckCircle2, Clock, Loader2, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { ROUTES } from "@/constants/routes";
 import { PAGE_WIDE } from "@/constants/layout";
-import { getAvantPremiereNotifyUrl } from "@/lib/notify";
+import { isEmailJsConfigured, sendAvantPremiereLead } from "@/lib/emailjs-notify";
 import { fadeUp, listContainer } from "@/lib/motion-variants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -99,36 +99,16 @@ export default function AvantPremiere() {
       description: t("avantPremiere.toastLoadingDesc"),
     });
     try {
-      const res = await fetch(getAvantPremiereNotifyUrl(), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...(em ? { email: em } : {}),
-          ...(ph ? { phone: ph } : {}),
-        }),
-      });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        const err = body?.error;
-        const isDup = err === "duplicate_email" || err === "duplicate_phone";
-        toast.error(
-          t(
-            isDup
-              ? "avantPremiere.toastErrDuplicateTitle"
-              : "avantPremiere.toastErrorTitle",
-          ),
-          {
-            id: toastId,
-            description: isDup
-              ? t(
-                  err === "duplicate_email"
-                    ? "avantPremiere.toastErrDuplicateDescEmail"
-                    : "avantPremiere.toastErrDuplicateDescPhone",
-                )
-              : t("avantPremiere.toastErrorDesc"),
-          },
-        );
+      if (!isEmailJsConfigured()) {
+        toast.error(t("avantPremiere.toastErrorTitle"), {
+          id: toastId,
+          description: t("avantPremiere.toastErrEmailJsConfig"),
+        });
         return;
+      }
+      const res = await sendAvantPremiereLead({ email: em, phone: ph });
+      if (res.status !== 200) {
+        throw new Error("EMAILJS_STATUS");
       }
       toast.success(t("avantPremiere.toastSuccessTitle"), {
         id: toastId,
@@ -137,11 +117,19 @@ export default function AvantPremiere() {
       setSent(true);
       setEmail("");
       setPhone("");
-    } catch {
-      toast.error(t("avantPremiere.toastErrorTitle"), {
-        id: toastId,
-        description: t("avantPremiere.toastErrorDesc"),
-      });
+    } catch (e) {
+      const code = e?.code || e?.message;
+      if (code === "EMAILJS_NOT_CONFIGURED") {
+        toast.error(t("avantPremiere.toastErrorTitle"), {
+          id: toastId,
+          description: t("avantPremiere.toastErrEmailJsConfig"),
+        });
+      } else {
+        toast.error(t("avantPremiere.toastErrorTitle"), {
+          id: toastId,
+          description: t("avantPremiere.toastErrorDesc"),
+        });
+      }
     } finally {
       setSubmitting(false);
     }

@@ -168,10 +168,9 @@ export default {
     toastSuccessDesc:
       "Nous vous recontacterons sur cet e-mail ou ce numéro WhatsApp au lancement.",
     toastErrorTitle: "Échec de l’envoi",
-    toastErrorDesc: "Le serveur n’a pas répondu. Vérifiez la connexion et réessayez.",
-    toastErrDuplicateTitle: "Déjà inscrit",
-    toastErrDuplicateDescEmail: "Cette adresse e-mail est déjà enregistrée.",
-    toastErrDuplicateDescPhone: "Ce numéro WhatsApp est déjà enregistré.",
+    toastErrorDesc: "L’envoi a échoué. Réessaie plus tard.",
+    toastErrEmailJsConfig:
+      "Configuration e-mail incomplète (fichier .env). Vérifie VITE_EMAILJS_TEMPLATE_ID et redémarre le serveur de dev.",
     submit: "M’avertir au lancement",
     submitLoading: "Envoi…",
     backHome: "Retour à l’accueil",

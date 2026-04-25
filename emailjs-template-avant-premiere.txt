@@ -1,0 +1,13 @@
+# Template e-mail Avant-première — design moderne (fluide, cartes, header)
+# ============================================================
+# 1) Prévisualisation : ouvre `emailjs-template-avant-premiere.html` dans le navigateur.
+# 2) EmailJS : colle le contenu ENTIER de `emailjs-fragment-for-dashboard.html`
+#    dans le champ « Contenu » du template (mode HTML).
+# 3) Sujet :  Nouvelle inscription — Avant-première SmartSaver
+# 4) Copie l’ID du template (template_xxx) → VITE_EMAILJS_TEMPLATE_ID dans .env
+#
+# Variables (ne pas renommer) : {{user_email}} {{user_phone}} {{source}} {{site}} {{submitted_at}}
+# ============================================================
+
+Sujet recommandé :
+Nouvelle inscription — Avant-première SmartSaver

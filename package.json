@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@fontsource-variable/geist": "^5.2.8",
     "@fontsource-variable/outfit": "^5.2.8",
     "@tailwindcss/vite": "^4.2.2",
