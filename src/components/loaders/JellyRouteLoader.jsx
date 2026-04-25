@@ -1,4 +1,5 @@
 import { createElement } from "react";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { jellyRouteFloaters } from "@/constants/marketing-floaters";
 import { images } from "@/lib/images";
@@ -8,12 +9,13 @@ import { images } from "@/lib/images";
  * Filtre SVG : id fixe — une seule instance visible à la fois.
  */
 export function JellyRouteLoader() {
+  const { t } = useTranslation();
   return (
     <div
       className="relative flex min-h-dvh w-full flex-col items-center justify-center gap-2 overflow-hidden bg-background px-4"
       role="status"
       aria-live="polite"
-      aria-label="Chargement de la page"
+      aria-label={t("common.pageLoadingAria")}
     >
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_20%,rgba(26,42,92,0.06),transparent)]" />
@@ -74,8 +76,8 @@ export function JellyRouteLoader() {
           <div className="ss-jelly-loader__dot" />
           <div className="ss-jelly-loader__dot" />
         </div>
-        <p className="text-sm text-center text-gray-500 animate-pulse">
-          CHARGEMENT...
+        <p className="text-sm text-center text-muted-foreground animate-pulse uppercase">
+          {t("common.pageLoading")}
         </p>
       </div>
     </div>

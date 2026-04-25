@@ -21,7 +21,8 @@ export default {
       description:
         "Regular contributions, clear payouts, and step‑by‑step updates — tontine, the digital way.",
       f1: "Regular benefits",
-      f1Text: "— Each round, one member gets the pot according to the group rules.",
+      f1Text:
+        "— Each round, one member gets the pot according to the group rules.",
       f2: "Fairness",
       f2Text: "— A clear order for who receives the payout and when.",
       f3: "Transparency",
@@ -52,8 +53,7 @@ export default {
       cardFooter: "100\u00a0%",
       badge: "Savings",
       heading: "At your pace, without pressure.",
-      description:
-        "Fixed or free amount, sprints, and clear withdrawal fees.",
+      description: "Fixed or free amount, sprints, and clear withdrawal fees.",
       f1: "Fixed or free",
       f1Text: "— You choose how to save.",
       f2: "Sprints",
@@ -97,8 +97,12 @@ export default {
   common: {
     fr: "Français",
     en: "English",
+    frShort: "FR",
+    enShort: "EN",
     languageSwitch: "Choose the interface language: French or English",
     stars5: "5 out of 5 stars",
+    pageLoading: "Loading…",
+    pageLoadingAria: "Page is loading",
   },
   header: {
     nav: {
@@ -152,7 +156,8 @@ export default {
     success: "Thanks! We’ll notify you on launch day.",
     labelEmail: "Email",
     labelPhone: "WhatsApp number",
-    whatsappHint: "Use the number as it appears on WhatsApp, with country code (e.g. +225).",
+    whatsappHint:
+      "Use the number as it appears on WhatsApp, with country code (e.g. +225).",
     or: "or",
     placeholderEmail: "you@example.com",
     placeholderPhone: "+225 07 … (WhatsApp)",
@@ -162,7 +167,8 @@ export default {
     toastLoadingTitle: "Saving",
     toastLoadingDesc: "Contacting the server…",
     toastSuccessTitle: "You’re on the list",
-    toastSuccessDesc: "We’ll use this email / WhatsApp number to reach you on launch day.",
+    toastSuccessDesc:
+      "We’ll use this email / WhatsApp number to reach you on launch day.",
     toastErrorTitle: "Couldn’t send",
     toastErrorDesc: "The request failed. Please try again later.",
     toastErrEmailJsConfig:
@@ -183,7 +189,8 @@ export default {
     themeColor: "#0f1f3d",
     pages: {
       home: {
-        title: "SmartSaver | Tontine & saving — the simple way to manage your money",
+        title:
+          "SmartSaver | Tontine & saving — the simple way to manage your money",
         description:
           "Contribute with confidence, track payouts, and hit your savings goals. SmartSaver: digital, secure, built for Côte d’Ivoire.",
       },
