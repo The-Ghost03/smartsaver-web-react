@@ -21,7 +21,8 @@ export default {
       description:
         "Regular contributions, clear payouts, and step‑by‑step updates — tontine, the digital way.",
       f1: "Regular benefits",
-      f1Text: "— Each round, one member gets the pot according to the group rules.",
+      f1Text:
+        "— Each round, one member gets the pot according to the group rules.",
       f2: "Fairness",
       f2Text: "— A clear order for who receives the payout and when.",
       f3: "Transparency",
@@ -52,8 +53,7 @@ export default {
       cardFooter: "100\u00a0%",
       badge: "Savings",
       heading: "At your pace, without pressure.",
-      description:
-        "Fixed or free amount, sprints, and clear withdrawal fees.",
+      description: "Fixed or free amount, sprints, and clear withdrawal fees.",
       f1: "Fixed or free",
       f1Text: "— You choose how to save.",
       f2: "Sprints",
@@ -136,12 +136,12 @@ export default {
     badge: "Mobile app",
     pre: "Early ",
     post: "access",
-    sub: "The SmartSaver app will be available on <0>May 8, 2026</0>. We’ll let you know as soon as it’s live.",
+    sub: "The SmartSaver app will be available on <0>May 1, 2026</0>. We’ll let you know as soon as it’s live.",
     countdown: "Countdown",
     countdownEnd: "It’s time to download SmartSaver.",
-    countdownOn: "Time left until May 8, 2026.",
+    countdownOn: "Time left until May 1, 2026.",
     countdownDone: "Open the home page for the download link.",
-    timerLabel: "Time remaining until May 8, 2026",
+    timerLabel: "Time remaining until May 1, 2026",
     days: "Days",
     hours: "Hours",
     minutes: "Minutes",
@@ -152,7 +152,8 @@ export default {
     success: "Thanks! We’ll notify you on launch day.",
     labelEmail: "Email",
     labelPhone: "WhatsApp number",
-    whatsappHint: "Use the number as it appears on WhatsApp, with country code (e.g. +225).",
+    whatsappHint:
+      "Use the number as it appears on WhatsApp, with country code (e.g. +225).",
     or: "or",
     placeholderEmail: "you@example.com",
     placeholderPhone: "+225 07 … (WhatsApp)",
@@ -162,7 +163,8 @@ export default {
     toastLoadingTitle: "Saving",
     toastLoadingDesc: "Contacting the server…",
     toastSuccessTitle: "You’re on the list",
-    toastSuccessDesc: "We’ll use this email / WhatsApp number to reach you on launch day.",
+    toastSuccessDesc:
+      "We’ll use this email / WhatsApp number to reach you on launch day.",
     toastErrorTitle: "Couldn’t send",
     toastErrorDesc: "The request failed. Please try again later.",
     toastErrEmailJsConfig:
@@ -183,14 +185,15 @@ export default {
     themeColor: "#0f1f3d",
     pages: {
       home: {
-        title: "SmartSaver | Tontine & saving — the simple way to manage your money",
+        title:
+          "SmartSaver | Tontine & saving — the simple way to manage your money",
         description:
           "Contribute with confidence, track payouts, and hit your savings goals. SmartSaver: digital, secure, built for Côte d’Ivoire.",
       },
       avantPremiere: {
-        title: "SmartSaver early access | Sign up for launch (8 May 2026)",
+        title: "SmartSaver early access | Sign up for launch (1 May 2026)",
         description:
-          "The app launches 8 May 2026. Leave your email or WhatsApp to get the iOS & Android download link on release day.",
+          "The app launches 1 May 2026. Leave your email or WhatsApp to get the iOS & Android download link on release day.",
       },
       cgu: {
         title: "Terms of use | SmartSaver",

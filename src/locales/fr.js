@@ -138,12 +138,12 @@ export default {
     pre: "Avant-",
     post: "première",
     sub:
-      "L’application SmartSaver sera disponible le <0>8 mai 2026</0>. Soyez averti dès qu’elle est en ligne.",
+      "L’application SmartSaver sera disponible le <0>01 mai 2026</0>. Soyez averti dès qu’elle est en ligne.",
     countdown: "Compte à rebours",
     countdownEnd: "C’est l’heure de télécharger SmartSaver.",
-    countdownOn: "Temps restant avant le 8 mai 2026.",
+    countdownOn: "Temps restant avant le 01 mai 2026.",
     countdownDone: "Ouvrez la page d’accueil pour le lien de téléchargement.",
-    timerLabel: "Temps restant avant le 8 mai 2026",
+    timerLabel: "Temps restant avant le 01 mai 2026",
     days: "Jours",
     hours: "Heures",
     minutes: "Minutes",
@@ -192,9 +192,9 @@ export default {
           "Cotisez serein, suivez les ramassages et atteignez vos objectifs d’épargne. SmartSaver : tontine numérique, sécurisée, pensée pour la Côte d’Ivoire.",
       },
       avantPremiere: {
-        title: "Avant-première SmartSaver | Inscrivez-vous pour le lancement (8 mai 2026)",
+        title: "Avant-première SmartSaver | Inscrivez-vous pour le lancement (01 mai 2026)",
         description:
-          "L’application sort le 8 mai 2026. Inscrivez votre e-mail ou votre WhatsApp pour être prévenu du lien de téléchargement (iOS & Android).",
+          "L’application sort le 01 mai 2026. Inscrivez votre e-mail ou votre WhatsApp pour être prévenu du lien de téléchargement (iOS & Android).",
       },
       cgu: {
         title: "Conditions d’utilisation (CGU) | SmartSaver",

@@ -6,7 +6,10 @@ import { Bell, CheckCircle2, Clock, Loader2, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { ROUTES } from "@/constants/routes";
 import { PAGE_WIDE } from "@/constants/layout";
-import { isEmailJsConfigured, sendAvantPremiereLead } from "@/lib/emailjs-notify";
+import {
+  isEmailJsConfigured,
+  sendAvantPremiereLead,
+} from "@/lib/emailjs-notify";
 import { fadeUp, listContainer } from "@/lib/motion-variants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,7 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 /** Local midnight — launch / availability date for the avant-première countdown. */
-const AVANT_PREMIERE_END = new Date(2026, 4, 8, 0, 0, 0, 0);
+const AVANT_PREMIERE_END = new Date(2026, 4, 1, 0, 0, 0, 0);
 
 function useCountdown(target) {
   const [parts, setParts] = useState(() => getParts(target));
@@ -68,7 +71,8 @@ function CountdownBlock({ value, label }) {
 
 export default function AvantPremiere() {
   const { t } = useTranslation();
-  const { days, hours, minutes, seconds, ended } = useCountdown(AVANT_PREMIERE_END);
+  const { days, hours, minutes, seconds, ended } =
+    useCountdown(AVANT_PREMIERE_END);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
@@ -177,10 +181,7 @@ export default function AvantPremiere() {
             <Trans
               i18nKey="avantPremiere.sub"
               components={[
-                <strong
-                  className="font-medium text-foreground"
-                  key="s0"
-                />,
+                <strong className="font-medium text-foreground" key="s0" />,
               ]}
             />
           </motion.p>
@@ -217,7 +218,10 @@ export default function AvantPremiere() {
                   role="timer"
                   aria-label={t("avantPremiere.timerLabel")}
                 >
-                  <CountdownBlock value={days} label={t("avantPremiere.days")} />
+                  <CountdownBlock
+                    value={days}
+                    label={t("avantPremiere.days")}
+                  />
                   <CountdownBlock
                     value={hours}
                     label={t("avantPremiere.hours")}
@@ -247,7 +251,9 @@ export default function AvantPremiere() {
               <div className="mb-0.5 flex size-9 items-center justify-center rounded-xl bg-(--accent)/15 text-(--accent)">
                 <Bell className="size-4" aria-hidden />
               </div>
-              <CardTitle className="text-lg">{t("avantPremiere.notify")}</CardTitle>
+              <CardTitle className="text-lg">
+                {t("avantPremiere.notify")}
+              </CardTitle>
               <CardDescription>
                 {t("avantPremiere.notifyDescription")}
               </CardDescription>
