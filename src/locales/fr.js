@@ -178,6 +178,48 @@ export default {
   },
   backToTop: { aria: "Retour en haut de la page" },
   documentBadge: "Document légal",
+  seo: {
+    siteName: "SmartSaver",
+    orgDescription:
+      "Application mobile de tontines numériques et d’épargne en Côte d’Ivoire. Cotisations, ramassages, objectifs d’épargne.",
+    defaultTitle: "SmartSaver | Gérez votre argent, simplement et en toute sécurité",
+    defaultDescription:
+      "Tontines sécurisées, épargne à votre rythme, notifications à chaque étape. Téléchargez l’app SmartSaver — Abidjan, Côte d’Ivoire.",
+    themeColor: "#0f1f3d",
+    pages: {
+      home: {
+        title: "SmartSaver | Tontine & épargne — l’appli simple pour gérer votre argent",
+        description:
+          "Cotisez serein, suivez les ramassages et atteignez vos objectifs d’épargne. SmartSaver : tontine numérique, sécurisée, pensée pour la Côte d’Ivoire.",
+      },
+      avantPremiere: {
+        title: "Avant-première SmartSaver | Inscrivez-vous pour le lancement (8 mai 2026)",
+        description:
+          "L’application sort le 8 mai 2026. Inscrivez votre e-mail ou votre WhatsApp pour être prévenu du lien de téléchargement (iOS & Android).",
+      },
+      cgu: {
+        title: "Conditions d’utilisation (CGU) | SmartSaver",
+        description:
+          "Règles d’utilisation du site et de l’app SmartSaver : tontine, épargne, vérification d’identité, frais, suspension de compte.",
+      },
+      policy: {
+        title: "Politique de confidentialité | SmartSaver",
+        description:
+          "Quelles données nous collectons, pourquoi, et comment exercer vos droits sur l’appli et le site SmartSaver (Côte d’Ivoire).",
+      },
+      legal: {
+        title: "Mentions légales | SmartSaver",
+        description:
+          "Éditeur, contact, hébergement et droits d’auteur — informations légales sur smartsaver.ci et l’app SmartSaver.",
+      },
+      notFound: {
+        title: "Page introuvable | SmartSaver",
+        description:
+          "Aucun contenu à cette adresse. Revenez à l’accueil ou corrigez l’URL. SmartSaver, Côte d’Ivoire.",
+        robots: "noindex, follow",
+      },
+    },
+  },
   legal: {
     cgu: {
       badge: "CGU",

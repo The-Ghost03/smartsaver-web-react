@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { SeoHead } from "@/components/SeoHead";
 import { PointerRibbonLines } from "@/components/effects/PointerRibbonLines";
 import {
   BackToTop,
@@ -11,6 +12,7 @@ import {
 export default function MainLayout() {
   return (
     <div className="relative flex min-h-screen flex-col">
+      <SeoHead />
       <ScrollToTop />
       <PointerRibbonLines />
       <Header />

@@ -174,6 +174,48 @@ export default {
   },
   backToTop: { aria: "Back to top of the page" },
   documentBadge: "Legal",
+  seo: {
+    siteName: "SmartSaver",
+    orgDescription:
+      "Mobile app for digital tontine groups and flexible saving in Côte d’Ivoire—contributions, payouts, and savings goals.",
+    defaultTitle: "SmartSaver | Take charge of your money, simply and safely",
+    defaultDescription:
+      "Secure tontines, save at your own pace, clear notifications at every step. Download the SmartSaver app—Abidjan, Côte d’Ivoire.",
+    themeColor: "#0f1f3d",
+    pages: {
+      home: {
+        title: "SmartSaver | Tontine & saving — the simple way to manage your money",
+        description:
+          "Contribute with confidence, track payouts, and hit your savings goals. SmartSaver: digital, secure, built for Côte d’Ivoire.",
+      },
+      avantPremiere: {
+        title: "SmartSaver early access | Sign up for launch (8 May 2026)",
+        description:
+          "The app launches 8 May 2026. Leave your email or WhatsApp to get the iOS & Android download link on release day.",
+      },
+      cgu: {
+        title: "Terms of use | SmartSaver",
+        description:
+          "Rules for using the SmartSaver website and app: tontine, saving, identity checks, fees, and account enforcement.",
+      },
+      policy: {
+        title: "Privacy policy | SmartSaver",
+        description:
+          "What we collect, why, and how to exercise your rights on the SmartSaver app and website (Côte d’Ivoire).",
+      },
+      legal: {
+        title: "Legal notice | SmartSaver",
+        description:
+          "Publisher, contact, hosting, and copyright—legal information for smartsaver.ci and the SmartSaver app.",
+      },
+      notFound: {
+        title: "Page not found | SmartSaver",
+        description:
+          "Nothing at this address. Return home or check the URL. SmartSaver, Côte d’Ivoire.",
+        robots: "noindex, follow",
+      },
+    },
+  },
   legal: {
     cgu: {
       badge: "Terms",
