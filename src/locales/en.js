@@ -97,8 +97,12 @@ export default {
   common: {
     fr: "Français",
     en: "English",
+    frShort: "FR",
+    enShort: "EN",
     languageSwitch: "Choose the interface language: French or English",
     stars5: "5 out of 5 stars",
+    pageLoading: "Loading…",
+    pageLoadingAria: "Page is loading",
   },
   header: {
     nav: {
