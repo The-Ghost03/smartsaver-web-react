@@ -5,6 +5,21 @@ export default {
       eyebrow: "Tontine & épargne · Côte d’Ivoire",
       line1: "Gérez votre argent,",
       highlight: "simplement.",
+      note: "iOS & Android · Données protégées",
+      steps: {
+        label: "Parcours dans l’application",
+        s1: "Cotiser",
+        s2: "Suivre",
+        s3: "Recevoir",
+      },
+      screens: {
+        week: "Cotisation de la semaine",
+        due: "Échéance",
+        members: "Membres",
+        pay: "Payer ma cotisation",
+        received: "Ramassage reçu",
+        notified: "Tous les membres sont notifiés",
+      },
       subtitle:
         "Tontines sécurisées et épargne flexible, réunies dans une seule application. Cotisez, suivez chaque versement et atteignez vos objectifs.",
       ctaPrimary: "Télécharger l’app",

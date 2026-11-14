@@ -35,6 +35,7 @@
   --color-navy-deep: var(--navy-deep);
   --color-saffron: var(--saffron);
   --color-saffron-soft: var(--saffron-soft);
+  --color-saffron-deep: var(--saffron-deep);
   --color-paper: var(--paper);
   --color-sand: var(--sand);
   --color-success: var(--success);
@@ -55,6 +56,7 @@
   --navy-deep: #111c40;
   --saffron: #f7b731;
   --saffron-soft: #fdf0cf;
+  --saffron-deep: #a87410;
   --paper: #f7f5f0;
   --sand: #efebe2;
   --success: #138a5e;

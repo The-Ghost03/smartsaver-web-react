@@ -5,6 +5,21 @@ export default {
       eyebrow: "Tontine & savings · Côte d’Ivoire",
       line1: "Take charge of your money,",
       highlight: "simply.",
+      note: "iOS & Android · Data protected",
+      steps: {
+        label: "Journey in the app",
+        s1: "Contribute",
+        s2: "Track",
+        s3: "Receive",
+      },
+      screens: {
+        week: "This week’s contribution",
+        due: "Due date",
+        members: "Members",
+        pay: "Pay my contribution",
+        received: "Payout received",
+        notified: "All members are notified",
+      },
       subtitle:
         "Secure tontine groups and flexible savings in a single app. Contribute, track every payment and reach your goals.",
       ctaPrimary: "Download the app",
