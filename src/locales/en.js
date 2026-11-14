@@ -70,7 +70,7 @@ export default {
       cycleVal: "3 / 10",
       contribution: "Contribution",
       contribVal: "5 000 F",
-      note: "Example: names, amounts and dates are made up.",
+      note: "App preview, for illustration.",
     },
     epargne: {
       eyebrow: "Savings",
@@ -228,7 +228,7 @@ export default {
       legal: {
         title: "Legal notice | SmartSaver",
         description:
-          "Publisher, contact, hosting and copyright for smartsaver.ci and the SmartSaver app.",
+          "Publisher, contact and intellectual property for smartsaver.ci and the SmartSaver app.",
       },
       notFound: {
         title: "Page not found | SmartSaver",
@@ -347,12 +347,10 @@ export default {
     },
     mentions: {
       title: "Legal notice",
-      description: "Information about the publisher and hosting provider.",
+      description: "Publisher, contact and intellectual property.",
       content: `<h2>Publisher</h2>
-<p>The SmartSaver website and app are published by [company name], [legal form], with a share capital of [amount], registered in Abidjan, Côte d’Ivoire.</p>
+<p>The smartsaver.ci website and the SmartSaver app are published by SmartSaver, based in Abidjan, Côte d’Ivoire.</p>
 <p>Contact: <a href="mailto:info@smartsaver.ci">info@smartsaver.ci</a> · Phone: <a href="tel:+2250153333076">+225 01 53 33 30 76</a></p>
-<h2>Hosting</h2>
-<p>[To be completed: hosting provider, address, contact.]</p>
 <h2>Intellectual property</h2>
 <p>All content (text, images, logos, trademarks) is protected. Unauthorised reproduction is prohibited.</p>`,
     },

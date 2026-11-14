@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-saffron">
+            <h2 className="font-sans text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-saffron">
               {t("footer.product")}
             </h2>
             <ul className="space-y-2.5">
@@ -56,7 +56,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-saffron">
+            <h2 className="font-sans text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-saffron">
               {t("footer.contact")}
             </h2>
             <ul className="space-y-2.5 text-sm text-white/65">
@@ -80,7 +80,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-saffron">
+            <h2 className="font-sans text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-saffron">
               {t("footer.legal")}
             </h2>
             <ul className="space-y-2.5">

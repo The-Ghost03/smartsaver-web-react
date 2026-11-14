@@ -120,7 +120,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -178,24 +178,18 @@
   /*
    * Échelle globale : tout le site est en rem, donc la taille racine pilote
    * textes, espacements, cartes, conteneurs et boutons d’un coup.
-   *   < 1024 px   : 14 px (mobile et tablette, lisibilité tactile)
-   *   1024-1439   : 12,8 px (portable, « zoom 80 % »)
-   *   >= 1440 px  : grandit avec l’écran, 12,8 px à 1440 → ~14,7 px à 1920
-   *                 → ~17,3 px à 2560, plafonné à 18 px (écrans 4K)
+   *   < 1024 px  : 15 px (mobile et tablette)
+   *   >= 1024 px : 14 px jusqu’à ~1440 px, puis grandit avec l’écran
+   *                (~15,8 px à 1920, ~18,2 px à 2560), plafonné à 20 px
    */
   html {
     @apply scroll-smooth font-sans antialiased;
-    font-size: 87.5%;
+    font-size: 93.75%;
     scroll-padding-top: 5.5rem;
   }
   @media (min-width: 1024px) {
     html {
-      font-size: 80%;
-    }
-  }
-  @media (min-width: 1440px) {
-    html {
-      font-size: clamp(12.8px, calc(7.04px + 0.4vw), 18px);
+      font-size: clamp(14px, calc(8.5px + 0.38vw), 20px);
     }
   }
   body {

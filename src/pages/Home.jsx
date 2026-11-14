@@ -53,7 +53,7 @@ function SectionIntro({ eyebrow, title, sub, align = "left", tone = "light" }) {
     <div className={`space-y-4 ${centered ? "mx-auto max-w-2xl text-center" : "max-w-xl"}`}>
       <Rise
         as="p"
-        className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] ${
+        className={`flex items-center gap-2 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] ${
           centered ? "justify-center" : ""
         } ${dark ? "text-white/70" : "text-muted-foreground"}`}
       >
@@ -476,7 +476,7 @@ function Epargne() {
   const { t } = useTranslation();
   return (
     <section id={SECTIONS.EPARGNE} className="py-6 md:py-10">
-      <div className="mx-auto w-full max-w-[90rem] px-2 sm:px-4">
+      <div className="mx-auto w-full max-w-[112rem] px-2 sm:px-4">
         <ClipPanel className="relative overflow-hidden bg-navy py-20 md:py-28">
           <div className="ss-dots-light absolute inset-0 opacity-70" aria-hidden />
           <div
@@ -630,7 +630,7 @@ function Download() {
           />
           <div className="relative grid items-end gap-10 md:grid-cols-[1.3fr_1fr]">
             <div className="space-y-7 px-7 py-12 sm:px-12 md:py-16">
-              <Rise as="p" className="text-xs font-semibold uppercase tracking-[0.14em] text-navy/70">
+              <Rise as="p" className="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-navy/70">
                 {t("home.download.eyebrow")}
               </Rise>
               <WordsReveal

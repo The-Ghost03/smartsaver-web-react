@@ -71,7 +71,7 @@ export default {
       cycleVal: "3 / 10",
       contribution: "Cotisation",
       contribVal: "5 000 F",
-      note: "Exemple : noms, montants et dates fictifs.",
+      note: "Aperçu de l’application, à titre d’illustration.",
     },
     epargne: {
       eyebrow: "Épargne",
@@ -232,7 +232,7 @@ export default {
       legal: {
         title: "Mentions légales | SmartSaver",
         description:
-          "Éditeur, contact, hébergement et droits d’auteur du site smartsaver.ci et de l’application SmartSaver.",
+          "Éditeur, contact et propriété intellectuelle du site smartsaver.ci et de l’application SmartSaver.",
       },
       notFound: {
         title: "Page introuvable | SmartSaver",
@@ -351,12 +351,10 @@ export default {
     },
     mentions: {
       title: "Mentions légales",
-      description: "Informations sur l’éditeur et l’hébergement.",
+      description: "Éditeur, contact et propriété intellectuelle.",
       content: `<h2>Éditeur du site</h2>
-<p>Le site et l’application SmartSaver sont édités par [raison sociale], [forme juridique], au capital de [montant], dont le siège social est situé à Abidjan, Côte d’Ivoire.</p>
+<p>Le site smartsaver.ci et l’application SmartSaver sont édités par SmartSaver, basée à Abidjan, Côte d’Ivoire.</p>
 <p>Contact : <a href="mailto:info@smartsaver.ci">info@smartsaver.ci</a> · Téléphone : <a href="tel:+2250153333076">+225 01 53 33 30 76</a></p>
-<h2>Hébergement</h2>
-<p>[À compléter : nom de l’hébergeur, adresse, contact.]</p>
 <h2>Propriété intellectuelle</h2>
 <p>L’ensemble des contenus (textes, images, logos, marques) est protégé. Toute reproduction non autorisée est interdite.</p>`,
     },

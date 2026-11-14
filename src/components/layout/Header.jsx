@@ -78,7 +78,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 md:h-18 lg:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-[104rem] items-center justify-between gap-4 px-5 sm:px-8 md:h-18 lg:px-12 xl:px-16">
         <Link
           to={ROUTES.HOME}
           className="shrink-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -104,7 +104,7 @@ export default function Header() {
                 section={item.id}
                 aria-current={isActive ? "location" : undefined}
                 className={cn(
-                  "rounded-full px-3.5 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "rounded-full px-3.5 py-2 text-[0.9375rem] font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isActive
                     ? "bg-navy/[0.07] text-navy"
                     : "text-foreground/70 hover:text-foreground",
