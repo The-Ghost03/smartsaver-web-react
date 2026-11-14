@@ -1,64 +1,46 @@
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
-function LangOption({ active, shortLabel, longLabel, onSelect, vertical }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      aria-label={longLabel}
-      title={longLabel}
-      onClick={onSelect}
-      className={cn(
-        "relative flex h-9 flex-1 items-center justify-center rounded-xl px-2 outline-none sm:h-10",
-        "font-heading text-[0.68rem] font-semibold uppercase tracking-[0.2em] sm:text-[0.72rem]",
-        "transition-[color] duration-200 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        vertical ? "w-full min-w-[2.75rem]" : "min-w-[3rem]",
-        active ? "text-foreground" : "text-foreground/55 hover:text-foreground/85",
-      )}
-    >
-      {active ? (
-        <motion.div
-          layoutId="ss-lang-pill"
-          className="absolute inset-0 rounded-[11px] bg-background shadow-[0_3px_10px_-4px_rgba(15,31,61,0.2)] ring-1 ring-foreground/[0.12] dark:bg-card dark:shadow-[0_2px_14px_-4px_rgba(0,0,0,0.45)] dark:ring-white/[0.14]"
-          transition={{ type: "spring", stiffness: 480, damping: 35 }}
-        />
-      ) : null}
-      <span className="relative z-10 tabular-nums">{shortLabel}</span>
-    </button>
-  );
-}
+const LANGS = [
+  { code: "fr", short: "common.frShort", long: "common.fr" },
+  { code: "en", short: "common.enShort", long: "common.en" },
+];
 
-export function LanguageSwitch({ className, layout = "horizontal" }) {
+/** Bascule FR / EN compacte */
+export function LanguageSwitch({ className }) {
   const { t, i18n } = useTranslation();
-  const isEn = i18n.language === "en";
-  const vertical = layout === "vertical";
+  const current = i18n.language === "en" ? "en" : "fr";
 
   return (
     <div
       role="group"
       aria-label={t("common.languageSwitch")}
       className={cn(
-        "flex gap-1 rounded-[14px] bg-foreground/[0.05] p-1 ring-1 ring-inset ring-foreground/[0.12] dark:bg-muted/25 dark:ring-white/[0.1]",
-        vertical ? "flex-col" : "flex-row items-stretch",
+        "inline-flex items-center rounded-full border border-border bg-card p-0.5",
         className,
       )}
     >
-      <LangOption
-        active={!isEn}
-        shortLabel={t("common.frShort")}
-        longLabel={t("common.fr")}
-        vertical={vertical}
-        onSelect={() => void i18n.changeLanguage("fr")}
-      />
-      <LangOption
-        active={isEn}
-        shortLabel={t("common.enShort")}
-        longLabel={t("common.en")}
-        vertical={vertical}
-        onSelect={() => void i18n.changeLanguage("en")}
-      />
+      {LANGS.map((lang) => {
+        const active = current === lang.code;
+        return (
+          <button
+            key={lang.code}
+            type="button"
+            aria-pressed={active}
+            title={t(lang.long)}
+            onClick={() => void i18n.changeLanguage(lang.code)}
+            className={cn(
+              "h-7 min-w-9 cursor-pointer rounded-full px-2 text-xs font-semibold tracking-wide transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              active
+                ? "bg-navy text-white"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <span className="sr-only">{t(lang.long)}</span>
+            <span aria-hidden>{t(lang.short)}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

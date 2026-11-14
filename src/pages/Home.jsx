@@ -1,851 +1,713 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Calendar,
+  BadgeCheck,
+  BellRing,
+  CalendarDays,
   Check,
-  Clock,
-  Download,
+  Eye,
+  Layers,
+  MapPin,
   Quote,
+  Receipt,
+  RefreshCw,
+  Scale,
   ShieldCheck,
   Smartphone,
-  Star,
+  SlidersHorizontal,
+  UserCheck,
+  Users,
 } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
-import { ROUTES } from "@/constants/routes";
-import { heroMarketingFloaters } from "@/constants/marketing-floaters";
-import heroConnexionImg from "@/assets/connextion.webp";
-import {
-  fadeUp,
-  listContainer,
-  scaleIn,
-  slideRight,
-  stagger,
-  viewportOnce,
-} from "@/lib/motion-variants";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { SECTIONS } from "@/constants/routes";
+import { STORE_LINKS } from "@/constants/site";
+import { fadeUp, stagger, viewportOnce } from "@/lib/motion-variants";
+import heroScreen from "@/assets/connextion.webp";
+import { StoreButton } from "@/components/home/StoreButton";
 
-function getOsCta(t) {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  if (/android/i.test(userAgent)) {
-    return { text: t("home.download.android"), isIos: false };
-  }
-  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    return { text: t("home.download.ios"), isIos: true };
-  }
-  return { text: t("home.download.default"), isIos: false };
+/* ---------- Petites briques ---------- */
+
+function Reveal({ as = "div", className, children, ...props }) {
+  const Comp = motion[as];
+  return (
+    <Comp
+      className={className}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportOnce}
+      {...props}
+    >
+      {children}
+    </Comp>
+  );
 }
 
-function FeatureBullet({ children }) {
+function SectionIntro({ eyebrow, title, sub, align = "left", tone = "light" }) {
+  const centered = align === "center";
+  const dark = tone === "dark";
   return (
-    <motion.li
-      variants={fadeUp}
-      className="flex gap-3 text-sm leading-relaxed text-muted-foreground md:text-base"
+    <Reveal
+      className={`space-y-4 ${centered ? "mx-auto max-w-2xl text-center" : "max-w-xl"}`}
     >
-      <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-[var(--primary)] shadow-[0_0_20px_-4px_var(--accent)]">
-        ✓
+      <p className={`ss-eyebrow ${dark ? "!text-white/70" : ""}`}>{eyebrow}</p>
+      <h2
+        className={`text-3xl sm:text-4xl md:text-[2.75rem] md:leading-[1.08] ${dark ? "text-white" : "text-foreground"}`}
+      >
+        {title}
+      </h2>
+      {sub ? (
+        <p
+          className={`text-base md:text-lg ${dark ? "text-white/70" : "text-muted-foreground"}`}
+        >
+          {sub}
+        </p>
+      ) : null}
+    </Reveal>
+  );
+}
+
+function Feature({ icon, title, text, tone = "light" }) {
+  const Icon = icon;
+  const dark = tone === "dark";
+  return (
+    <motion.li variants={fadeUp} className="flex gap-4">
+      <span
+        className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${
+          dark ? "bg-white/10 text-saffron" : "bg-saffron-soft text-navy"
+        }`}
+      >
+        <Icon className="size-5" strokeWidth={2} aria-hidden />
       </span>
-      <span>{children}</span>
+      <div>
+        <h3
+          className={`font-heading text-base font-semibold ${dark ? "text-white" : "text-foreground"}`}
+        >
+          {title}
+        </h3>
+        <p
+          className={`mt-1 text-sm leading-relaxed md:text-[0.9375rem] ${dark ? "text-white/65" : "text-muted-foreground"}`}
+        >
+          {text}
+        </p>
+      </div>
     </motion.li>
   );
 }
 
-function TestimonialCard({
-  quote,
-  name,
-  role,
-  fallback,
-  fallbackClass,
-  starsLabel,
-}) {
+/* ---------- Sections ---------- */
+
+function Hero() {
+  const { t } = useTranslation();
+  const trust = [
+    { icon: ShieldCheck, label: t("home.trust.t1") },
+    { icon: BadgeCheck, label: t("home.trust.t2") },
+    { icon: Smartphone, label: t("home.trust.t3") },
+    { icon: MapPin, label: t("home.trust.t4") },
+  ];
+
   return (
-    <Card className="group relative flex h-full min-h-0 w-full flex-col gap-0 overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-card via-card to-muted/30 py-0 shadow-md shadow-primary/[0.04] ring-1 ring-primary/[0.04] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/15 hover:shadow-lg hover:shadow-primary/[0.08]">
-      {/* Guillemet décoratif arrière-plan */}
-      <Quote
-        className="pointer-events-none absolute -right-3 top-4 size-[7.5rem] -rotate-6 text-primary/[0.06] transition-all duration-500 group-hover:scale-105 group-hover:text-primary/[0.09]"
-        strokeWidth={1}
+    <section className="relative overflow-hidden pt-28 md:pt-36">
+      <div
+        className="ss-dots pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_30%_30%,black,transparent)]"
         aria-hidden
       />
-      <CardContent className="relative z-10 flex min-h-0 flex-1 flex-col gap-5 p-6 md:gap-6 md:p-8">
-        <div className="flex shrink-0 items-center justify-between gap-4">
-          <div
-            className="flex gap-0.5 text-[var(--accent)]"
-            role="img"
-            aria-label={starsLabel}
-          >
-            {Array.from({ length: 5 }).map((_, i) => (
-              <motion.span
-                key={`star-${name}-${i}`}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{
-                  delay: i * 0.05,
-                  type: "spring",
-                  stiffness: 400,
-                }}
-              >
-                <Star
-                  className="size-4 fill-current drop-shadow-[0_0_8px_rgba(247,183,49,0.35)]"
-                  aria-hidden
-                />
-              </motion.span>
-            ))}
-          </div>
-          <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/15 text-[var(--accent)] shadow-inner ring-1 ring-[var(--accent)]/25">
-            <Quote className="size-5" strokeWidth={2.25} aria-hidden />
-          </div>
-        </div>
-
-        <blockquote className="flex min-h-0 flex-1 gap-3.5">
-          <Quote
-            className="mt-0.5 size-5 shrink-0 text-[var(--accent)]"
-            strokeWidth={2.25}
-            aria-hidden
-          />
-          <p className="min-w-0 flex-1 text-[0.9375rem] leading-relaxed text-foreground/90 md:text-base">
-            {quote}
-          </p>
-        </blockquote>
-
-        <div className="mt-auto flex shrink-0 items-center gap-4 border-t border-border/60 pt-5">
-          <Avatar
-            size="lg"
-            className="ring-2 ring-background ring-offset-2 ring-offset-card"
-          >
-            <AvatarFallback
-              className={`text-sm font-semibold text-white ${fallbackClass}`}
-            >
-              {fallback}
-            </AvatarFallback>
-          </Avatar>
-          <div className="min-w-0 flex-1">
-            <p className="truncate font-heading text-sm font-semibold tracking-tight text-foreground">
-              {name}
-            </p>
-            <p className="text-xs text-muted-foreground">{role}</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-export default function Home() {
-  const { t } = useTranslation();
-  const osData = useMemo(() => getOsCta(t), [t]);
-  const testimonials = useMemo(
-    () => [
-      {
-        quote: t("home.testimonial1.quote"),
-        name: t("home.testimonial1.name"),
-        role: t("home.testimonial1.role"),
-        fallback: "A",
-        fallbackClass: "bg-[#f7b731] text-[var(--primary)]",
-      },
-      {
-        quote: t("home.testimonial2.quote"),
-        name: t("home.testimonial2.name"),
-        role: t("home.testimonial2.role"),
-        fallback: "K",
-        fallbackClass: "bg-[#1a2a5c]",
-      },
-      {
-        quote: t("home.testimonial3.quote"),
-        name: t("home.testimonial3.name"),
-        role: t("home.testimonial3.role"),
-        fallback: "M",
-        fallbackClass: "bg-emerald-600",
-      },
-    ],
-    [t]
-  );
-
-  return (
-    <>
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-primary via-[#15224d] to-[#0f1838] text-primary-foreground">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-25%,rgba(247,183,49,0.22),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_60%,rgba(96,165,250,0.12),transparent_45%)]" />
-          <div className="fx-grid-dark absolute inset-0 opacity-40" />
-        </div>
-
-        <div
-          className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
-          aria-hidden
-        >
-          {heroMarketingFloaters.map((f, i) => (
-            <motion.div
-              key={`hero-float-${i}`}
-              className={`absolute ${f.className}`}
-              initial={{ x: 0, y: 0 }}
-              animate={{ x: f.x, y: f.y }}
-              transition={{
-                duration: f.duration,
-                repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut",
-              }}
-            >
-              <f.Icon className={f.iconClass} strokeWidth={1.15} />
-            </motion.div>
-          ))}
-        </div>
-
-        <div
-          className={`relative z-10 ${PAGE_WIDE} flex flex-col gap-12 pb-20 pt-28 md:flex-row md:items-center md:gap-16 md:pb-28 md:pt-32`}
-        >
-          <motion.div
-            className="max-w-xl flex-1 space-y-6"
-            variants={stagger}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={fadeUp}>
-              <Badge
-                variant="outline"
-                className="border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm"
-              >
-                {t("home.hero.badge")}
-              </Badge>
-            </motion.div>
-            <motion.h1
-              variants={fadeUp}
-              className="text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl md:leading-[1.08]"
-            >
-              {t("home.hero.line1")}{" "}
-              <motion.span
-                className="inline-block bg-gradient-to-r from-[var(--accent)] to-amber-300 bg-clip-text text-transparent"
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  delay: 0.35,
-                  duration: 0.5,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                {t("home.titleHighlight")}
-              </motion.span>
-            </motion.h1>
-            <motion.p
-              variants={fadeUp}
-              className="max-w-lg text-base leading-relaxed text-primary-foreground/80 md:text-xl"
-            >
-              {t("home.hero.subtitle")}
-            </motion.p>
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex"
-              >
-                <Button
-                  asChild
-                  size="lg"
-                  className="rounded-full bg-[var(--accent)] px-6 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_48px_-8px_rgba(247,183,49,0.55)] hover:text-[var(--accent)] hover:brightness-[1.04]"
-                >
-                  <Link
-                    to={ROUTES.AVANT_PREMIERE}
-                    className="gap-2"
-                  >
-                    <Download className="size-4" />
-                    {osData.text}
-                  </Link>
-                </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex"
-              >
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full border-primary-foreground/35 bg-primary-foreground/5 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/15"
-                >
-                    <a href="#tontine" className="gap-2">
-                    {t("home.hero.discover")}
-                    <ArrowRight
-                      className="size-4 shrink-0"
-                      strokeWidth={2.25}
-                    />
-                  </a>
-                </Button>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="flex flex-1 justify-center md:justify-end"
-            initial={{ opacity: 0, x: 48 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.65,
-              delay: 0.18,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <motion.div
-              animate={{ y: [0, -14, 0] }}
-              transition={{
-                duration: 5.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <Card className="gap-0 overflow-hidden rounded-[2.5rem] border-[10px] border-white/10 bg-muted/90 p-0 py-0 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] ring-1 ring-white/20 backdrop-blur-sm">
-                <div className="aspect-[9/19] w-[min(100%,280px)] overflow-hidden md:w-[300px]">
-                  <img
-                    src={heroConnexionImg}
-                    alt={t("home.hero.imgAlt")}
-                    className="h-full w-full object-cover"
-                    decoding="async"
-                  />
-                </div>
-              </Card>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Tontine */}
-      <section
-        id="tontine"
-        className="relative scroll-mt-20 border-b bg-background py-20 md:py-28"
+      <div
+        className={`relative ${PAGE_WIDE} grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10`}
       >
-        <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-60" />
-        <div
-          className={`relative z-10 ${PAGE_WIDE} flex flex-col items-center gap-14 lg:flex-row lg:items-start lg:justify-between`}
-        >
-          <motion.div
-            className="max-w-lg flex-1 space-y-5 text-center lg:text-left"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <motion.div variants={fadeUp}>
-              <Badge variant="secondary" className="font-medium">
-                {t("home.tontine.badge")}
-              </Badge>
-            </motion.div>
-            <motion.h2
-              variants={fadeUp}
-              className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
-            >
-              {t("home.tontine.heading")}
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground md:text-lg"
-            >
-              {t("home.tontine.description")}
-            </motion.p>
-            <motion.ul
-              className="space-y-4 pt-2 text-left"
-              variants={listContainer}
-            >
-              <FeatureBullet>
-                <strong className="text-foreground">
-                  {t("home.tontine.f1")}
-                </strong>{" "}
-                {t("home.tontine.f1Text")}
-              </FeatureBullet>
-              <FeatureBullet>
-                <strong className="text-foreground">
-                  {t("home.tontine.f2")}
-                </strong>{" "}
-                {t("home.tontine.f2Text")}
-              </FeatureBullet>
-              <FeatureBullet>
-                <strong className="text-foreground">
-                  {t("home.tontine.f3")}
-                </strong>{" "}
-                {t("home.tontine.f3Text")}
-              </FeatureBullet>
-            </motion.ul>
-          </motion.div>
-
-          <motion.div
-            className="flex w-full max-w-md flex-1 flex-col gap-4"
-            variants={scaleIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <Card className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-xl shadow-primary/[0.04] ring-1 ring-primary/5 backdrop-blur-sm transition-shadow duration-300 hover:shadow-2xl hover:shadow-primary/[0.06] hover:ring-primary/10">
-              <CardHeader className="space-y-2 pb-2">
-                <div className="flex items-center gap-2">
-                  <Badge
-                    variant="outline"
-                    className="border-(--accent)/35 bg-(--accent)/10 text-[0.65rem] font-semibold uppercase tracking-wider text-(--accent)"
-                  >
-                    {t("home.tontine.exampleBadge")}
-                  </Badge>
-                  <CardTitle className="font-heading text-lg tracking-tight">
-                    {t("home.tontine.cardTitle")}
-                  </CardTitle>
-                </div>
-                <CardDescription className="text-muted-foreground">
-                  {t("home.tontine.cardDesc")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 pt-0">
-                <motion.div
-                  initial={{ opacity: 0, scaleX: 0.3 }}
-                  whileInView={{ opacity: 1, scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ originX: 0 }}
-                >
-                  <Progress
-                    value={100}
-                    className="h-2.5 rounded-full bg-muted [&_[data-slot=progress-indicator]]:rounded-full [&_[data-slot=progress-indicator]]:bg-(--accent) [&_[data-slot=progress-indicator]]:shadow-[0_0_14px_var(--accent)]"
-                  />
-                </motion.div>
-                <div className="flex items-center justify-between gap-4 rounded-lg bg-muted/50 px-3 py-2 text-xs font-medium text-muted-foreground">
-                  <span>{t("home.tontine.row10")}</span>
-                  <span className="tabular-nums">50&nbsp;000 FCFA</span>
-                </div>
-              </CardContent>
-
-              <Separator className="bg-border/60" />
-
-              <CardHeader className="space-y-1 pb-2 pt-5">
-                <CardTitle className="font-heading text-sm font-semibold tracking-tight">
-                  {t("home.tontine.orderTitle")}
-                </CardTitle>
-                <CardDescription className="text-xs">
-                  {t("home.tontine.orderDesc")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2 pt-0 pb-4">
-                <ul className="space-y-2" aria-label={t("home.tontine.orderDesc")}>
-                  <li className="flex items-center justify-between gap-3 rounded-lg border border-border/50 bg-muted/25 px-3 py-2 text-sm">
-                    <span className="flex items-center gap-2.5 min-w-0">
-                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
-                        1
-                      </span>
-                      <span className="truncate font-medium text-foreground">
-                        Awa D.
-                      </span>
-                    </span>
-                    <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                      <Check className="size-3.5" aria-hidden />
-                      {t("home.tontine.received")}
-                    </span>
-                  </li>
-                  <li className="flex items-center justify-between gap-3 rounded-lg border border-(--accent)/30 bg-(--accent)/8 px-3 py-2 text-sm ring-1 ring-(--accent)/15">
-                    <span className="flex items-center gap-2.5 min-w-0">
-                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-(--accent)/20 text-xs font-semibold text-(--accent)">
-                        2
-                      </span>
-                      <span className="truncate font-medium text-foreground">
-                        Kouamé Y.
-                      </span>
-                    </span>
-                    <Badge
-                      variant="secondary"
-                      className="shrink-0 border-(--accent)/25 bg-(--accent)/15 text-[0.65rem] text-(--accent)"
-                    >
-                      {t("home.tontine.inProgress")}
-                    </Badge>
-                  </li>
-                  <li className="flex items-center justify-between gap-3 rounded-lg border border-border/50 bg-muted/25 px-3 py-2 text-sm">
-                    <span className="flex items-center gap-2.5 min-w-0">
-                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
-                        3
-                      </span>
-                      <span className="truncate font-medium text-foreground">
-                        Marc E.
-                      </span>
-                    </span>
-                    <span className="shrink-0 text-xs text-muted-foreground">
-                      {t("home.tontine.upcoming")}
-                    </span>
-                  </li>
-                  <li className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-border/60 bg-muted/15 px-3 py-2 text-xs text-muted-foreground">
-                    {t("home.tontine.moreMembers")}
-                  </li>
-                </ul>
-              </CardContent>
-
-              <div className="grid grid-cols-3 divide-x divide-border/60 border-t border-border/60 bg-muted/20">
-                <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
-                  <Calendar
-                    className="size-4 text-primary/70"
-                    strokeWidth={1.75}
-                    aria-hidden
-                  />
-                  <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
-                    {t("home.tontine.next")}
-                  </span>
-                  <span className="text-xs font-semibold tabular-nums text-foreground">
-                    {t("home.tontine.nextDate")}
-                  </span>
-                </div>
-                <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
-                  <Clock
-                    className="size-4 text-primary/70"
-                    strokeWidth={1.75}
-                    aria-hidden
-                  />
-                  <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
-                    {t("home.tontine.cycle")}
-                  </span>
-                  <span className="text-xs font-semibold tabular-nums text-foreground">
-                    {t("home.tontine.cycleVal")}
-                  </span>
-                </div>
-                <div className="flex flex-col items-center gap-1 px-2 py-3 text-center sm:px-3">
-                  <ShieldCheck
-                    className="size-4 text-primary/70"
-                    strokeWidth={1.75}
-                    aria-hidden
-                  />
-                  <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
-                    {t("home.tontine.contribution")}
-                  </span>
-                  <span className="text-xs font-semibold tabular-nums text-foreground">
-                    {t("home.tontine.contribVal")}
-                  </span>
-                </div>
-              </div>
-            </Card>
-
-            <motion.p
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              className="text-center text-xs text-muted-foreground lg:text-left"
-            >
-              {t("home.tontine.note")}
-            </motion.p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Épargne */}
-      <section
-        id="epargne"
-        className="relative scroll-mt-20 border-b bg-muted/25 py-20 md:py-28"
-      >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_100%_50%,rgba(26,42,92,0.06),transparent)]" />
-        <div
-          className={`relative z-10 ${PAGE_WIDE} flex flex-col-reverse items-center gap-14 lg:flex-row lg:justify-between`}
-        >
-          <motion.div
-            className="w-full max-w-md flex-1"
-            variants={slideRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <motion.div
-              whileHover={{ y: -4 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              <Card className="relative overflow-hidden rounded-2xl border-0 bg-linear-to-br from-primary via-[#15224d] to-[#0c1430] text-primary-foreground shadow-[0_28px_56px_-16px_rgba(26,42,92,0.45)] ring-1 ring-white/10">
-                <div className="h-1 w-full" aria-hidden />
-                <div className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-(--accent)/15 blur-2xl" />
-                <CardHeader className="relative z-10 space-y-2 pb-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <CardTitle className="font-heading text-lg tracking-tight text-(--accent)">
-                      {t("home.epargne.cardTitle")}
-                    </CardTitle>
-                    <Badge
-                      variant="outline"
-                      className="border-(--accent)/50 bg-(--accent)/20 px-2 py-0.5 text-[0.65rem] font-semibold text-(--accent)"
-                    >
-                      {t("home.epargne.cardBadge")}
-                    </Badge>
-                  </div>
-                  <CardDescription className="text-primary-foreground/65">
-                    {t("home.epargne.cardSprint")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10 space-y-3 pb-8 pt-4 text-center">
-                  <p className="font-heading text-4xl font-bold tabular-nums tracking-tight text-primary-foreground md:text-5xl md:tracking-tighter">
-                    {t("home.epargne.amount")}
-                  </p>
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm font-semibold text-primary-foreground/90">
-                    <span className="size-2 rounded-full bg-(--accent)" />
-                    {t("home.epargne.cardFooter")}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="max-w-lg flex-1 space-y-5 text-center lg:text-left"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <motion.div variants={fadeUp}>
-              <Badge variant="outline" className="font-medium">
-                {t("home.epargne.badge")}
-              </Badge>
-            </motion.div>
-            <motion.h2
-              variants={fadeUp}
-              className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
-            >
-              {t("home.epargne.heading")}
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground md:text-lg"
-            >
-              {t("home.epargne.description")}
-            </motion.p>
-            <motion.ul
-              className="space-y-4 pt-2 text-left"
-              variants={listContainer}
-            >
-              <FeatureBullet>
-                <strong className="text-foreground">
-                  {t("home.epargne.f1")}
-                </strong>{" "}
-                {t("home.epargne.f1Text")}
-              </FeatureBullet>
-              <FeatureBullet>
-                <strong className="text-foreground">
-                  {t("home.epargne.f2")}
-                </strong>{" "}
-                {t("home.epargne.f2Text")}
-              </FeatureBullet>
-              <FeatureBullet>
-                <strong className="text-foreground">
-                  {t("home.epargne.f3")}
-                </strong>{" "}
-                {t("home.epargne.f3Text")}
-              </FeatureBullet>
-            </motion.ul>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Témoignages */}
-      <section
-        id="temoignages"
-        className="relative scroll-mt-20 bg-background py-20 md:py-28"
-      >
-        <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-50" />
-        <div className={`relative z-10 ${PAGE_WIDE} space-y-12`}>
-          <motion.div
-            className="mx-auto max-w-2xl text-center"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              {t("home.testimonials.heading")}
-            </h2>
-            <p className="mt-3 text-muted-foreground md:text-lg">
-              {t("home.testimonials.sub")}
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="relative mx-auto w-full max-w-6xl px-12 md:px-14"
-          >
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-3 md:-ml-4">
-                {testimonials.map((x) => (
-                  <CarouselItem
-                    key={x.name}
-                    className="basis-full pl-3 sm:basis-1/2 md:pl-4 lg:basis-1/3"
-                  >
-                    <div className="flex h-full min-h-0 min-w-0 max-w-md mx-auto py-1">
-                      <TestimonialCard
-                        quote={x.quote}
-                        name={x.name}
-                        role={x.role}
-                        fallback={x.fallback}
-                        fallbackClass={x.fallbackClass}
-                        starsLabel={t("common.stars5")}
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious
-                variant="outline"
-                size="icon"
-                className="left-0 rounded-full border-border/80 shadow-sm md:-left-2"
-              />
-              <CarouselNext
-                variant="outline"
-                size="icon"
-                className="right-0 rounded-full border-border/80 shadow-sm md:-right-2"
-              />
-            </Carousel>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Download */}
-      <section
-        id="download"
-        className="relative overflow-hidden border-t border-border/50 bg-linear-to-b from-background via-muted/25 to-muted/40 py-20 md:py-28"
-      >
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_45%_at_50%_-10%,rgba(26,42,92,0.07),transparent)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_90%_100%,rgba(247,183,49,0.11),transparent)]" />
-          <div className="fx-grid-light absolute inset-0 opacity-[0.4]" />
-        </div>
         <motion.div
-          className={`relative z-10 w-full ${PAGE_WIDE}`}
-          variants={scaleIn}
+          className="space-y-7"
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.p
+            variants={fadeUp}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground"
+          >
+            <span className="size-1.5 rounded-full bg-success" aria-hidden />
+            {t("home.hero.eyebrow")}
+          </motion.p>
+
+          <motion.h1
+            variants={fadeUp}
+            className="text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-[4.25rem]"
+          >
+            {t("home.hero.line1")}{" "}
+            <span className="ss-highlight">{t("home.hero.highlight")}</span>
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            className="max-w-lg text-lg leading-relaxed text-muted-foreground md:text-xl"
+          >
+            {t("home.hero.subtitle")}
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
+            <a
+              href={`#${SECTIONS.DOWNLOAD}`}
+              className="inline-flex h-12 items-center gap-2 rounded-full bg-navy px-6 text-sm font-semibold text-white shadow-lg shadow-navy/20 transition-colors hover:bg-ink outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {t("home.hero.ctaPrimary")}
+              <ArrowRight className="size-4" aria-hidden />
+            </a>
+            <a
+              href={`#${SECTIONS.HOW}`}
+              className="inline-flex h-12 items-center gap-2 rounded-full border border-border bg-card px-6 text-sm font-semibold text-foreground transition-colors hover:border-navy/30 hover:bg-sand outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {t("home.hero.ctaSecondary")}
+            </a>
+          </motion.div>
+        </motion.div>
+
+        <HeroVisual />
+      </div>
+
+      <div className={`relative ${PAGE_WIDE} mt-16 md:mt-24`}>
+        <motion.ul
+          className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-4"
+          variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <Card className="relative w-full min-w-0 overflow-hidden rounded-[2rem] border border-primary/20 bg-linear-to-br from-primary via-[#1e3270] to-[#0a1028] text-primary-foreground shadow-[0_32px_80px_-28px_rgba(26,42,92,0.55)] ring-1 ring-white/10">
-            <CardContent className="relative z-10 grid gap-10 p-8 md:grid-cols-[1fr_minmax(0,11rem)] md:items-center md:gap-12 lg:grid-cols-[1fr_minmax(0,13rem)]">
-              <motion.div
-                className="space-y-6 text-center md:text-left"
-                variants={listContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-              >
-                <motion.h2
-                  variants={fadeUp}
-                  className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight md:text-4xl"
-                >
-                  {t("home.downloadSection.cta1")}{" "}
-                  <span className="bg-linear-to-r from-(--accent) to-amber-200 bg-clip-text text-transparent">
-                    {t("home.downloadSection.cta2")}
-                  </span>
-                </motion.h2>
-                <motion.p
-                  variants={fadeUp}
-                  className="mx-auto max-w-lg text-base leading-relaxed text-primary-foreground/78 md:mx-0 md:text-lg"
-                >
-                  {t("home.downloadSection.sub")}
-                </motion.p>
-                <motion.ul
-                  variants={fadeUp}
-                  className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-primary-foreground/60 md:justify-start md:text-sm"
-                >
-                  <li className="flex items-center gap-2">
-                    <ShieldCheck
-                      className="size-4 shrink-0 text-(--accent)"
-                      strokeWidth={2}
-                      aria-hidden
-                    />
-                    {t("home.downloadSection.li1")}
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Smartphone
-                      className="size-4 shrink-0 text-(--accent)"
-                      strokeWidth={2}
-                      aria-hidden
-                    />
-                    {t("home.downloadSection.li2")}
-                  </li>
-                </motion.ul>
-                <motion.div
-                  variants={fadeUp}
-                  className="flex justify-center md:justify-start"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="inline-flex"
-                  >
-                    <Button
-                      asChild
-                      size="lg"
-                      className="rounded-full bg-[var(--accent)] px-7 text-[var(--primary)] shadow-[0_0_32px_-8px_var(--accent)] transition-[background-color,box-shadow,filter] duration-300 ease-out hover:bg-[var(--accent-hover)] hover:shadow-[0_0_48px_-8px_rgba(247,183,49,0.5)] hover:brightness-[1.04] hover:text-[var(--accent)]"
-                    >
-                      <Link
-                        to={ROUTES.AVANT_PREMIERE}
-                        className="gap-2"
-                      >
-                        <Download className="size-4" />
-                        {t("home.downloadSection.btn")}
-                      </Link>
-                    </Button>
-                  </motion.div>
-                </motion.div>
-                {!osData.isIos ? (
-                  <motion.div variants={fadeUp} className="pt-1">
-                    <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-left text-xs leading-relaxed text-primary-foreground/70 backdrop-blur-sm md:text-[0.8125rem]">
-                      <span className="font-medium text-primary-foreground/85">
-                        {t("home.downloadSection.apkTitle")}
-                      </span>
-                      <span className="mt-1 block text-primary-foreground/65">
-                        {t("home.downloadSection.apkText")}
-                      </span>
-                    </div>
-                  </motion.div>
-                ) : null}
-              </motion.div>
+          {trust.map((item) => (
+            <motion.li
+              key={item.label}
+              variants={fadeUp}
+              className="flex items-center gap-3 bg-card px-4 py-4 text-sm font-medium text-foreground sm:px-5"
+            >
+              <item.icon className="size-5 shrink-0 text-navy" strokeWidth={1.75} aria-hidden />
+              {item.label}
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
+    </section>
+  );
+}
 
-              <motion.div
-                variants={slideRight}
+function HeroVisual() {
+  const { t } = useTranslation();
+  return (
+    <motion.div
+      className="relative mx-auto w-full max-w-md lg:max-w-none"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="relative overflow-hidden rounded-[2.5rem] bg-navy px-8 pt-10 sm:px-12">
+        <div className="ss-dots-light absolute inset-0" aria-hidden />
+        <div
+          className="absolute -right-20 -top-20 size-72 rounded-full bg-saffron/35 blur-3xl"
+          aria-hidden
+        />
+        <div className="relative mx-auto w-[min(100%,250px)] translate-y-2 rounded-t-[2.25rem] border-[7px] border-b-0 border-ink bg-ink shadow-2xl">
+          <div className="aspect-[9/14] overflow-hidden rounded-t-[1.75rem] bg-paper">
+            <img
+              src={heroScreen}
+              alt={t("home.hero.imgAlt")}
+              className="h-full w-full object-cover object-top"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Bulles flottantes */}
+      <motion.div
+        className="absolute -left-3 top-10 flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-xl shadow-ink/10 sm:-left-8"
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+      >
+        <span className="flex size-9 items-center justify-center rounded-full bg-success/10 text-success">
+          <Check className="size-5" strokeWidth={2.5} aria-hidden />
+        </span>
+        <span className="leading-tight">
+          <span className="block text-xs text-muted-foreground">
+            {t("home.hero.chipPayoutLabel")}
+          </span>
+          <span className="block font-heading text-base font-semibold tabular-nums">
+            {t("home.hero.chipPayoutValue")}
+          </span>
+        </span>
+      </motion.div>
+
+      <motion.div
+        className="absolute -right-3 bottom-12 w-48 rounded-2xl border border-border bg-card px-4 py-3 shadow-xl shadow-ink/10 sm:-right-6"
+        initial={{ opacity: 0, x: 16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.75, duration: 0.5 }}
+      >
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-muted-foreground">{t("home.hero.chipGoalLabel")}</span>
+          <span className="font-semibold text-navy">100 %</span>
+        </div>
+        <p className="mt-1 font-heading text-base font-semibold tabular-nums">
+          {t("home.hero.chipGoalValue")}
+        </p>
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-sand">
+          <motion.div
+            className="h-full rounded-full bg-saffron"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ delay: 1, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function HowItWorks() {
+  const { t } = useTranslation();
+  const steps = [
+    { icon: UserCheck, title: t("home.how.s1Title"), text: t("home.how.s1Text") },
+    { icon: Users, title: t("home.how.s2Title"), text: t("home.how.s2Text") },
+    { icon: BellRing, title: t("home.how.s3Title"), text: t("home.how.s3Text") },
+  ];
+
+  return (
+    <section id={SECTIONS.HOW} className="py-24 md:py-32">
+      <div className={`${PAGE_WIDE} space-y-14`}>
+        <SectionIntro
+          eyebrow={t("home.how.eyebrow")}
+          title={t("home.how.heading")}
+          sub={t("home.how.sub")}
+        />
+        <motion.ol
+          className="grid gap-4 md:grid-cols-3 md:gap-5"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          {steps.map(({ icon, title, text }, i) => {
+            const Icon = icon;
+            return (
+            <motion.li
+              key={title}
+              variants={fadeUp}
+              className="group relative flex flex-col gap-6 rounded-3xl border border-border bg-card p-7 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-navy/25"
+            >
+              <div className="flex items-center justify-between">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-navy text-white">
+                  <Icon className="size-5" strokeWidth={2} aria-hidden />
+                </span>
+                <span className="font-heading text-4xl font-semibold text-sand transition-colors group-hover:text-saffron">
+                  0{i + 1}
+                </span>
+              </div>
+              <div>
+                <h3 className="text-xl">{title}</h3>
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {text}
+                </p>
+              </div>
+            </motion.li>
+            );
+          })}
+        </motion.ol>
+      </div>
+    </section>
+  );
+}
+
+function TontineCard() {
+  const { t } = useTranslation();
+  const members = [
+    { rank: 1, name: "Awa D.", status: "received" },
+    { rank: 2, name: "Kouamé Y.", status: "current" },
+    { rank: 3, name: "Marc E.", status: "upcoming" },
+  ];
+
+  return (
+    <div className="rounded-[2rem] border border-border bg-card p-2 shadow-xl shadow-ink/[0.06]">
+      <div className="rounded-[1.6rem] bg-paper p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <span className="rounded-full bg-saffron-soft px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wider text-navy">
+              {t("home.tontine.exampleBadge")}
+            </span>
+            <h3 className="mt-3 text-xl">{t("home.tontine.cardTitle")}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t("home.tontine.cardDesc")}
+            </p>
+          </div>
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-navy text-white">
+            <Users className="size-5" aria-hidden />
+          </span>
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-baseline justify-between text-sm">
+            <span className="text-muted-foreground">{t("home.tontine.pot")}</span>
+            <span className="font-heading text-2xl font-semibold tabular-nums">
+              50&nbsp;000 F
+            </span>
+          </div>
+          <div className="mt-3 flex gap-1" aria-hidden>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <motion.span
+                key={i}
+                className={`h-2 flex-1 rounded-full ${i < 3 ? "bg-saffron" : "bg-sand"}`}
+                initial={{ opacity: 0, scaleY: 0 }}
+                whileInView={{ opacity: 1, scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pb-2 pt-5 sm:px-6">
+        <p className="text-sm font-semibold">{t("home.tontine.orderTitle")}</p>
+        <ul className="mt-3 divide-y divide-border" aria-label={t("home.tontine.orderTitle")}>
+          {members.map((m) => (
+            <li key={m.rank} className="flex items-center justify-between gap-3 py-3 text-sm">
+              <span className="flex min-w-0 items-center gap-3">
+                <span
+                  className={`flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                    m.status === "current" ? "bg-saffron text-navy" : "bg-sand text-muted-foreground"
+                  }`}
+                >
+                  {m.rank}
+                </span>
+                <span className="truncate font-medium">{m.name}</span>
+              </span>
+              {m.status === "received" ? (
+                <span className="flex items-center gap-1 text-xs font-semibold text-success">
+                  <Check className="size-3.5" aria-hidden />
+                  {t("home.tontine.received")}
+                </span>
+              ) : m.status === "current" ? (
+                <span className="rounded-full bg-navy px-2.5 py-1 text-[0.7rem] font-semibold text-white">
+                  {t("home.tontine.inProgress")}
+                </span>
+              ) : (
+                <span className="text-xs text-muted-foreground">
+                  {t("home.tontine.upcoming")}
+                </span>
+              )}
+            </li>
+          ))}
+          <li className="py-3 text-center text-xs text-muted-foreground">
+            {t("home.tontine.moreMembers")}
+          </li>
+        </ul>
+      </div>
+
+      <dl className="grid grid-cols-3 gap-2 p-2">
+        {[
+          { icon: CalendarDays, label: t("home.tontine.next"), value: t("home.tontine.nextDate") },
+          { icon: RefreshCw, label: t("home.tontine.cycle"), value: t("home.tontine.cycleVal") },
+          { icon: Receipt, label: t("home.tontine.contribution"), value: t("home.tontine.contribVal") },
+        ].map(({ icon, label, value }) => (
+          <div key={label} className="rounded-2xl bg-paper px-3 py-3 text-center">
+            <StatIcon icon={icon} className="mx-auto size-4 text-navy/70" aria-hidden />
+            <dt className="mt-1.5 text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+              {label}
+            </dt>
+            <dd className="mt-0.5 text-sm font-semibold tabular-nums">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+function StatIcon({ icon, ...props }) {
+  const Icon = icon;
+  return <Icon {...props} />;
+}
+
+function Tontine() {
+  const { t } = useTranslation();
+  return (
+    <section id={SECTIONS.TONTINE} className="border-t border-border bg-card py-24 md:py-32">
+      <div className={`${PAGE_WIDE} grid items-center gap-14 lg:grid-cols-2 lg:gap-20`}>
+        <div className="space-y-10">
+          <SectionIntro
+            eyebrow={t("home.tontine.eyebrow")}
+            title={t("home.tontine.heading")}
+            sub={t("home.tontine.description")}
+          />
+          <motion.ul
+            className="space-y-6"
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <Feature icon={CalendarDays} title={t("home.tontine.f1")} text={t("home.tontine.f1Text")} />
+            <Feature icon={Scale} title={t("home.tontine.f2")} text={t("home.tontine.f2Text")} />
+            <Feature icon={Eye} title={t("home.tontine.f3")} text={t("home.tontine.f3Text")} />
+          </motion.ul>
+        </div>
+
+        <Reveal className="space-y-3">
+          <TontineCard />
+          <p className="text-center text-xs text-muted-foreground">{t("home.tontine.note")}</p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function Epargne() {
+  const { t } = useTranslation();
+  return (
+    <section id={SECTIONS.EPARGNE} className="py-6 md:py-10">
+      <div className="mx-auto w-full max-w-[90rem] px-2 sm:px-4">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-navy py-20 md:py-28">
+          <div className="ss-dots-light absolute inset-0 opacity-70" aria-hidden />
+          <div
+            className="absolute -bottom-32 -left-24 size-96 rounded-full bg-saffron/20 blur-3xl"
+            aria-hidden
+          />
+          <div className={`relative ${PAGE_WIDE} grid items-center gap-14 lg:grid-cols-2 lg:gap-20`}>
+            <Reveal className="order-2 lg:order-1">
+              <SavingsCard />
+            </Reveal>
+
+            <div className="order-1 space-y-10 lg:order-2">
+              <SectionIntro
+                tone="dark"
+                eyebrow={t("home.epargne.eyebrow")}
+                title={t("home.epargne.heading")}
+                sub={t("home.epargne.description")}
+              />
+              <motion.ul
+                className="space-y-6"
+                variants={stagger}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportOnce}
-                className="hidden justify-center md:flex"
               >
-                <div className="relative">
-                  <div
-                    className="absolute inset-0 rounded-[1.75rem] bg-(--accent)/20 blur-2xl"
+                <Feature tone="dark" icon={SlidersHorizontal} title={t("home.epargne.f1")} text={t("home.epargne.f1Text")} />
+                <Feature tone="dark" icon={Layers} title={t("home.epargne.f2")} text={t("home.epargne.f2Text")} />
+                <Feature tone="dark" icon={Receipt} title={t("home.epargne.f3")} text={t("home.epargne.f3Text")} />
+              </motion.ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SavingsCard() {
+  const { t } = useTranslation();
+  const sprints = [
+    { label: "S1", pct: 100 },
+    { label: "S2", pct: 100 },
+    { label: "S3", pct: 100 },
+  ];
+  return (
+    <div className="mx-auto max-w-md rounded-[2rem] bg-card p-7 text-foreground shadow-2xl shadow-black/30">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg">{t("home.epargne.cardTitle")}</h3>
+        <span className="flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold text-success">
+          <Check className="size-3.5" aria-hidden />
+          {t("home.epargne.cardBadge")}
+        </span>
+      </div>
+      <p className="mt-6 text-sm text-muted-foreground">{t("home.epargne.cardSprint")}</p>
+      <p className="mt-1 font-heading text-5xl font-semibold tabular-nums tracking-tight">
+        {t("home.epargne.amount")}
+      </p>
+      <div className="mt-6 h-3 overflow-hidden rounded-full bg-sand">
+        <motion.div
+          className="h-full rounded-full bg-saffron"
+          initial={{ width: "0%" }}
+          whileInView={{ width: "100%" }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </div>
+      <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+        <span>0</span>
+        <span className="font-semibold text-navy">{t("home.epargne.goal")}</span>
+      </div>
+      <div className="mt-6 grid grid-cols-3 gap-2">
+        {sprints.map((s) => (
+          <div key={s.label} className="rounded-2xl bg-paper p-3 text-center">
+            <p className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+              Sprint {s.label.slice(1)}
+            </p>
+            <p className="mt-0.5 text-sm font-semibold tabular-nums">10&nbsp;000 F</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Testimonials() {
+  const { t } = useTranslation();
+  const items = t("home.testimonials.items", { returnObjects: true });
+  const list = Array.isArray(items) ? items : [];
+
+  return (
+    <section id={SECTIONS.REVIEWS} className="py-24 md:py-32">
+      <div className={`${PAGE_WIDE} space-y-14`}>
+        <SectionIntro
+          align="center"
+          eyebrow={t("home.testimonials.eyebrow")}
+          title={t("home.testimonials.heading")}
+          sub={t("home.testimonials.sub")}
+        />
+        <motion.ul
+          className="grid gap-4 md:grid-cols-3 md:gap-5"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          {list.map((item, i) => (
+            <motion.li
+              key={item.name}
+              variants={fadeUp}
+              className={`flex flex-col justify-between gap-8 rounded-3xl p-7 ${
+                i === 1 ? "bg-saffron text-navy" : "border border-border bg-card"
+              }`}
+            >
+              <figure className="flex h-full flex-col justify-between gap-8">
+                <blockquote>
+                  <Quote
+                    className={`size-7 ${i === 1 ? "text-navy" : "text-saffron"}`}
+                    fill="currentColor"
+                    strokeWidth={0}
                     aria-hidden
                   />
-                  <div className="relative flex aspect-square w-full max-w-[11rem] items-center justify-center rounded-[1.75rem] border border-white/15 bg-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)] backdrop-blur-md lg:max-w-[13rem]">
-                    <Smartphone
-                      className="size-[42%] max-w-[5rem] text-(--accent)"
-                      strokeWidth={1.15}
-                      aria-hidden
-                    />
-                  </div>
+                  <p className="mt-4 font-heading text-lg leading-snug md:text-xl">
+                    {item.quote}
+                  </p>
+                </blockquote>
+                <figcaption className="flex items-center gap-3">
+                  <span
+                    className={`flex size-10 items-center justify-center rounded-full font-heading text-sm font-semibold ${
+                      i === 1 ? "bg-navy text-white" : "bg-sand text-navy"
+                    }`}
+                    aria-hidden
+                  >
+                    {item.name.charAt(0)}
+                  </span>
+                  <span className="leading-tight">
+                    <span className="block text-sm font-semibold">{item.name}</span>
+                    <span
+                      className={`block text-xs ${i === 1 ? "text-navy/70" : "text-muted-foreground"}`}
+                    >
+                      {item.role}
+                    </span>
+                  </span>
+                </figcaption>
+              </figure>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
+    </section>
+  );
+}
+
+function Download() {
+  const { t } = useTranslation();
+  return (
+    <section id={SECTIONS.DOWNLOAD} className="pb-24 md:pb-32">
+      <div className={PAGE_WIDE}>
+        <Reveal className="relative overflow-hidden rounded-[2.5rem] bg-saffron">
+          <div
+            className="absolute inset-0 [background-image:radial-gradient(rgb(26_42_92/0.12)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:linear-gradient(to_left,black,transparent_70%)]"
+            aria-hidden
+          />
+          <div className="relative grid items-end gap-10 md:grid-cols-[1.3fr_1fr]">
+            <div className="space-y-7 px-7 py-12 sm:px-12 md:py-16">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-navy/70">
+                {t("home.download.eyebrow")}
+              </p>
+              <h2 className="text-4xl text-navy sm:text-5xl md:leading-[1.05]">
+                {t("home.download.heading")}
+              </h2>
+              <p className="max-w-md text-base text-navy/80 md:text-lg">
+                {t("home.download.sub")}
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <StoreButton
+                  platform="ios"
+                  href={STORE_LINKS.ios}
+                  small={t("home.download.iosSmall")}
+                  label="App Store"
+                  soonLabel={t("home.download.soon")}
+                />
+                <StoreButton
+                  platform="android"
+                  href={STORE_LINKS.android}
+                  small={t("home.download.androidSmall")}
+                  label="Android"
+                  soonLabel={t("home.download.soon")}
+                />
+              </div>
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-navy/80">
+                <li className="flex items-center gap-2">
+                  <ShieldCheck className="size-4" aria-hidden />
+                  {t("home.download.li1")}
+                </li>
+                <li className="flex items-center gap-2">
+                  <Smartphone className="size-4" aria-hidden />
+                  {t("home.download.li2")}
+                </li>
+              </ul>
+              <p className="max-w-md rounded-2xl bg-navy/[0.07] px-4 py-3 text-xs leading-relaxed text-navy/80">
+                <strong className="font-semibold text-navy">{t("home.download.apkTitle")}</strong>{" "}
+                {t("home.download.apkText")}
+              </p>
+            </div>
+
+            <div className="hidden justify-center self-end md:flex" aria-hidden>
+              <div className="w-[240px] translate-y-6 rotate-[4deg] rounded-t-[2.25rem] border-[7px] border-b-0 border-ink bg-ink shadow-2xl lg:w-[270px]">
+                <div className="aspect-[9/15] overflow-hidden rounded-t-[1.75rem] bg-paper">
+                  <img src={heroScreen} alt="" className="h-full w-full object-cover object-top" loading="lazy" />
                 </div>
-              </motion.div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </section>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** Défile vers l’ancre après une navigation SPA vers « /#section » */
+function useHashScroll() {
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!hash) return;
+    const id = decodeURIComponent(hash.slice(1));
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [hash]);
+}
+
+export default function Home() {
+  useHashScroll();
+  return (
+    <>
+      <Hero />
+      <HowItWorks />
+      <Tontine />
+      <Epargne />
+      <Testimonials />
+      <Download />
     </>
   );
 }

@@ -4,80 +4,54 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Home } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { PAGE_WIDE } from "@/constants/layout";
-import { notFoundPageFloaters } from "@/constants/marketing-floaters";
-import { fadeUp } from "@/lib/motion-variants";
-import { Button } from "@/components/ui/button";
+import { fadeUp, stagger } from "@/lib/motion-variants";
 
 export default function NotFound() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-[min(90vh,720px)] overflow-hidden py-20">
-      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-        <div className="fx-grid-light absolute inset-0 opacity-[0.35]" />
-        {notFoundPageFloaters.map((f, i) => (
-          <motion.div
-            key={`notfound-float-${i}`}
-            className={`absolute ${f.className}`}
-            initial={{ x: 0, y: 0 }}
-            animate={{ x: f.x, y: f.y }}
-            transition={{
-              duration: f.duration,
-              repeat: Infinity,
-              repeatType: "mirror",
-              ease: "easeInOut",
-            }}
-          >
-            <f.Icon className={f.iconClass} strokeWidth={1.15} />
-          </motion.div>
-        ))}
-      </div>
-
+    <section className="relative overflow-hidden pb-24 pt-36 md:pt-44">
       <div
-        className={`relative z-10 ${PAGE_WIDE} flex min-h-[min(75vh,600px)] flex-col items-center justify-center gap-8 text-center`}
+        className="ss-dots pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_60%_55%_at_50%_40%,black,transparent)]"
+        aria-hidden
+      />
+      <motion.div
+        className={`relative ${PAGE_WIDE} flex flex-col items-center text-center`}
+        variants={stagger}
+        initial="hidden"
+        animate="visible"
       >
-        <motion.div
+        <motion.p
           variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center gap-4"
+          className="font-heading text-[7rem] font-semibold leading-none tracking-tighter text-navy sm:text-[9rem]"
         >
-          <p className="font-heading text-7xl font-bold tracking-tight text-primary sm:text-8xl">
-            404
-          </p>
-          <h1 className="font-heading text-2xl font-semibold text-foreground sm:text-3xl">
-            {t("notFound.title")}
-          </h1>
-          <p className="max-w-md text-muted-foreground">
-            {t("notFound.description")}
-          </p>
-        </motion.div>
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.1 }}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          <Button asChild variant="default" size="lg" className="gap-2">
-            <Link to={ROUTES.HOME}>
-              <Home className="size-4" aria-hidden />
-              {t("notFound.home")}
-            </Link>
-          </Button>
-          <Button
+          4<span className="text-saffron">0</span>4
+        </motion.p>
+        <motion.h1 variants={fadeUp} className="mt-6 text-3xl sm:text-4xl">
+          {t("notFound.title")}
+        </motion.h1>
+        <motion.p variants={fadeUp} className="mt-4 max-w-md text-muted-foreground">
+          {t("notFound.description")}
+        </motion.p>
+        <motion.div variants={fadeUp} className="mt-10 flex flex-wrap justify-center gap-3">
+          <Link
+            to={ROUTES.HOME}
+            className="inline-flex h-12 items-center gap-2 rounded-full bg-navy px-6 text-sm font-semibold text-white transition-colors hover:bg-ink outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <Home className="size-4" aria-hidden />
+            {t("notFound.home")}
+          </Link>
+          <button
             type="button"
-            variant="outline"
-            size="lg"
-            className="gap-2"
             onClick={() => navigate(-1)}
+            className="inline-flex h-12 cursor-pointer items-center gap-2 rounded-full border border-border bg-card px-6 text-sm font-semibold transition-colors hover:bg-sand outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <ArrowLeft className="size-4" aria-hidden />
             {t("notFound.back")}
-          </Button>
+          </button>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
