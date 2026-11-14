@@ -25,12 +25,15 @@ export function LegalDocumentLayout({ title, description, badge, children }) {
         >
           <Link
             to={ROUTES.HOME}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="group mb-10 flex w-fit items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground transition-colors hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <ArrowLeft className="size-4" aria-hidden />
+            <ArrowLeft
+              className="size-4 transition-transform duration-200 group-hover:-translate-x-0.5"
+              aria-hidden
+            />
             {t("notFound.home")}
           </Link>
-          {resolvedBadge ? <p className="ss-eyebrow">{resolvedBadge}</p> : null}
+          {resolvedBadge ? <p className="ss-eyebrow !flex">{resolvedBadge}</p> : null}
           <h1 className="text-4xl md:text-5xl">{title}</h1>
           {description ? (
             <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">

@@ -12,5 +12,6 @@ export const SECTIONS = {
   TONTINE: "tontine",
   EPARGNE: "epargne",
   REVIEWS: "temoignages",
+  FAQ: "questions",
   DOWNLOAD: "telecharger",
 };

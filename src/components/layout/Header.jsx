@@ -55,6 +55,7 @@ export default function Header() {
       { id: SECTIONS.TONTINE, label: t("header.nav.tontine") },
       { id: SECTIONS.EPARGNE, label: t("header.nav.epargne") },
       { id: SECTIONS.REVIEWS, label: t("header.nav.temoignages") },
+      { id: SECTIONS.FAQ, label: t("header.nav.faq") },
     ],
     [t],
   );

@@ -39,6 +39,7 @@ export function WordsReveal({
 
   return (
     <Tag
+      key={label}
       className={className}
       aria-label={label}
       {...play}

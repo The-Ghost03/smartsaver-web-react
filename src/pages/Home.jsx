@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -8,13 +8,13 @@ import {
   BellRing,
   CalendarDays,
   Check,
-  Eye,
+  History,
+  IdCard,
   Layers,
-  MapPin,
+  ListOrdered,
   Quote,
   Receipt,
   RefreshCw,
-  Scale,
   ShieldCheck,
   Smartphone,
   SlidersHorizontal,
@@ -22,12 +22,18 @@ import {
   Users,
 } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
-import { SECTIONS } from "@/constants/routes";
+import { ROUTES, SECTIONS } from "@/constants/routes";
 import { STORE_LINKS } from "@/constants/site";
 import heroScreen from "@/assets/connextion.webp";
 import { EASE } from "@/lib/motion-variants";
 import { StoreButton } from "@/components/home/StoreButton";
 import { HeroPhone } from "@/components/home/HeroPhone";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   ClipPanel,
   CountUp,
@@ -193,10 +199,10 @@ function Hero() {
 function TrustStrip() {
   const { t } = useTranslation();
   const trust = [
-    { icon: ShieldCheck, label: t("home.trust.t1") },
-    { icon: BadgeCheck, label: t("home.trust.t2") },
-    { icon: Smartphone, label: t("home.trust.t3") },
-    { icon: MapPin, label: t("home.trust.t4") },
+    { icon: BadgeCheck, label: t("home.trust.t1") },
+    { icon: IdCard, label: t("home.trust.t2") },
+    { icon: Receipt, label: t("home.trust.t3") },
+    { icon: ShieldCheck, label: t("home.trust.t4") },
   ];
   return (
     <div className={PAGE_WIDE}>
@@ -205,10 +211,10 @@ function TrustStrip() {
         stagger={0.08}
         className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-4"
       >
-        {trust.map((item) => (
+        {trust.map((item, i) => (
           <RiseItem
             as="li"
-            key={item.label}
+            key={i}
             className="flex items-center gap-3 bg-card px-4 py-4 text-sm font-medium text-foreground sm:px-5"
           >
             <item.icon className="size-5 shrink-0 text-navy" strokeWidth={1.75} aria-hidden />
@@ -247,7 +253,7 @@ function HowItWorks() {
           {steps.map(({ icon, title, text }, i) => (
             <RiseItem
               as="li"
-              key={title}
+              key={i}
               className="group relative flex flex-col gap-6 rounded-3xl border border-border bg-card p-7 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-navy/25"
             >
               <div className="flex items-center justify-between">
@@ -369,8 +375,8 @@ function TontineCard() {
           { icon: CalendarDays, label: t("home.tontine.next"), value: t("home.tontine.nextDate") },
           { icon: RefreshCw, label: t("home.tontine.cycle"), value: t("home.tontine.cycleVal") },
           { icon: Receipt, label: t("home.tontine.contribution"), value: t("home.tontine.contribVal") },
-        ].map(({ icon, label, value }) => (
-          <div key={label} className="rounded-2xl bg-paper px-3 py-3 text-center">
+        ].map(({ icon, label, value }, i) => (
+          <div key={i} className="rounded-2xl bg-paper px-3 py-3 text-center">
             <StatIcon icon={icon} className="mx-auto size-4 text-navy/70" aria-hidden />
             <dt className="mt-1.5 text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
               {label}
@@ -409,9 +415,9 @@ function Tontine() {
             sub={t("home.tontine.description")}
           />
           <RiseGroup as="ul" className="space-y-6">
-            <Feature icon={CalendarDays} title={t("home.tontine.f1")} text={t("home.tontine.f1Text")} />
-            <Feature icon={Scale} title={t("home.tontine.f2")} text={t("home.tontine.f2Text")} />
-            <Feature icon={Eye} title={t("home.tontine.f3")} text={t("home.tontine.f3Text")} />
+            <Feature icon={ListOrdered} title={t("home.tontine.f1")} text={t("home.tontine.f1Text")} />
+            <Feature icon={History} title={t("home.tontine.f2")} text={t("home.tontine.f2Text")} />
+            <Feature icon={Receipt} title={t("home.tontine.f3")} text={t("home.tontine.f3Text")} />
           </RiseGroup>
         </div>
 
@@ -520,7 +526,7 @@ function Testimonials() {
           {list.map((item, i) => (
             <RiseItem
               as="li"
-              key={item.name}
+              key={i}
               className={`flex flex-col justify-between gap-8 rounded-3xl p-7 transition-transform duration-300 hover:-translate-y-1 ${
                 i === 1 ? "bg-saffron text-navy md:-translate-y-4 md:hover:-translate-y-5" : "border border-border bg-card"
               }`}
@@ -558,6 +564,54 @@ function Testimonials() {
               </figure>
             </RiseItem>
           ))}
+        </RiseGroup>
+      </div>
+    </section>
+  );
+}
+
+function Faq() {
+  const { t } = useTranslation();
+  const items = t("home.faq.items", { returnObjects: true });
+  const list = Array.isArray(items) ? items : [];
+
+  return (
+    <section id={SECTIONS.FAQ} className="border-t border-border bg-card py-24 md:py-32">
+      <div className={`${PAGE_WIDE} grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20`}>
+        <div className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+          <SectionIntro
+            eyebrow={t("home.faq.eyebrow")}
+            title={t("home.faq.heading")}
+            sub={t("home.faq.sub")}
+          />
+          <Rise className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold" delay={0.3}>
+            <Link to={ROUTES.CGU} className="text-navy underline decoration-saffron decoration-2 underline-offset-4 hover:decoration-navy">
+              {t("home.faq.cgu")}
+            </Link>
+            <Link to={ROUTES.PRIVACY} className="text-navy underline decoration-saffron decoration-2 underline-offset-4 hover:decoration-navy">
+              {t("home.faq.privacy")}
+            </Link>
+          </Rise>
+        </div>
+
+        <RiseGroup stagger={0.08}>
+          <Accordion type="single" collapsible defaultValue="q-0" className="flex flex-col gap-3">
+            {list.map((item, i) => (
+              <RiseItem key={i}>
+                <AccordionItem
+                  value={`q-${i}`}
+                  className="rounded-2xl border border-border bg-paper px-5 transition-colors data-[state=open]:bg-background md:px-6"
+                >
+                  <AccordionTrigger className="cursor-pointer py-5 text-left font-heading text-base font-semibold text-foreground hover:no-underline md:text-lg">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              </RiseItem>
+            ))}
+          </Accordion>
         </RiseGroup>
       </div>
     </section>
@@ -665,6 +719,7 @@ export default function Home() {
       <Tontine />
       <Epargne />
       <Testimonials />
+      <Faq />
       <Download />
     </>
   );

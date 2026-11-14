@@ -2,10 +2,9 @@
 export default {
   home: {
     hero: {
-      eyebrow: "Tontine & épargne · Côte d’Ivoire",
       line1: "Gérez votre argent,",
       highlight: "simplement.",
-      note: "iOS & Android · Données protégées",
+      note: "iPhone et Android · 18 ans minimum",
       steps: {
         label: "Parcours dans l’application",
         s1: "Cotiser",
@@ -21,47 +20,42 @@ export default {
         notified: "Tous les membres sont notifiés",
       },
       subtitle:
-        "Tontines sécurisées et épargne flexible, réunies dans une seule application. Cotisez, suivez chaque versement et atteignez vos objectifs.",
+        "Montez votre tontine avec vos proches, fixez la cotisation et l’ordre de ramassage, et voyez qui a payé. Pour épargner seul, choisissez un montant fixe ou libre.",
       ctaPrimary: "Télécharger l’app",
-      ctaSecondary: "Comment ça marche",
-      imgAlt: "Écran de connexion de l’application SmartSaver",
-      chipPayoutLabel: "Ramassage reçu",
-      chipPayoutValue: "+50 000 F",
-      chipGoalLabel: "Objectif épargne",
-      chipGoalValue: "30 000 F",
+      ctaSecondary: "Voir comment ça marche",
     },
     trust: {
-      t1: "Données protégées",
-      t2: "Identité vérifiée",
-      t3: "iOS & Android",
-      t4: "Pensé pour Abidjan",
+      t1: "18 ans minimum",
+      t2: "Pièce d’identité vérifiée",
+      t3: "Frais affichés avant de payer",
+      t4: "Données jamais revendues",
     },
     how: {
       eyebrow: "Comment ça marche",
-      heading: "Trois étapes pour démarrer.",
-      sub: "Pas de cahier, pas de calculs : l’application s’occupe du suivi.",
-      s1Title: "Créez votre compte",
+      heading: "De l’inscription au premier ramassage.",
+      sub: "Il vous faut un téléphone, une pièce d’identité valide et avoir au moins 18 ans.",
+      s1Title: "Ouvrez votre compte",
       s1Text:
-        "Inscrivez-vous en quelques minutes et vérifiez votre identité pour sécuriser le groupe.",
-      s2Title: "Rejoignez une tontine ou fixez un objectif",
+        "Inscrivez-vous avec votre e-mail ou votre numéro, puis envoyez une photo et une pièce d’identité : CNI, passeport, carte consulaire ou carte d’étudiant.",
+      s2Title: "Montez votre groupe",
       s2Text:
-        "Créez votre groupe, invitez vos proches ou lancez une épargne à montant fixe ou libre.",
-      s3Title: "Cotisez et suivez tout",
+        "Fixez le montant, la fréquence et l’ordre de passage, puis invitez les membres. Vous épargnez seul ? Ouvrez une épargne.",
+      s3Title: "Cotisez, l’appli fait le suivi",
       s3Text:
-        "Chaque versement est notifié et l’ordre des ramassages reste visible par tous.",
+        "Chaque versement et chaque ramassage envoie une notification au groupe. Plus besoin de tenir le cahier.",
     },
     tontine: {
       eyebrow: "Tontine",
-      heading: "La force du collectif, en toute transparence.",
+      heading: "Fini le cahier de tontine.",
       description:
-        "Cotisations régulières, ramassages clairs et notifications à chaque étape : la tontine que vous connaissez, version numérique.",
-      f1: "Gains réguliers",
+        "Chaque membre cotise le même montant à date fixe. À chaque tour, l’un d’eux reçoit la cagnotte. L’ordre est décidé au départ et tout le monde le voit dans l’application.",
+      f1: "Chacun connaît son tour",
       f1Text:
-        "Chaque cycle, un participant reçoit la cagnotte selon les règles du groupe.",
-      f2: "Équité",
-      f2Text: "Un ordre de ramassage clair, connu de tous les membres.",
-      f3: "Transparence",
-      f3Text: "Historique et alertes sur chaque versement.",
+        "Le rang de chaque membre est affiché, du premier au dernier ramassage.",
+      f2: "On sait qui a payé",
+      f2Text: "L’historique montre chaque versement : qui, quand et combien.",
+      f3: "Les frais avant de payer",
+      f3Text: "Les frais de service sont indiqués avant chaque transaction, pas après.",
       exampleBadge: "Exemple",
       cardTitle: "Tontine 5 000 F",
       cardDesc: "10 participants · cotisation hebdomadaire",
@@ -70,26 +64,26 @@ export default {
       received: "Reçu",
       inProgress: "En cours",
       upcoming: "À venir",
-      moreMembers: "+ 7 autres membres dans la file",
+      moreMembers: "+ 7 autres membres",
       next: "Prochain",
       nextDate: "15 févr.",
       cycle: "Cycle",
       cycleVal: "3 / 10",
       contribution: "Cotisation",
       contribVal: "5 000 F",
-      note: "Interface illustrative — montants et dates fictifs.",
+      note: "Exemple : noms, montants et dates fictifs.",
     },
     epargne: {
       eyebrow: "Épargne",
-      heading: "À votre rythme, sans pression.",
+      heading: "Mettre de côté, même petit à petit.",
       description:
-        "Montant fixe ou libre, organisation par sprints et frais de retrait affichés clairement.",
-      f1: "Fixe ou libre",
-      f1Text: "Vous choisissez comment et quand épargner.",
-      f2: "Sprints",
-      f2Text: "Des cycles avec possibilité de retrait en fin de période.",
-      f3: "Frais clairs",
-      f3Text: "Pas de mauvaise surprise au moment du retrait.",
+        "Versez toujours la même somme, ou ce que vous pouvez quand vous pouvez. L’épargne est découpée en sprints : à la fin de chaque sprint, l’argent peut être retiré.",
+      f1: "Montant fixe ou libre",
+      f1Text: "Une somme fixe chaque semaine, ou selon ce que le mois permet.",
+      f2: "Retrait en fin de sprint",
+      f2Text: "L’argent reste de côté jusqu’à la fin du cycle, puis vous pouvez le retirer.",
+      f3: "Frais de gestion annoncés",
+      f3Text: "Les frais mensuels sont indiqués dans l’application avant de commencer.",
       cardTitle: "Mon épargne",
       cardBadge: "Objectif atteint",
       cardSprint: "Total épargné",
@@ -121,18 +115,47 @@ export default {
         },
       ],
     },
+    faq: {
+      eyebrow: "Questions fréquentes",
+      heading: "Ce qu’on nous demande souvent.",
+      sub: "Les règles complètes sont dans les conditions d’utilisation et la politique de confidentialité.",
+      cgu: "Lire les CGU",
+      privacy: "Politique de confidentialité",
+      items: [
+        {
+          q: "Que se passe-t-il si un membre ne paie pas ?",
+          a: "SmartSaver peut suspendre ou fermer son compte et bloquer son accès. Si un membre a reçu la cagnotte puis arrête de payer les autres, son dossier peut être transmis aux autorités compétentes.",
+        },
+        {
+          q: "Quels documents faut-il pour s’inscrire ?",
+          a: "Une photo de vous et une pièce d’identité valide : passeport, CNI, carte consulaire, carte scolaire ou d’étudiant, ou tout autre document officiel.",
+        },
+        {
+          q: "Y a-t-il des frais ?",
+          a: "Pour une tontine, des frais de service peuvent s’appliquer quand vous recevez la cagnotte. Pour l’épargne, des frais mensuels de gestion peuvent s’appliquer. Le montant est toujours affiché avant la transaction.",
+        },
+        {
+          q: "Faut-il avoir 18 ans ?",
+          a: "Oui. Les comptes de personnes de moins de 18 ans sont suspendus ou supprimés.",
+        },
+        {
+          q: "Que faites-vous de mes données ?",
+          a: "Elles servent à gérer votre compte, vérifier votre identité et sécuriser les transactions. Elles ne sont jamais vendues. Vous pouvez demander à les consulter, les corriger ou supprimer votre compte.",
+        },
+      ],
+    },
     download: {
       eyebrow: "Téléchargement",
-      heading: "Prêt à commencer ?",
-      sub: "Installez SmartSaver, créez votre espace et pilotez tontines et épargne depuis votre téléphone.",
+      heading: "Installez SmartSaver.",
+      sub: "Sur iPhone et Android. Gardez votre pièce d’identité à portée de main pour l’inscription.",
       iosSmall: "Télécharger dans",
       androidSmall: "Disponible sur",
       soon: "Bientôt disponible",
-      li1: "Données protégées",
-      li2: "iOS & Android",
-      apkTitle: "Installation APK :",
+      li1: "Données jamais revendues",
+      li2: "iPhone et Android",
+      apkTitle: "Installation par APK :",
       apkText:
-        "autorisez l’installation depuis des sources inconnues si votre appareil vous le demande.",
+        "si votre téléphone le demande, autorisez l’installation depuis des sources inconnues.",
     },
   },
   common: {
@@ -151,6 +174,7 @@ export default {
       tontine: "Tontine",
       epargne: "Épargne",
       temoignages: "Témoignages",
+      faq: "FAQ",
     },
     openMenu: "Ouvrir le menu",
     menuTitle: "Menu",
@@ -159,7 +183,7 @@ export default {
   },
   footer: {
     blurb:
-      "La plateforme pour gérer vos tontines et votre épargne, simplement et en toute sécurité.",
+      "Application de tontine et d’épargne, basée à Abidjan.",
     product: "Produit",
     contact: "Contact",
     location: "Abidjan, Côte d’Ivoire",
@@ -186,14 +210,14 @@ export default {
     defaultTitle:
       "SmartSaver | Gérez votre argent, simplement et en toute sécurité",
     defaultDescription:
-      "Tontines sécurisées, épargne à votre rythme, notifications à chaque étape. Téléchargez l’app SmartSaver — Abidjan, Côte d’Ivoire.",
+      "Application pour gérer une tontine en groupe ou épargner seul : ordre de ramassage visible, historique des versements, frais affichés. iPhone et Android.",
     themeColor: "#0f1f3d",
     pages: {
       home: {
         title:
-          "SmartSaver | Tontine & épargne — l’appli simple pour gérer votre argent",
+          "SmartSaver | Tontine et épargne sur mobile, Abidjan",
         description:
-          "Cotisez serein, suivez les ramassages et atteignez vos objectifs d’épargne. SmartSaver : tontine numérique, sécurisée, pensée pour la Côte d’Ivoire.",
+          "Montez une tontine avec vos proches, suivez qui a payé et qui reçoit la cagnotte, ou épargnez seul à montant fixe ou libre. iPhone et Android.",
       },
       cgu: {
         title: "Conditions d’utilisation (CGU) | SmartSaver",
@@ -208,7 +232,7 @@ export default {
       legal: {
         title: "Mentions légales | SmartSaver",
         description:
-          "Éditeur, contact, hébergement et droits d’auteur — informations légales sur smartsaver.ci et l’app SmartSaver.",
+          "Éditeur, contact, hébergement et droits d’auteur du site smartsaver.ci et de l’application SmartSaver.",
       },
       notFound: {
         title: "Page introuvable | SmartSaver",
@@ -330,7 +354,7 @@ export default {
       description: "Informations sur l’éditeur et l’hébergement.",
       content: `<h2>Éditeur du site</h2>
 <p>Le site et l’application SmartSaver sont édités par [raison sociale], [forme juridique], au capital de [montant], dont le siège social est situé à Abidjan, Côte d’Ivoire.</p>
-<p>Contact : <a href="mailto:info@smartsaver.ci">info@smartsaver.ci</a> — Téléphone : <a href="tel:+2250153333076">+225 01 53 33 30 76</a></p>
+<p>Contact : <a href="mailto:info@smartsaver.ci">info@smartsaver.ci</a> · Téléphone : <a href="tel:+2250153333076">+225 01 53 33 30 76</a></p>
 <h2>Hébergement</h2>
 <p>[À compléter : nom de l’hébergeur, adresse, contact.]</p>
 <h2>Propriété intellectuelle</h2>
