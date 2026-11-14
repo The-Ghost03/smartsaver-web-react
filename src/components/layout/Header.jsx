@@ -77,7 +77,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 md:h-[4.5rem] lg:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 md:h-18 lg:px-8">
         <Link
           to={ROUTES.HOME}
           className="shrink-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -85,7 +85,7 @@ export default function Header() {
           <img
             src={images.logo}
             alt="SmartSaver"
-            className="h-8 w-auto md:h-9"
+            className="h-9 w-auto md:h-11"
             width={150}
             height={36}
           />

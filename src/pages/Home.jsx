@@ -206,7 +206,7 @@ function HeroVisual() {
           className="absolute -right-20 -top-20 size-72 rounded-full bg-saffron/35 blur-3xl"
           aria-hidden
         />
-        <div className="relative mx-auto w-[min(100%,250px)] translate-y-2 rounded-t-[2.25rem] border-[7px] border-b-0 border-ink bg-ink shadow-2xl">
+        <div className="relative mx-auto w-[min(100%,15.5rem)] translate-y-2 rounded-t-[2.25rem] border-[7px] border-b-0 border-ink bg-ink shadow-2xl">
           <div className="aspect-[9/14] overflow-hidden rounded-t-[1.75rem] bg-paper">
             <img
               src={heroScreen}
@@ -672,7 +672,7 @@ function Download() {
             </div>
 
             <div className="hidden justify-center self-end md:flex" aria-hidden>
-              <div className="w-[240px] translate-y-6 rotate-[4deg] rounded-t-[2.25rem] border-[7px] border-b-0 border-ink bg-ink shadow-2xl lg:w-[270px]">
+              <div className="w-[15rem] translate-y-6 rotate-[4deg] rounded-t-[2.25rem] border-[7px] border-b-0 border-ink bg-ink shadow-2xl lg:w-[17rem]">
                 <div className="aspect-[9/15] overflow-hidden rounded-t-[1.75rem] bg-paper">
                   <img src={heroScreen} alt="" className="h-full w-full object-cover object-top" loading="lazy" />
                 </div>
