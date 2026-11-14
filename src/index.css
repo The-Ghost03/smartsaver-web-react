@@ -39,6 +39,7 @@
   --color-paper: var(--paper);
   --color-sand: var(--sand);
   --color-success: var(--success);
+  --color-navy-soft: var(--navy-soft);
 
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) * 0.75);
@@ -59,14 +60,15 @@
   --saffron-deep: #a87410;
   --paper: #f7f5f0;
   --sand: #efebe2;
-  --success: #138a5e;
+  --success: #0e7a51;
+  --navy-soft: #2c4290;
 
   /* Jetons shadcn mappés sur la marque */
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: #ffffff;
+  --card: #fffdf9;
   --card-foreground: var(--ink);
-  --popover: #ffffff;
+  --popover: #fffdf9;
   --popover-foreground: var(--ink);
   --primary: var(--navy);
   --primary-foreground: #ffffff;
@@ -174,18 +176,26 @@
     @apply border-border outline-ring/50;
   }
   /*
-   * Échelle globale (≈ zoom 80 %) : tout le site est en rem, donc la taille
-   * racine pilote textes, espacements, cartes et boutons d’un coup.
-   * Mobile 14 px (lisibilité tactile), tablette/desktop 12,8 px.
+   * Échelle globale : tout le site est en rem, donc la taille racine pilote
+   * textes, espacements, cartes, conteneurs et boutons d’un coup.
+   *   < 1024 px   : 14 px (mobile et tablette, lisibilité tactile)
+   *   1024-1439   : 12,8 px (portable, « zoom 80 % »)
+   *   >= 1440 px  : grandit avec l’écran, 12,8 px à 1440 → ~14,7 px à 1920
+   *                 → ~17,3 px à 2560, plafonné à 18 px (écrans 4K)
    */
   html {
     @apply scroll-smooth font-sans antialiased;
     font-size: 87.5%;
     scroll-padding-top: 5.5rem;
   }
-  @media (min-width: 640px) {
+  @media (min-width: 1024px) {
     html {
       font-size: 80%;
+    }
+  }
+  @media (min-width: 1440px) {
+    html {
+      font-size: clamp(12.8px, calc(7.04px + 0.4vw), 18px);
     }
   }
   body {

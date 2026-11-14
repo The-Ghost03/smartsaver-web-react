@@ -8,13 +8,13 @@ import { images } from "@/lib/images";
 import { SectionLink } from "./SectionLink";
 
 const linkClass =
-  "text-sm text-muted-foreground transition-colors hover:text-foreground";
+  "text-sm text-white/65 transition-colors hover:text-saffron";
 
 export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative z-10 border-t border-border bg-card">
+    <footer className="relative z-10 bg-ink text-white">
       <div className={`${PAGE_WIDE} py-14 md:py-16`}>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="space-y-4">
@@ -22,18 +22,18 @@ export default function Footer() {
               <img
                 src={images.logo}
                 alt="SmartSaver"
-                className="h-10 w-auto"
+                className="h-10 w-auto brightness-0 invert"
                 width={170}
                 height={40}
               />
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+            <p className="max-w-xs text-sm leading-relaxed text-white/65">
               {t("footer.blurb")}
             </p>
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-saffron">
               {t("footer.product")}
             </h2>
             <ul className="space-y-2.5">
@@ -56,31 +56,31 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-saffron">
               {t("footer.contact")}
             </h2>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
+            <ul className="space-y-2.5 text-sm text-white/65">
               <li className="flex items-center gap-2.5">
-                <Mail className="size-4 shrink-0 text-navy" aria-hidden />
+                <Mail className="size-4 shrink-0 text-white/40" aria-hidden />
                 <a href={`mailto:${CONTACT.email}`} className={linkClass}>
                   {CONTACT.email}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="size-4 shrink-0 text-navy" aria-hidden />
+                <Phone className="size-4 shrink-0 text-white/40" aria-hidden />
                 <a href={`tel:${CONTACT.phone}`} className={linkClass}>
                   {CONTACT.phoneLabel}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <MapPin className="size-4 shrink-0 text-navy" aria-hidden />
+                <MapPin className="size-4 shrink-0 text-white/40" aria-hidden />
                 <span>{t("footer.location")}</span>
               </li>
             </ul>
           </div>
 
           <div className="space-y-4">
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+            <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-saffron">
               {t("footer.legal")}
             </h2>
             <ul className="space-y-2.5">
@@ -103,13 +103,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row">
           <p>{t("footer.copyright")}</p>
           <p>
             {t("footer.designBy")}{" "}
             <a
               href="https://softskills.ci/"
-              className="font-medium text-foreground underline-offset-4 hover:underline"
+              className="font-medium text-white underline-offset-4 hover:underline"
             >
               Softskills
             </a>

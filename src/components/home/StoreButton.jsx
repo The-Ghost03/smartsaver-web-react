@@ -42,7 +42,7 @@ export function StoreButton({ platform, href, small, label, soonLabel, className
     return (
       <span
         aria-disabled="true"
-        className={cn(base, "cursor-not-allowed bg-ink/75 text-white/90", className)}
+        className={cn(base, "cursor-not-allowed bg-navy text-white/90", className)}
       >
         {content}
       </span>

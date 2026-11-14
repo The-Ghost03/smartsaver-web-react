@@ -260,7 +260,7 @@ function HowItWorks() {
                 <span className="relative flex size-12 items-center justify-center rounded-2xl bg-navy text-white">
                   <StatIcon icon={icon} className="size-5" strokeWidth={2} aria-hidden />
                 </span>
-                <span className="font-heading text-4xl font-bold text-sand transition-colors group-hover:text-saffron">
+                <span className="font-heading text-4xl font-bold text-navy/15 transition-colors group-hover:text-saffron">
                   0{i + 1}
                 </span>
               </div>
@@ -406,7 +406,7 @@ function TiltOnScroll({ children, className }) {
 function Tontine() {
   const { t } = useTranslation();
   return (
-    <section id={SECTIONS.TONTINE} className="border-t border-border bg-card py-24 md:py-32">
+    <section id={SECTIONS.TONTINE} className="overflow-x-clip border-t border-border bg-card py-24 md:py-32">
       <div className={`${PAGE_WIDE} grid items-center gap-14 lg:grid-cols-2 lg:gap-20`}>
         <div className="space-y-10">
           <SectionIntro
@@ -480,7 +480,7 @@ function Epargne() {
         <ClipPanel className="relative overflow-hidden bg-navy py-20 md:py-28">
           <div className="ss-dots-light absolute inset-0 opacity-70" aria-hidden />
           <div
-            className="absolute -bottom-32 -left-24 size-96 rounded-full bg-saffron/20 blur-3xl"
+            className="absolute -bottom-48 -left-40 size-[34rem] rounded-full bg-navy-soft/70 blur-3xl"
             aria-hidden
           />
           <div className={`relative ${PAGE_WIDE} grid items-center gap-14 lg:grid-cols-2 lg:gap-20`}>
@@ -528,13 +528,13 @@ function Testimonials() {
               as="li"
               key={i}
               className={`flex flex-col justify-between gap-8 rounded-3xl p-7 transition-transform duration-300 hover:-translate-y-1 ${
-                i === 1 ? "bg-saffron text-navy md:-translate-y-4 md:hover:-translate-y-5" : "border border-border bg-card"
+                i === 1 ? "bg-navy text-white md:-translate-y-4 md:hover:-translate-y-5" : "border border-border bg-card"
               }`}
             >
               <figure className="flex h-full flex-col justify-between gap-8">
                 <blockquote>
                   <Quote
-                    className={`size-7 ${i === 1 ? "text-navy" : "text-saffron"}`}
+                    className="size-7 text-saffron"
                     fill="currentColor"
                     strokeWidth={0}
                     aria-hidden
@@ -546,7 +546,7 @@ function Testimonials() {
                 <figcaption className="flex items-center gap-3">
                   <span
                     className={`flex size-10 items-center justify-center rounded-full font-heading text-sm font-semibold ${
-                      i === 1 ? "bg-navy text-white" : "bg-sand text-navy"
+                      i === 1 ? "bg-saffron text-navy" : "bg-sand text-navy"
                     }`}
                     aria-hidden
                   >
@@ -555,7 +555,7 @@ function Testimonials() {
                   <span className="leading-tight">
                     <span className="block text-sm font-semibold">{item.name}</span>
                     <span
-                      className={`block text-xs ${i === 1 ? "text-navy/70" : "text-muted-foreground"}`}
+                      className={`block text-xs ${i === 1 ? "text-white/65" : "text-muted-foreground"}`}
                     >
                       {item.role}
                     </span>
