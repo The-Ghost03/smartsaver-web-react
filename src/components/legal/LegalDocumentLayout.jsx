@@ -1,44 +1,55 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge";
-import { scaleIn, viewportOnce } from "@/lib/motion-variants";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { ROUTES } from "@/constants/routes";
+import { PAGE_NARROW } from "@/constants/layout";
+import { fadeUp } from "@/lib/motion-variants";
 
 export function LegalDocumentLayout({ title, description, badge, children }) {
   const { t } = useTranslation();
   const resolvedBadge = badge === undefined ? t("documentBadge") : badge;
+
   return (
-    <section className="relative border-b bg-background pb-16 pt-24 md:pb-24 md:pt-28">
-      <div className="fx-grid-light pointer-events-none absolute inset-0 opacity-[0.35]" />
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
-        <motion.article
-          variants={scaleIn}
+    <>
+      <section className="relative overflow-hidden border-b border-border pb-14 pt-32 md:pb-16 md:pt-40">
+        <div
+          className="ss-dots pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_80%_at_20%_20%,black,transparent)]"
+          aria-hidden
+        />
+        <motion.header
+          className={`relative ${PAGE_NARROW} space-y-5`}
+          variants={fadeUp}
           initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
+          animate="visible"
         >
-          <header className="space-y-4 pb-10">
-            {resolvedBadge ? (
-              <Badge
-                variant="outline"
-                className="w-fit border-border/60 font-medium text-muted-foreground"
-              >
-                {resolvedBadge}
-              </Badge>
-            ) : null}
-            <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-              {title}
-            </h1>
-            {description ? (
-              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                {description}
-              </p>
-            ) : null}
-          </header>
-          <div className="text-sm leading-relaxed text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:underline-offset-4 hover:[&_a]:underline [&_strong]:font-medium [&_strong]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-foreground [&_ul]:my-4 [&_ul]:ml-5 [&_ul]:list-disc [&_ul]:space-y-2">
-            {children}
-          </div>
-        </motion.article>
-      </div>
-    </section>
+          <Link
+            to={ROUTES.HOME}
+            className="group mb-10 flex w-fit items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground transition-colors hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <ArrowLeft
+              className="size-4 transition-transform duration-200 group-hover:-translate-x-0.5"
+              aria-hidden
+            />
+            {t("notFound.home")}
+          </Link>
+          {resolvedBadge ? <p className="ss-eyebrow !flex">{resolvedBadge}</p> : null}
+          <h1 className="text-4xl md:text-5xl">{title}</h1>
+          {description ? (
+            <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              {description}
+            </p>
+          ) : null}
+        </motion.header>
+      </section>
+
+      <section className="bg-card py-12 md:py-16">
+        <div
+          className={`${PAGE_NARROW} text-[0.9375rem] leading-relaxed text-muted-foreground [&_a]:font-medium [&_a]:text-navy [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mb-3 [&_h2]:mt-10 [&_h2:first-child]:mt-0 [&_h2]:font-heading [&_h2]:text-xl [&_h2]:text-foreground [&_strong]:font-semibold [&_strong]:text-foreground`}
+        >
+          {children}
+        </div>
+      </section>
+    </>
   );
 }

@@ -1,97 +1,175 @@
 /** All English UI strings (i18n) */
 export default {
   home: {
-    titleHighlight: "simply.",
     hero: {
-      badge: "Mobile app",
       line1: "Take charge of your money,",
+      highlight: "simply.",
+      note: "iPhone and Android · 18 and over",
+      steps: {
+        label: "Journey in the app",
+        s1: "Contribute",
+        s2: "Track",
+        s3: "Receive",
+      },
+      screens: {
+        week: "This week’s contribution",
+        due: "Due date",
+        members: "Members",
+        pay: "Pay my contribution",
+        received: "Payout received",
+        notified: "All members are notified",
+      },
+      notifs: {
+        now: "just now",
+        ago: "2 min ago",
+        reminderTitle: "Contribution reminder",
+        reminderText: "5,000 F due before Friday",
+        paidTitle: "Awa D. has paid",
+        paidText: "5,000 F · receipt available",
+        turnTitle: "It’s Kouamé Y.’s turn",
+        turnText: "Payout scheduled this Friday",
+        countTitle: "7 of 10 members have paid",
+        countText: "3 contributions pending",
+        receivedTitle: "Pot received",
+        receivedText: "+50,000 F to your account",
+        nextTitle: "Next turn: Marc E.",
+        nextText: "The cycle continues next week",
+      },
       subtitle:
-        "Secure tontine groups and flexible saving. Download SmartSaver and keep control of your money.",
-      discover: "See how it works",
-      imgAlt: "Preview of the SmartSaver app",
+        "Set up a tontine with people you know, choose the contribution and the payout order, and see who has paid. To save on your own, pick a fixed or free amount.",
+      ctaPrimary: "Download the app",
+      ctaSecondary: "See how it works",
     },
-    download: {
-      android: "Download for Android",
-      ios: "Download on the App Store",
-      default: "Get the app",
+    trust: {
+      t1: "18 and over",
+      t2: "ID checked",
+      t3: "Fees shown before you pay",
+      t4: "Data never sold",
+    },
+    how: {
+      eyebrow: "How it works",
+      heading: "From sign-up to your first payout.",
+      sub: "You need a phone, a valid ID and to be at least 18.",
+      s1Title: "Open your account",
+      s1Text:
+        "Sign up with your email or phone number, then send a photo and an ID: national ID card, passport, consular card or student card.",
+      s2Title: "Set up your group",
+      s2Text:
+        "Choose the amount, the frequency and the payout order, then invite members. Saving on your own? Open a savings plan.",
+      s3Title: "Contribute, the app keeps track",
+      s3Text:
+        "Every payment and every payout sends a notification to the group. No more notebook.",
     },
     tontine: {
-      badge: "Tontine",
-      heading: "The power of the group for your projects.",
+      eyebrow: "Tontine",
+      heading: "No more tontine notebook.",
       description:
-        "Regular contributions, clear payouts, and step‑by‑step updates — tontine, the digital way.",
-      f1: "Regular benefits",
-      f1Text:
-        "— Each round, one member gets the pot according to the group rules.",
-      f2: "Fairness",
-      f2Text: "— A clear order for who receives the payout and when.",
-      f3: "Transparency",
-      f3Text: "— Track every payment with alerts and history.",
+        "Every member pays the same amount on a set date. Each round, one of them receives the pot. The order is agreed at the start and everyone can see it in the app.",
+      f1: "Everyone knows their turn",
+      f1Text: "Each member’s place is shown, from the first payout to the last.",
+      f2: "You can see who has paid",
+      f2Text: "The history shows every payment: who, when and how much.",
+      f3: "Fees before you pay",
+      f3Text: "Service fees are shown before each transaction, not after.",
       exampleBadge: "Example",
-      cardTitle: "1\u00a0000 F tontine",
-      cardDesc: "10 members · 50\u00a0000 XOF per round",
-      row10: "10 members",
+      cardTitle: "5 000 F tontine",
+      cardDesc: "10 members · weekly contribution",
+      pot: "Pot per round",
       orderTitle: "Payout order",
-      orderDesc: "Sample round — everyone gets the pot in turn.",
       received: "Paid out",
       inProgress: "Current",
       upcoming: "Up next",
-      moreMembers: "+ 7 more members in the queue",
+      moreMembers: "+ 7 more members",
       next: "Next",
       nextDate: "15 Feb",
       cycle: "Cycle",
-      cycleVal: "3\u00a0/\u00a010",
+      cycleVal: "3 / 10",
       contribution: "Contribution",
-      contribVal: "5\u00a0000\u00a0F",
-      note: "Illustrative screen — amounts and dates are for demo only.",
+      contribVal: "5 000 F",
+      note: "App preview, for illustration.",
     },
     epargne: {
+      eyebrow: "Savings",
+      heading: "Putting money aside, bit by bit.",
+      description:
+        "Pay in the same amount every time, or whatever you can when you can. Savings are split into sprints: at the end of each sprint, the money can be withdrawn.",
+      f1: "Fixed or free amount",
+      f1Text: "A fixed sum every week, or whatever the month allows.",
+      f2: "Withdraw at the end of a sprint",
+      f2Text: "The money stays put until the end of the cycle, then you can withdraw it.",
+      f3: "Management fees shown",
+      f3Text: "Monthly fees are shown in the app before you start.",
       cardTitle: "My savings",
-      cardBadge: "✓ Goal reached",
-      cardSprint: "Sprint complete",
-      amount: "30\u00a0000 XOF",
-      cardFooter: "100\u00a0%",
-      badge: "Savings",
-      heading: "At your pace, without pressure.",
-      description: "Fixed or free amount, sprints, and clear withdrawal fees.",
-      f1: "Fixed or free",
-      f1Text: "— You choose how to save.",
-      f2: "Sprints",
-      f2Text: "— Cycles with optional withdrawal at the end of the period.",
-      f3: "Clear fees",
-      f3Text: "— No bad surprises at withdrawal.",
+      cardBadge: "Goal reached",
+      cardSprint: "Total saved",
+      amount: "30 000 F",
+      goal: "Goal 30 000 F",
     },
     testimonials: {
-      heading: "They trust us",
+      eyebrow: "Testimonials",
+      heading: "They trust us.",
       sub: "What SmartSaver users are saying.",
+      items: [
+        {
+          quote:
+            "No more tontine arguments: notifications for every payout, everything is clear.",
+          name: "Awa D.",
+          role: "Shop owner",
+        },
+        {
+          quote:
+            "Flexible saving works for me: I deposit when I can and withdraw at the end of the sprint.",
+          name: "Kouamé Y.",
+          role: "Student",
+        },
+        {
+          quote: "When the admin confirms payments, the whole group feels safe.",
+          name: "Marc E.",
+          role: "Entrepreneur",
+        },
+      ],
     },
-    testimonial1: {
-      quote:
-        "No more tontine arguments — notifications for every collection, very clear.",
-      name: "Awa D.",
-      role: "Shop owner",
+    faq: {
+      eyebrow: "FAQ",
+      heading: "What people often ask us.",
+      sub: "The full rules are in the terms of use and the privacy policy.",
+      cgu: "Read the terms",
+      privacy: "Privacy policy",
+      items: [
+        {
+          q: "What happens if a member doesn’t pay?",
+          a: "SmartSaver can suspend or close their account and block their access. If a member has received the pot and then stops paying the others, their case can be passed on to the relevant authorities.",
+        },
+        {
+          q: "Which documents do I need to sign up?",
+          a: "A photo of yourself and a valid ID: passport, national ID card, consular card, school or student card, or any other official document.",
+        },
+        {
+          q: "Are there any fees?",
+          a: "For a tontine, a service fee may apply when you receive the pot. For savings, a monthly management fee may apply. The amount is always shown before the transaction.",
+        },
+        {
+          q: "Do I need to be 18?",
+          a: "Yes. Accounts belonging to people under 18 are suspended or deleted.",
+        },
+        {
+          q: "What do you do with my data?",
+          a: "It is used to run your account, check your identity and secure transactions. It is never sold. You can ask to see it, correct it or delete your account.",
+        },
+      ],
     },
-    testimonial2: {
-      quote:
-        "Flexible saving works for me — I deposit when I can and get paid at the end of the sprint.",
-      name: "Kouamé Y.",
-      role: "Student",
-    },
-    testimonial3: {
-      quote: "When the admin confirms payments, the whole group feels safe.",
-      name: "Marc E.",
-      role: "Entrepreneur",
-    },
-    downloadSection: {
-      cta1: "Ready to",
-      cta2: "get started?",
-      sub: "Install SmartSaver, set up your space, and run tontines & savings from your phone — simple, clear, secure.",
-      li1: "Data protected",
-      li2: "iOS & Android",
-      btn: "Download SmartSaver",
-      apkTitle: "APK install",
-      apkText:
-        "If your device asks, allow installation from unknown sources to install the APK.",
+    download: {
+      eyebrow: "Download",
+      heading: "Install SmartSaver.",
+      sub: "On iPhone and Android. Keep your ID nearby for sign-up.",
+      iosSmall: "Download on the",
+      apkSmall: "Download the APK",
+      androidSmall: "Get it for",
+      soon: "Coming soon",
+      li1: "Data never sold",
+      li2: "iPhone and Android",
+      apkTitle: "APK install:",
+      apkText: "if your phone asks, allow installation from unknown sources.",
     },
   },
   common: {
@@ -100,26 +178,27 @@ export default {
     frShort: "FR",
     enShort: "EN",
     languageSwitch: "Choose the interface language: French or English",
-    stars5: "5 out of 5 stars",
     pageLoading: "Loading…",
     pageLoadingAria: "Page is loading",
   },
   header: {
+    navLabel: "Main navigation",
     nav: {
+      how: "How it works",
       tontine: "Tontine",
       epargne: "Savings",
       temoignages: "Testimonials",
+      faq: "FAQ",
     },
     openMenu: "Open menu",
     menuTitle: "Menu",
     menuDescription: "Jump to a section and download the app.",
-    mobileApp: "Mobile app",
     downloadApp: "Download the app",
-    downloadShort: "App",
   },
   footer: {
     blurb:
-      "The platform to run your tontines and your savings, simply and safely.",
+      "Tontine and savings app, based in Abidjan.",
+    product: "Product",
     contact: "Contact",
     location: "Abidjan, Côte d’Ivoire",
     legal: "Legal",
@@ -136,68 +215,22 @@ export default {
     home: "Home",
     back: "Previous page",
   },
-  avantPremiere: {
-    badge: "Mobile app",
-    pre: "Early ",
-    post: "access",
-    sub: "The SmartSaver app will be available on <0>May 1, 2026</0>. We’ll let you know as soon as it’s live.",
-    countdown: "Countdown",
-    countdownEnd: "It’s time to download SmartSaver.",
-    countdownOn: "Time left until May 1, 2026.",
-    countdownDone: "Open the home page for the download link.",
-    timerLabel: "Time remaining until May 1, 2026",
-    days: "Days",
-    hours: "Hours",
-    minutes: "Minutes",
-    seconds: "Seconds",
-    notify: "Get notified",
-    notifyDescription:
-      "Email and/or WhatsApp number (include country code) — at least one. No spam.",
-    success: "Thanks! We’ll notify you on launch day.",
-    labelEmail: "Email",
-    labelPhone: "WhatsApp number",
-    whatsappHint:
-      "Use the number as it appears on WhatsApp, with country code (e.g. +225).",
-    or: "or",
-    placeholderEmail: "you@example.com",
-    placeholderPhone: "+225 07 … (WhatsApp)",
-    errBoth: "Enter an email or a WhatsApp number (at least one).",
-    errEmail: "Invalid email address.",
-    errPhone: "WhatsApp number is too short or missing country code.",
-    toastLoadingTitle: "Saving",
-    toastLoadingDesc: "Contacting the server…",
-    toastSuccessTitle: "You’re on the list",
-    toastSuccessDesc:
-      "We’ll use this email / WhatsApp number to reach you on launch day.",
-    toastErrorTitle: "Couldn’t send",
-    toastErrorDesc: "The request failed. Please try again later.",
-    toastErrEmailJsConfig:
-      "Email config is incomplete (.env). Set VITE_EMAILJS_TEMPLATE_ID and restart the dev server.",
-    submit: "Notify me on launch",
-    submitLoading: "Sending…",
-    backHome: "Back to home",
-  },
   backToTop: { aria: "Back to top of the page" },
   documentBadge: "Legal",
   seo: {
     siteName: "SmartSaver",
     orgDescription:
-      "Mobile app for digital tontine groups and flexible saving in Côte d’Ivoire—contributions, payouts, and savings goals.",
+      "Mobile app for tontine groups and personal savings, based in Abidjan, Côte d’Ivoire.",
     defaultTitle: "SmartSaver | Take charge of your money, simply and safely",
     defaultDescription:
-      "Secure tontines, save at your own pace, clear notifications at every step. Download the SmartSaver app—Abidjan, Côte d’Ivoire.",
-    themeColor: "#0f1f3d",
+      "App to run a tontine group or save on your own: visible payout order, payment history, fees shown up front. iPhone and Android.",
+    themeColor: "#f1ebdf",
     pages: {
       home: {
         title:
-          "SmartSaver | Tontine & saving — the simple way to manage your money",
+          "SmartSaver | Tontine and savings on mobile, Abidjan",
         description:
-          "Contribute with confidence, track payouts, and hit your savings goals. SmartSaver: digital, secure, built for Côte d’Ivoire.",
-      },
-      avantPremiere: {
-        title: "SmartSaver early access | Sign up for launch (1 May 2026)",
-        description:
-          "The app launches 1 May 2026. Leave your email or WhatsApp to get the iOS & Android download link on release day.",
+          "Set up a tontine with people you know, see who has paid and who gets the pot, or save on your own with a fixed or free amount. iPhone and Android.",
       },
       cgu: {
         title: "Terms of use | SmartSaver",
@@ -212,7 +245,7 @@ export default {
       legal: {
         title: "Legal notice | SmartSaver",
         description:
-          "Publisher, contact, hosting, and copyright—legal information for smartsaver.ci and the SmartSaver app.",
+          "Publisher, contact and intellectual property for smartsaver.ci and the SmartSaver app.",
       },
       notFound: {
         title: "Page not found | SmartSaver",
@@ -331,12 +364,10 @@ export default {
     },
     mentions: {
       title: "Legal notice",
-      description: "Information about the publisher and hosting provider.",
+      description: "Publisher, contact and intellectual property.",
       content: `<h2>Publisher</h2>
-<p>The SmartSaver website and app are published by [company name], [legal form], with a share capital of [amount], registered in Abidjan, Côte d’Ivoire.</p>
-<p>Contact: <a href="mailto:info@smartsaver.ci">info@smartsaver.ci</a> — Phone: <a href="tel:+2250153333076">+225 01 53 33 30 76</a></p>
-<h2>Hosting</h2>
-<p>[To be completed: hosting provider, address, contact.]</p>
+<p>The smartsaver.ci website and the SmartSaver app are published by SmartSaver, based in Abidjan, Côte d’Ivoire.</p>
+<p>Contact: <a href="mailto:info@smartsaver.ci">info@smartsaver.ci</a> · Phone: <a href="tel:+2250153333076">+225 01 53 33 30 76</a></p>
 <h2>Intellectual property</h2>
 <p>All content (text, images, logos, trademarks) is protected. Unauthorised reproduction is prohibited.</p>`,
     },

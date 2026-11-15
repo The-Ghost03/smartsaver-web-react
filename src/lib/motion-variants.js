@@ -65,3 +65,18 @@ export const viewportOnce = {
   amount: 0.15,
   margin: "0px 0px -60px 0px",
 };
+
+/** Courbe partagée par les animations personnalisées */
+export const EASE = easing;
+
+/** Variantes « montée floue » : y + flou qui se dissipe */
+export const riseVariants = {
+  hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: easing },
+  },
+};
+
