@@ -20,8 +20,9 @@ const GLYPHS = { ios: AppleGlyph, android: AndroidGlyph };
 
 /**
  * Bouton de store. Sans `href`, s’affiche désactivé avec la mention `soonLabel`.
+ * Avec `download` (nom de fichier), télécharge directement le fichier (APK).
  */
-export function StoreButton({ platform, href, small, label, soonLabel, className }) {
+export function StoreButton({ platform, href, small, label, soonLabel, download, className }) {
   const Glyph = GLYPHS[platform];
   const content = (
     <>
@@ -52,8 +53,7 @@ export function StoreButton({ platform, href, small, label, soonLabel, className
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(download ? { download } : { target: "_blank", rel: "noopener noreferrer" })}
       className={cn(base, "bg-ink text-white hover:bg-navy", className)}
     >
       {content}

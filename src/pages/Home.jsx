@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { PAGE_WIDE } from "@/constants/layout";
 import { ROUTES, SECTIONS } from "@/constants/routes";
-import { STORE_LINKS } from "@/constants/site";
+import { ANDROID_APK_FILENAME, STORE_LINKS } from "@/constants/site";
 import heroScreen from "@/assets/connextion.webp";
 import { EASE } from "@/lib/motion-variants";
 import { StoreButton } from "@/components/home/StoreButton";
@@ -660,7 +660,8 @@ function Download() {
                   <StoreButton
                     platform="android"
                     href={STORE_LINKS.android}
-                    small={t("home.download.androidSmall")}
+                    download={ANDROID_APK_FILENAME}
+                    small={t(ANDROID_APK_FILENAME ? "home.download.apkSmall" : "home.download.androidSmall")}
                     label="Android"
                     soonLabel={t("home.download.soon")}
                   />

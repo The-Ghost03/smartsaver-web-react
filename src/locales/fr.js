@@ -166,6 +166,7 @@ export default {
       sub: "Sur iPhone et Android. Gardez votre pièce d’identité à portée de main pour l’inscription.",
       iosSmall: "Télécharger dans",
       androidSmall: "Disponible sur",
+      apkSmall: "Télécharger l’APK",
       soon: "Bientôt disponible",
       li1: "Données jamais revendues",
       li2: "iPhone et Android",

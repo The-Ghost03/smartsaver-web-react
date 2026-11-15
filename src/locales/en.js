@@ -163,6 +163,7 @@ export default {
       heading: "Install SmartSaver.",
       sub: "On iPhone and Android. Keep your ID nearby for sign-up.",
       iosSmall: "Download on the",
+      apkSmall: "Download the APK",
       androidSmall: "Get it for",
       soon: "Coming soon",
       li1: "Data never sold",
