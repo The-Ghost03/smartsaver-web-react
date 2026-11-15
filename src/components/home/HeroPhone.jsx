@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Bell, CalendarDays, Check, Users } from "lucide-react";
+import { ArrowDownLeft, Bell, CalendarDays, Check, CircleCheck, Users } from "lucide-react";
 import { images } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import { EASE } from "@/lib/motion-variants";
@@ -137,6 +137,71 @@ function ScreenReceive() {
 }
 
 const SCREENS = [ScreenPay, ScreenTrack, ScreenReceive];
+
+/** Notifications flottantes autour du téléphone, une paire par étape */
+const NOTIFS = [
+  [
+    { icon: Bell, tone: "saffron", title: "reminderTitle", text: "reminderText", time: "ago" },
+    { icon: CircleCheck, tone: "success", title: "paidTitle", text: "paidText", time: "now" },
+  ],
+  [
+    { icon: Users, tone: "navy", title: "turnTitle", text: "turnText", time: "ago" },
+    { icon: Check, tone: "success", title: "countTitle", text: "countText", time: "now" },
+  ],
+  [
+    { icon: ArrowDownLeft, tone: "success", title: "receivedTitle", text: "receivedText", time: "now" },
+    { icon: CalendarDays, tone: "saffron", title: "nextTitle", text: "nextText", time: "ago" },
+  ],
+];
+
+const TONES = {
+  saffron: "bg-saffron text-navy",
+  success: "bg-success text-white",
+  navy: "bg-navy text-white",
+};
+
+function Notif({ item, side, delay, reduce }) {
+  const { t } = useTranslation();
+  const Icon = item.icon;
+  const fromX = side === "left" ? -28 : 28;
+  return (
+    <motion.div
+      className={cn(
+        "pointer-events-none absolute z-20 w-[13.5rem] sm:w-[15rem]",
+        side === "left"
+          ? "-left-3 top-[40%] sm:-left-14 lg:-left-32 xl:-left-40"
+          : "-right-3 top-[66%] sm:-right-12 lg:-right-14 xl:-right-24",
+      )}
+      initial={{ opacity: 0, x: fromX, scale: 0.92 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: fromX / 2, scale: 0.95, transition: { duration: 0.25 } }}
+      transition={{ type: "spring", stiffness: 260, damping: 22, delay }}
+    >
+      <motion.div
+        className="flex items-start gap-3 rounded-2xl border border-white/60 bg-card/90 p-3 shadow-[0_18px_40px_-18px_rgb(14_23_51/0.45)] backdrop-blur-md"
+        animate={reduce ? undefined : { y: [0, -6, 0] }}
+        transition={{ duration: side === "left" ? 4 : 4.6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-xl", TONES[item.tone])}>
+          <Icon className="size-4" strokeWidth={2.25} aria-hidden />
+        </span>
+        <span className="min-w-0 flex-1 leading-tight">
+          <span className="flex items-baseline justify-between gap-2">
+            <span className="truncate text-[0.8rem] font-semibold text-foreground">
+              {t(`home.hero.notifs.${item.title}`)}
+            </span>
+          </span>
+          <span className="mt-1 block text-[0.72rem] text-muted-foreground">
+            {t(`home.hero.notifs.${item.text}`)}
+          </span>
+          <span className="mt-1 block text-[0.65rem] font-medium uppercase tracking-wide text-navy/50">
+            SmartSaver · {t(`home.hero.notifs.${item.time}`)}
+          </span>
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+}
 const STEP_ICONS = [CalendarDays, Users, Check];
 
 /**
@@ -220,6 +285,18 @@ export function HeroPhone() {
         transition={{ duration: 1, delay: 0.3, ease: EASE }}
         aria-hidden
       >
+        {/* Notifications de l’étape en cours */}
+        <AnimatePresence>
+          {NOTIFS[step].map((item, i) => (
+            <Notif
+              key={`${step}-${i}`}
+              item={item}
+              side={i === 0 ? "left" : "right"}
+              delay={(step === 0 ? 1.2 : 0.35) + i * 0.6}
+              reduce={reduce}
+            />
+          ))}
+        </AnimatePresence>
         <div className="relative aspect-[9/18.5] rounded-[2.75rem] border-[10px] border-ink bg-white shadow-[0_50px_90px_-35px_rgb(14_23_51/0.55)]">
           <div className="absolute left-1/2 top-2.5 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-ink" />
           <div className="flex h-full flex-col overflow-hidden rounded-[2rem] px-5 pb-6 pt-12">
