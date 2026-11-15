@@ -58,29 +58,29 @@
   --saffron: #f7b731;
   --saffron-soft: #fdf0cf;
   --saffron-deep: #a87410;
-  --paper: #f7f5f0;
-  --sand: #efebe2;
+  --paper: #f1ebdf;
+  --sand: #e6dcc8;
   --success: #0e7a51;
   --navy-soft: #2c4290;
 
   /* Jetons shadcn mappés sur la marque */
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: #fffdf9;
+  --card: #faf6ee;
   --card-foreground: var(--ink);
-  --popover: #fffdf9;
+  --popover: #faf6ee;
   --popover-foreground: var(--ink);
   --primary: var(--navy);
   --primary-foreground: #ffffff;
   --secondary: var(--sand);
   --secondary-foreground: var(--ink);
   --muted: var(--sand);
-  --muted-foreground: #5a6177;
+  --muted-foreground: #545b70;
   --accent: var(--saffron);
   --accent-foreground: var(--navy);
   --destructive: #c4321f;
-  --border: #e3ded2;
-  --input: #ddd7ca;
+  --border: #dcd1bc;
+  --input: #d4c8b1;
   --ring: rgb(26 42 92 / 0.35);
   --radius: 1rem;
 }

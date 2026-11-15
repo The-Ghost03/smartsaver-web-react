@@ -78,7 +78,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-[104rem] items-center justify-between gap-4 px-5 sm:px-8 md:h-18 lg:px-12 xl:px-16">
+      <div className="mx-auto flex h-16 w-full max-w-[76rem] items-center justify-between gap-4 px-5 sm:px-8 md:h-18 lg:px-12 xl:px-16">
         <Link
           to={ROUTES.HOME}
           className="shrink-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"

@@ -211,7 +211,7 @@ export default {
       "SmartSaver | Gérez votre argent, simplement et en toute sécurité",
     defaultDescription:
       "Application pour gérer une tontine en groupe ou épargner seul : ordre de ramassage visible, historique des versements, frais affichés. iPhone et Android.",
-    themeColor: "#f7f5f0",
+    themeColor: "#f1ebdf",
     pages: {
       home: {
         title:

@@ -207,7 +207,7 @@ export default {
     defaultTitle: "SmartSaver | Take charge of your money, simply and safely",
     defaultDescription:
       "App to run a tontine group or save on your own: visible payout order, payment history, fees shown up front. iPhone and Android.",
-    themeColor: "#f7f5f0",
+    themeColor: "#f1ebdf",
     pages: {
       home: {
         title:

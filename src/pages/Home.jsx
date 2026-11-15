@@ -406,7 +406,7 @@ function TiltOnScroll({ children, className }) {
 function Tontine() {
   const { t } = useTranslation();
   return (
-    <section id={SECTIONS.TONTINE} className="overflow-x-clip border-t border-border bg-card py-24 md:py-32">
+    <section id={SECTIONS.TONTINE} className="overflow-x-clip bg-sand py-24 md:py-32">
       <div className={`${PAGE_WIDE} grid items-center gap-14 lg:grid-cols-2 lg:gap-20`}>
         <div className="space-y-10">
           <SectionIntro
@@ -476,7 +476,7 @@ function Epargne() {
   const { t } = useTranslation();
   return (
     <section id={SECTIONS.EPARGNE} className="py-6 md:py-10">
-      <div className="mx-auto w-full max-w-[112rem] px-2 sm:px-4">
+      <div className="mx-auto w-full max-w-[82rem] px-2 sm:px-4">
         <ClipPanel className="relative overflow-hidden bg-navy py-20 md:py-28">
           <div className="ss-dots-light absolute inset-0 opacity-70" aria-hidden />
           <div
@@ -514,9 +514,15 @@ function Testimonials() {
   const list = Array.isArray(items) ? items : [];
 
   return (
-    <section id={SECTIONS.REVIEWS} className="py-24 md:py-32">
-      <div className={`${PAGE_WIDE} space-y-14`}>
+    <section id={SECTIONS.REVIEWS} className="relative overflow-hidden bg-ink py-24 md:py-32">
+      <div className="ss-dots-light pointer-events-none absolute inset-0 opacity-60" aria-hidden />
+      <div
+        className="pointer-events-none absolute -right-48 -top-48 size-[36rem] rounded-full bg-navy-soft/40 blur-3xl"
+        aria-hidden
+      />
+      <div className={`relative ${PAGE_WIDE} space-y-14`}>
         <SectionIntro
+          tone="dark"
           align="center"
           eyebrow={t("home.testimonials.eyebrow")}
           title={t("home.testimonials.heading")}
@@ -528,13 +534,13 @@ function Testimonials() {
               as="li"
               key={i}
               className={`flex flex-col justify-between gap-8 rounded-3xl p-7 transition-transform duration-300 hover:-translate-y-1 ${
-                i === 1 ? "bg-navy text-white md:-translate-y-4 md:hover:-translate-y-5" : "border border-border bg-card"
+                i === 1 ? "bg-saffron text-navy md:-translate-y-4 md:hover:-translate-y-5" : "border border-white/10 bg-white/[0.06] text-white"
               }`}
             >
               <figure className="flex h-full flex-col justify-between gap-8">
                 <blockquote>
                   <Quote
-                    className="size-7 text-saffron"
+                    className={`size-7 ${i === 1 ? "text-navy" : "text-saffron"}`}
                     fill="currentColor"
                     strokeWidth={0}
                     aria-hidden
@@ -546,7 +552,7 @@ function Testimonials() {
                 <figcaption className="flex items-center gap-3">
                   <span
                     className={`flex size-10 items-center justify-center rounded-full font-heading text-sm font-semibold ${
-                      i === 1 ? "bg-saffron text-navy" : "bg-sand text-navy"
+                      i === 1 ? "bg-navy text-white" : "bg-saffron text-navy"
                     }`}
                     aria-hidden
                   >
@@ -555,7 +561,7 @@ function Testimonials() {
                   <span className="leading-tight">
                     <span className="block text-sm font-semibold">{item.name}</span>
                     <span
-                      className={`block text-xs ${i === 1 ? "text-white/65" : "text-muted-foreground"}`}
+                      className={`block text-xs ${i === 1 ? "text-navy/70" : "text-white/60"}`}
                     >
                       {item.role}
                     </span>
@@ -576,7 +582,7 @@ function Faq() {
   const list = Array.isArray(items) ? items : [];
 
   return (
-    <section id={SECTIONS.FAQ} className="border-t border-border bg-card py-24 md:py-32">
+    <section id={SECTIONS.FAQ} className="py-24 md:py-32">
       <div className={`${PAGE_WIDE} grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20`}>
         <div className="space-y-8 lg:sticky lg:top-28 lg:self-start">
           <SectionIntro
@@ -600,7 +606,7 @@ function Faq() {
               <RiseItem key={i}>
                 <AccordionItem
                   value={`q-${i}`}
-                  className="rounded-2xl border border-border bg-paper px-5 transition-colors data-[state=open]:bg-background md:px-6"
+                  className="rounded-2xl border border-border bg-card px-5 transition-colors data-[state=open]:border-navy/20 data-[state=open]:bg-saffron-soft md:px-6"
                 >
                   <AccordionTrigger className="cursor-pointer py-5 text-left font-heading text-base font-semibold text-foreground hover:no-underline md:text-lg">
                     {item.q}
