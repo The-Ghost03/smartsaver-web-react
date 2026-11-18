@@ -6,17 +6,19 @@ const LANGS = [
   { code: "en", short: "common.enShort", long: "common.en" },
 ];
 
-/** Bascule FR / EN compacte */
-export function LanguageSwitch({ className }) {
+/** Bascule FR / EN compacte. `tone="dark"` pour un fond sombre (footer). */
+export function LanguageSwitch({ className, tone = "light" }) {
   const { t, i18n } = useTranslation();
   const current = i18n.language === "en" ? "en" : "fr";
+  const dark = tone === "dark";
 
   return (
     <div
       role="group"
       aria-label={t("common.languageSwitch")}
       className={cn(
-        "inline-flex items-center rounded-full border border-border bg-card p-0.5",
+        "inline-flex items-center rounded-full border p-0.5",
+        dark ? "border-white/15 bg-white/5" : "border-border bg-card",
         className,
       )}
     >
@@ -32,8 +34,12 @@ export function LanguageSwitch({ className }) {
             className={cn(
               "h-7 min-w-9 cursor-pointer rounded-full px-2 text-xs font-semibold tracking-wide transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
               active
-                ? "bg-navy text-white"
-                : "text-muted-foreground hover:text-foreground",
+                ? dark
+                  ? "bg-saffron text-navy"
+                  : "bg-navy text-white"
+                : dark
+                  ? "text-white/60 hover:text-white"
+                  : "text-muted-foreground hover:text-foreground",
             )}
           >
             <span className="sr-only">{t(lang.long)}</span>
